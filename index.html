@@ -455,7 +455,7 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
 
     <div class="hero-copy">
       <h1 class="title reveal" style="animation-delay:.16s">Build what you<br><span class="think">think!<svg class="u" viewBox="0 0 200 26" fill="none" aria-hidden="true"><path d="M5 18 C 55 8, 130 6, 195 13" stroke="#e06a1f" stroke-width="6" stroke-linecap="round"/></svg></span></h1>
-      <p class="sub reveal" style="animation-delay:.28s">Describe your idea and watch AI design, write and launch your website instantly. Multi-page sites, AI-powered apps, generated images — bring your own key.</p>
+      <p class="sub reveal" style="animation-delay:.28s">Describe your idea and watch AI design, write and launch your website instantly. Multi-page sites, AI-powered apps, smart image budgets — bring your own key.</p>
     </div>
 
     <div class="promptbox reveal" id="promptbox" style="animation-delay:.42s">
@@ -542,7 +542,7 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
             <button class="tbtn devbtn on" data-dev="desktop" title="Desktop preview"><span data-ic="monitor"></span></button>
           </div>
           <button class="tbtn hide needs-html" id="pvImprove" title="AI critique & fix — also refreshes the project cover"><span data-ic="spark"></span></button>
-          <button class="tbtn hide needs-html" id="pvAssets" title="Generate images for the site"><span data-ic="wand"></span></button>
+          <button class="tbtn hide needs-html" id="pvAssets" title="Fill image slots — AI for key shots, free stock for the rest"><span data-ic="wand"></span></button>
           <button class="tbtn hide needs-html" id="pvRefresh" title="Reload preview"><span data-ic="refresh"></span></button>
           <button class="tbtn hide needs-html" id="pvCopy" title="Copy this page's HTML"><span data-ic="copy"></span></button>
           <button class="tbtn hide needs-html" id="pvDownload" title="Download project (ZIP)"><span data-ic="dl"></span></button>
@@ -651,10 +651,9 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
         </div>
       </div>
 
-      <div class="sec-lbl"><span data-ic="wand"></span>IMAGE MODEL — GENERATES ASSETS FOR YOUR SITES</div>
+      <div class="sec-lbl"><span data-ic="wand"></span>IMAGE MODEL — AI FOR KEY SHOTS, FREE STOCK FOR THE REST</div>
       <div class="presets" id="imgPresets">
         <button class="pre" data-img="none">Off</button>
-        <button class="pre" data-img="pollinations">Pollinations — free, no key</button>
         <button class="pre" data-img="custom">OpenAI-compatible</button>
       </div>
       <div id="imgCustom" hidden>
@@ -668,12 +667,16 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
           <div class="f-in"><input id="imgModel" placeholder="dall-e-3" spellcheck="false"></div>
         </div>
       </div>
+      <div class="field"><label>AI IMAGES PER BUILD — YOUR RATE-LIMIT BUDGET</label>
+        <div class="f-in"><input id="imgQuota" type="number" min="0" max="10" step="1" value="3"></div>
+        <div class="f-tip">Only the top hero/brand images use your endpoint; every other image slot becomes a free keyword-matched stock photo (no key, no cost) or a CSS gradient. Set 0 to never spend AI images. Unlimited slots per site.</div>
+      </div>
       <div class="setrow">
         <div>
-          <b><span data-ic="spark"></span>Auto-generate images after each build</b>
-          <span class="sr-s">The builder leaves marked image slots (data-gen); Kiln fills them with generated assets.</span>
+          <b><span data-ic="spark"></span>Auto-fill images after each build</b>
+          <span class="sr-s">Parallel generation while the HTML streams; leftovers filled automatically.</span>
         </div>
-        <button class="switch" id="imgAuto" role="switch" aria-checked="false" aria-label="Auto-generate images"></button>
+        <button class="switch" id="imgAuto" role="switch" aria-checked="false" aria-label="Auto-fill images"></button>
       </div>
 
       <div class="setrow">
@@ -795,6 +798,7 @@ var RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
 function slugify(s){ return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').split('-').slice(0,3).join('-') || 'site'; }
 function ago(t){ var m=Math.round((Date.now()-t)/60000); if(m<1)return'just now'; if(m<60)return m+'m ago'; var h=Math.round(m/60); if(h<24)return h+'h ago'; var d=Math.round(h/24); if(d<7)return d+'d ago'; return new Date(t).toLocaleDateString(); }
 function rxEscape(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+function hashStr(s){ var h=7; for(var i=0;i<s.length;i++) h=(h*31+s.charCodeAt(i))>>>0; return h; }
 function withTimeout(p, ms, msg){
   return Promise.race([p, new Promise(function(_, rej){ setTimeout(function(){ rej(new Error(msg)); }, ms); })]);
 }
@@ -965,11 +969,15 @@ var cfg = {};
 try{ cfg = JSON.parse(localStorage.getItem('kiln.cfg') || '{}'); }catch(e){ cfg = {}; }
 if(!cfg.imgMode) cfg.imgMode = 'none';
 if(!cfg.appAi) cfg.appAi = 'none';
+if(cfg.imgMode === 'pollinations'){ cfg.imgMode = 'none'; }   /* Pollinations removed — migrate old configs */
+if(typeof cfg.imgQuota !== 'number'){ cfg.imgQuota = 3; }
 if(!cfg.brand || typeof cfg.brand !== 'object'){
   cfg.brand = { on:false, colors:['#ff7a1a','#ffb066','#0e0b08','#1c1610','#f6ecdd'], hfont:'Space Grotesk', bfont:'Inter', tone:'Neutral', notes:'' };
 }
 function saveCfg(){ try{ localStorage.setItem('kiln.cfg', JSON.stringify(cfg)); }catch(e){} }
 function isReady(){ return !!(cfg.baseUrl && cfg.model); }
+function imgConfigured(){ return cfg.imgMode === 'custom' && !!(cfg.imgBase || cfg.baseUrl); }
+function imgQuota(){ return Math.max(0, Math.min(10, parseInt(cfg.imgQuota, 10) || 0)); }
 
 function syncConn(){
   var ok = isReady();
@@ -1055,6 +1063,7 @@ function fillSettings(){
   $('#imgBase').value = cfg.imgBase || '';
   $('#imgKey').value = cfg.imgKey || '';
   $('#imgModel').value = cfg.imgModel || '';
+  $('#imgQuota').value = imgQuota();
   $$('#imgPresets .pre').forEach(function(b){ b.classList.toggle('on', b.dataset.img === cfg.imgMode); });
   $('#imgCustom').hidden = cfg.imgMode !== 'custom';
   setStat('','');
@@ -1081,11 +1090,17 @@ function fillSettings(){
   $$('#imgPresets .pre').forEach(function(x){ x.classList.toggle('on', x===b); });
   cfg.imgMode = b.dataset.img; saveCfg();
   $('#imgCustom').hidden = cfg.imgMode !== 'custom';
-  toast(cfg.imgMode==='none' ? 'Image generation off' : 'Image model: ' + b.textContent, 'wand');
+  toast(cfg.imgMode==='none' ? 'AI images off — stock photos still available' : 'Image model: your OpenAI-compatible endpoint', 'wand');
 });});
  $('#imgBase').addEventListener('change', function(){ cfg.imgBase = $('#imgBase').value.trim(); saveCfg(); });
  $('#imgKey').addEventListener('change', function(){ cfg.imgKey = $('#imgKey').value.trim(); saveCfg(); });
  $('#imgModel').addEventListener('change', function(){ cfg.imgModel = $('#imgModel').value.trim(); saveCfg(); });
+ $('#imgQuota').addEventListener('change', function(){
+  cfg.imgQuota = imgQuota();
+  $('#imgQuota').value = cfg.imgQuota;
+  saveCfg();
+  toast('AI image budget: ' + cfg.imgQuota + ' per build', 'wand');
+});
  $('#imgAuto').addEventListener('click', function(){ cfg.imgAuto = !cfg.imgAuto; saveCfg(); syncConn(); });
 
 var TEXT_SKIP = /embed|whisper|tts|audio|speech|dall-?e|image|img|moderation|vision|clip|rerank|diffusion|guard|stable|flux|sora|video|realtime|transcri|paint|draw/i;
@@ -1134,7 +1149,7 @@ function armButton(b, fn, resetLabel){
   dbClear().then(function(){ toast('All projects deleted','trash'); renderProjects(); });
 }, 'Delete all projects'));
  $('#resetConfig').addEventListener('click', armButton($('#resetConfig'), function(){
-  cfg = { imgMode:'none', appAi:'none', brand:{ on:false, colors:['#ff7a1a','#ffb066','#0e0b08','#1c1610','#f6ecdd'], hfont:'Space Grotesk', bfont:'Inter', tone:'Neutral', notes:'' } };
+  cfg = { imgMode:'none', appAi:'none', imgQuota:3, brand:{ on:false, colors:['#ff7a1a','#ffb066','#0e0b08','#1c1610','#f6ecdd'], hfont:'Space Grotesk', bfont:'Inter', tone:'Neutral', notes:'' } };
   saveCfg(); syncConn(); fillSettings(); toast('Connection reset','refresh');
 }, 'Reset connection'));
 
@@ -1200,7 +1215,7 @@ function toggleReasoning(){
  $('#rQuick').addEventListener('click', toggleReasoning);
  $('#rQuickHome').addEventListener('click', toggleReasoning);
 
-/* ================= home composer + pills + enhance (fast path) ================= */
+/* ================= home composer + pills + enhance ================= */
 var homeTa=$('#homeTa'), homeSend=$('#homeSend'), promptbox=$('#promptbox');
 function homeReady(){ homeSend.classList.toggle('ready', homeTa.value.trim().length > 0); }
 homeTa.addEventListener('input', function(){
@@ -1221,12 +1236,11 @@ function tryStart(){
   startProject(q);
 }
 
-/* Enhance — lean system prompt, no reasoning params, streams live into the box, click-to-cancel, restores on any failure */
 var SYS_ENHANCE =
 'Expand the user\'s short idea into a rich website brief as ONE flowing paragraph (60-100 words): audience, key sections, visual direction (palette mood, type vibe), one signature interaction, imagery style. Output only the brief — no quotes, no preamble, no lists.';
 var enhancing = false, enhanceCtl = null;
  $('#enhanceBtn').addEventListener('click', async function(){
-  if(enhancing){   /* second click = cancel */
+  if(enhancing){
     if(enhanceCtl) enhanceCtl.abort();
     return;
   }
@@ -1250,7 +1264,7 @@ var enhancing = false, enhanceCtl = null;
       [{ role:'system', content:SYS_ENHANCE }, { role:'user', content:q }],
       function(_, full){
         out = full.replace(/^["'\s]+|["'\s]+$/g,'');
-        homeTa.value = out;   /* live — the brief grows as tokens arrive */
+        homeTa.value = out;
         homeTa.style.height='auto';
         homeTa.style.height = Math.min(homeTa.scrollHeight, 220) + 'px';
       },
@@ -1416,7 +1430,7 @@ function openProject(p){
 }
 window.addEventListener('pagehide', function(){ if(curScreen === 'chat') saveProject(); });
 
-/* ================= chat state & prompts (system prompt compressed for TTFT) ================= */
+/* ================= chat state & prompts ================= */
 var thread=$('#thread'), chatTa=$('#chatTa'), chatSend=$('#chatSend'),
     pvCode=$('#pvCode'), skel=$('#skel'), pvStat=$('#pvStat'),
     liveFlag=$('#liveFlag'), projName=$('#projName');
@@ -1425,14 +1439,18 @@ var pvFrame = $('#pvFrame');
 var state = { id:null, brief:'', html:'', plan:'', chat:[], files:{}, active:'index.html', assets:[], cover:'', aiAsked:false };
 var streaming = false, aborter = null;
 
+/* narration protocol + image budget strategy in the system prompt */
 function buildSystem(){
-  var s = 'You are Kiln, an elite front-end generator. Output raw code only — no fences, no commentary.\n'
+  var s = 'You are Kiln, an elite front-end generator. Output raw code only — no fences, no commentary inside code.\n'
     + 'Return ONE complete HTML5 document starting with <!DOCTYPE html>.\n'
-    + 'Multi-page projects: output each page as <kiln-file name="index.html">…</kiln-file> <kiln-file name="main.html">…</kiln-file>; index.html is the entry, pages link with relative hrefs, each page self-contained.\n'
+    + 'Multi-page projects: output each page as <kiln-file name="index.html">…</kiln-file> <kiln-file name="main.html">…</kiln-file>; index.html is the entry, pages link with relative hrefs like href="main.html", each page self-contained.\n'
     + 'Style: one <style> block with CSS variables; modern, responsive, accessible; Google Fonts via one <link>; inline SVG icons; no frameworks, no comments; invented realistic brand; 200-350 lines per page.\n'
-    + 'SPEED RULE: when modifying an existing site return ONLY the changed files, each complete — never repeat unchanged files.';
-  if(cfg.imgMode !== 'none'){
-    s += '\nImagery: where a photo helps use <img alt="..." data-gen="concise visual description"> with NO src; style img[data-gen] with a warm gradient, aspect-ratio, object-fit:cover.';
+    + 'SPEED RULE: when modifying an existing site return ONLY the changed files, each complete — never repeat unchanged files.\n'
+    + 'NARRATION (required): write ONE short friendly sentence as plain text BEFORE each kiln-file block announcing what you are about to build (e.g. "Now building the hero with the roast timeline…"), and AFTER the last block a one-line summary of everything you made. Never put narration inside a kiln-file block. Keep each line under 15 words.';
+  if(imgConfigured()){
+    var q = imgQuota();
+    s += '\nIMAGERY BUDGET: at most ' + q + ' image(s) in the whole site may use <img alt="..." data-gen="concise visual description"> with NO src — these are AI-generated and cost credits, reserve them for the hero or brand-defining shots only.';
+    s += ' Every other image must be <img alt="..." data-stock="2-3 simple english keywords"> with NO src (free stock photo) — or a pure CSS gradient if purely decorative. Style img[data-gen] and img[data-stock] with a warm gradient background, aspect-ratio and object-fit:cover so the layout looks intentional before images load.';
   }
   s += brandAddendum();
   return s;
@@ -1612,7 +1630,7 @@ function askAI(){
   thread.appendChild(card); thread.scrollTop = thread.scrollHeight;
 }
 
-/* ================= streaming API (opts.plain skips reasoning entirely — used by Enhance) ================= */
+/* ================= streaming API ================= */
 async function apiStream(msgs, onDelta, onThink, signal, onConnected, opts){
   var url = cfg.baseUrl + '/chat/completions';
   var useR = !!cfg.reasoning && !(opts && opts.plain);
@@ -1692,7 +1710,7 @@ async function apiStream(msgs, onDelta, onThink, signal, onConnected, opts){
   return full;
 }
 
-/* ================= incremental iframe painting (throttled so streaming never fights the main thread) ================= */
+/* ================= incremental iframe painting ================= */
 var docOpen=false, docLen=0, prevEx='';
 var lastPaintT = 0;
 function frameDoc(){ try{ return pvFrame.contentDocument; }catch(e){ return null; } }
@@ -1702,10 +1720,36 @@ function newFrame(){
   pvFrame = f;
   docOpen=false; docLen=0; prevEx='';
   lastPaintT = 0;
+  f.addEventListener('load', onFrameLoad);   /* navigation backstop */
+}
+/* if the generated page escapes our bridge (onclick=location.href etc.) and navigates
+   the iframe to a real URL (showing a 404), catch the load and route it properly */
+var handlingNav = false;
+function onFrameLoad(){
+  if(docOpen || handlingNav || !state.brief || !Object.keys(state.files).length) return;
+  var href = '';
+  try{ href = pvFrame.contentWindow.location.href; }catch(e){ return; }
+  if(!href || href === 'about:blank' || href === 'null') return;
+  var name = decodeURIComponent((href.split('/').pop() || '').split('#')[0].split('?')[0] || '');
+  if(!/\.html?$/i.test(name)) return;
+  handlingNav = true;
+  var hit = Object.keys(state.files).find(function(n){ return n.toLowerCase() === name.toLowerCase(); });
+  if(hit){
+    setActiveFile(hit);
+    toast('Opened ' + hit, 'folder');
+  } else {
+    setActiveFile(state.active);
+    toast('"' + name + '" doesn\'t exist yet — ask the AI to create it', 'warn');
+  }
+  handlingNav = false;
 }
 function writeDoc(ex){
   var d = frameDoc();
   if(!d || !ex) return;
+  /* self-heal: if the iframe navigated away mid-stream, start a fresh doc */
+  var loc = '';
+  try{ loc = d.defaultView.location.href; }catch(e){}
+  if(loc && loc !== 'about:blank'){ newFrame(); d = frameDoc(); if(!d) return; }
   var bad = docLen > 0 && (ex.length < docLen || ex.slice(0, docLen) !== prevEx);
   try{
     if(!docOpen || bad){ d.open(); d.write(ex); docOpen = true; }
@@ -1738,6 +1782,17 @@ function parseFiles(raw){
   }
   return files;
 }
+/* narration = raw text with all kiln-file blocks removed */
+function splitNarr(raw){
+  var out = '', last = 0, m;
+  var re = /<kiln-file[\s\S]*?(?:<\/kiln-file>|$)/gi;
+  while((m = re.exec(raw))){
+    out += raw.slice(last, m.index);
+    last = m.index + m[0].length;
+  }
+  out += raw.slice(last);
+  return out.replace(/```[a-z]*\n?/gi, '').replace(/\n{3,}/g, '\n\n').trim();
+}
 function applyAssets(html){
   state.assets.forEach(function(a){
     if(!a.dataUrl) return;
@@ -1760,8 +1815,18 @@ function fileOutline(name){
   out.push('structure: ' + uniq.join(' '));
   return out.join('\n');
 }
+/* preview-only transform: rewrite in-page JS navigation (location.href= etc.) to safe
+   postMessages, so a <button onclick="location.href='main.html'"> can never 404 the iframe.
+   Exports / ZIP / copy keep the ORIGINAL links. */
 function injectNav(html, name){
-  var nav = '<script>(function(){document.addEventListener("click",function(e){var t=e.target;while(t&&t.tagName!=="A"){t=t.parentElement}if(!t)return;var h=(t.getAttribute("href")||"").toLowerCase().replace(/^\\.\\//,"");if(/\\.html?$/.test(h)){e.preventDefault();parent.postMessage({kilnNav:h},"*")}});})();<\/script>';
+  html = html.replace(/((?:(?:window|document)\.)?location(?:\.href)?)\s*=\s*(['"])([^'"]*?)(\.html?)\s*(?:[#?][^'"]*)?\2/gi,
+    'parent.postMessage({kilnNav:"$3$4"},"*")');
+  html = html.replace(/location\.(assign|replace)\(\s*(['"])([^'"]*?)(\.html?)\s*(?:[#?][^'"]*)?\2\s*\)/gi,
+    'parent.postMessage({kilnNav:"$3$4"},"*")');
+  var nav = '<script>(function(){'
+    + 'document.addEventListener("click",function(e){var t=e.target;while(t&&t.tagName!=="A"){t=t.parentElement}if(!t)return;var h=(t.getAttribute("href")||"").toLowerCase();h=h.split("/").pop().split("#")[0].split("?")[0];if(/\\.html?$/.test(h)){e.preventDefault();parent.postMessage({kilnNav:h},"*")}});'
+    + 'window.addEventListener("message",function(e){var d=e.data;if(d&&d.kilnImg){var key=String(d.kilnImg.prompt).trim();document.querySelectorAll("img[data-gen],img[data-stock]").forEach(function(im){var p=(im.getAttribute("data-gen")||im.getAttribute("data-stock")||"").trim();if(p===key){im.src=d.kilnImg.url}})}});'
+    + '})();<\/script>';
   if(/<\/body>/i.test(html)) return html.replace(/<\/body>/i, nav + '</body>');
   return html + nav;
 }
@@ -1772,7 +1837,7 @@ window.addEventListener('message', function(e){
     var hit = Object.keys(state.files).find(function(n){ return n.toLowerCase() === want; });
     if(hit){
       setActiveFile(hit);
-      if(modal.classList.contains('open')){ mFrame.srcdoc = injectNav(state.html, state.active); }
+      if(modal.classList.contains('open')){ mFrame.srcdoc = injectNav(applyAssets(state.html), state.active); }
     }
   }
 });
@@ -1810,6 +1875,83 @@ function highlight(code){
     .replace(/([\w-]+)=(&quot;[^&]*?&quot;|'[^']*')/g, '<span class="c-attr">$1</span>=<span class="c-str">$2</span>');
 }
 
+/* ================= image strategy: AI budget + free stock ================= */
+var imgPending = {};    /* data-gen prompt -> Promise (AI images) */
+var imgReady = {};      /* data-gen prompt -> url */
+var stockReady = {};    /* data-stock prompt -> url */
+var imgStats = { q:0, done:0, s:0 };   /* per-build counters */
+
+function stockUrl(prompt){
+  var kw = prompt.toLowerCase().replace(/[^a-z0-9\s]/g,'').trim().split(/\s+/).slice(0,3).join(',');
+  if(!kw) kw = 'abstract';
+  return 'https://loremflickr.com/1280/832/' + encodeURIComponent(kw) + '?lock=' + ((hashStr(prompt) % 9999) + 1);
+}
+function bakeTag(tag, url, prompt, fallback){
+  var extra = ' src="' + url + '"';
+  if(fallback){
+    var fb = 'https://picsum.photos/seed/' + slugify(prompt) + '/1280/832';
+    extra += ' onerror="this.onerror=null;this.src=\'' + fb + '\'"';
+  }
+  if(/\ssrc="/.test(tag)) return tag.replace(/\ssrc="[^"]*"/, extra);
+  return tag.replace(/>\s*$/, extra + '>');
+}
+function pushImgToFrame(prompt, url){
+  try{ pvFrame.contentWindow.postMessage({ kilnImg:{ prompt:prompt, url:url } }, '*'); }catch(e){}
+}
+/* scan pages for image slots as they stream in; AI budget goes to the first N data-gen
+   slots, everything else becomes free stock — all in parallel with the HTML stream */
+function scanAndQueueImages(files){
+  var quota = imgQuota();
+  var genUsed = Object.keys(imgReady).length + Object.keys(imgPending).length;
+  var seen = {};
+  Object.keys(files).forEach(function(fn){
+    var re = /<img\b[^>]*data-(gen|stock)="([^"]*)"[^>]*>/gi;
+    var m;
+    while((m = re.exec(files[fn]))){
+      var kind = m[1].toLowerCase() === 'gen' ? 'gen' : 'stock';
+      var p = m[2].trim();
+      if(!p || seen[p]) continue;
+      seen[p] = true;
+      if(kind === 'gen' && (!imgConfigured() || genUsed >= quota)) kind = 'stock';   /* graceful degrade */
+      if(kind === 'stock'){
+        if(!stockReady[p]){
+          stockReady[p] = stockUrl(p);
+          imgStats.s++;
+          pushImgToFrame(p, stockReady[p]);
+        }
+      } else {
+        if(imgReady[p]){ pushImgToFrame(p, imgReady[p]); }
+        else if(!imgPending[p]){
+          imgStats.q++;
+          imgPending[p] = makeImage(p).then(function(url){
+            imgReady[p] = url;
+            imgStats.done++;
+            pushImgToFrame(p, url);
+          }).catch(function(){});
+        }
+        genUsed++;
+      }
+    }
+  });
+}
+/* bake finished urls into the real files (for save / ZIP / modal / code tab) */
+function bakeImages(){
+  var applied = 0;
+  Object.keys(state.files).forEach(function(fn){
+    var html = state.files[fn];
+    Object.keys(imgReady).forEach(function(p){
+      var re = new RegExp('<img\\b[^>]*data-gen="' + rxEscape(p) + '"[^>]*>', 'gi');
+      html = html.replace(re, function(tag){ applied++; return bakeTag(tag, imgReady[p], p, false); });
+    });
+    Object.keys(stockReady).forEach(function(p){
+      var re = new RegExp('<img\\b[^>]*data-stock="' + rxEscape(p) + '"[^>]*>', 'gi');
+      html = html.replace(re, function(tag){ applied++; return bakeTag(tag, stockReady[p], p, true); });
+    });
+    state.files[fn] = html;
+  });
+  return applied;
+}
+
 /* ================= task runner ================= */
 function setStreamingUI(on){
   streaming = on;
@@ -1833,7 +1975,7 @@ function buildMessages(kind, text){
         parts.push('OTHER PAGES (outlines only — keep their design consistent; return one of them changed ONLY if the request requires it):\n' + others.map(fileOutline).join('\n'));
       }
       out.push({ role:'user', content: parts.join('\n\n') });
-      out.push({ role:'assistant', content:'Got it — I will return ONLY the files that change, complete, in the kiln-file format.' });
+      out.push({ role:'assistant', content:'Got it — I will narrate briefly, return ONLY the files that change (complete), then summarize.' });
       out.push({ role:'user', content:'Apply this change and return only the updated files:\n' + (text || 'Refine the design.') + aiAddendum() + assetsAddendum() });
     } else {
       var c = 'Create a complete website for this idea:\n\n' + state.brief;
@@ -1875,7 +2017,7 @@ function addActions(acts, kind){
     mk('map', 'Plan a site from this', function(){ runTask('plan', state.chatBasis || ''); });
   } else {
     mk('spark', 'AI review & fix', aiImprove);
-    if(cfg.imgMode !== 'none') mk('wand', 'Generate images', generateAssets);
+    if(cfg.imgMode !== 'none') mk('wand', 'Fill image slots', generateAssets);
     mk('copy', 'Copy page HTML', function(){ copyText(state.html); });
     mk('dl', 'Download ZIP', downloadZip);
     mk('max', 'Open full', function(){ openModal(state.html); });
@@ -1885,11 +2027,12 @@ function addActions(acts, kind){
 var paintName = null;
 function paintStreamNow(force){
   var now = performance.now();
-  if(!force && (now - lastPaintT) < 180) return;   /* throttle — never let painting steal the main thread */
+  if(!force && (now - lastPaintT) < 180) return;
   lastPaintT = now;
   var files = parseFiles(runRaw);
   var names = Object.keys(files);
   if(!names.length) return;
+  scanAndQueueImages(files);   /* parallel: AI for budgeted slots, instant stock for the rest */
   var target = (names.indexOf('index.html') > -1) ? 'index.html' : names[0];
   if(state.active && names.indexOf(state.active) > -1) target = state.active;
   if(paintName !== target){ newFrame(); paintName = target; }
@@ -1899,6 +2042,13 @@ function paintStreamNow(force){
   var all = Object.keys(state.files || {});
   names.forEach(function(n){ if(all.indexOf(n) === -1) all.push(n); });
   updateFileTabs(all, target);
+}
+function imgLabel(){
+  if(!imgStats.q && !imgStats.s) return '';
+  var parts = [];
+  if(imgStats.q) parts.push(imgStats.done + '/' + imgStats.q + ' AI');
+  if(imgStats.s) parts.push(imgStats.s + ' stock');
+  return ' · 🖼 ' + parts.join(' + ');
 }
 var runRaw = '';
 
@@ -1912,11 +2062,12 @@ async function runTask(kind, text){
   if(isBuild && !state.html){ newFrame(); skel.classList.remove('off'); }
   if(isBuild){ pvCode.textContent = ''; paintName = null; }
   pvStat.textContent = isBuild ? '0 chars' : '';
+  imgStats = { q:0, done:0, s:0 };
 
   var t0 = performance.now();
   var ttft = 0, thinkStart = 0, sawThink = false, thinkDone = false, sawContent = false;
   var think = '', connSecs = '0.0', connected = false;
-  var lastCode = 0, lastUI = 0;
+  var lastCode = 0, lastUI = 0, lastNarr = 0, lastNarrTxt = '';
   runRaw = '';
 
   var myAbort = new AbortController();
@@ -1977,6 +2128,16 @@ async function runTask(kind, text){
     var lbl = isBuild ? 'Writing HTML…' : (kind === 'plan' ? 'Writing plan…' : 'Typing…');
     B.status.innerHTML = '<span class="shine">' + lbl + '</span>';
   };
+  var showNarr = function(){
+    var n = splitNarr(runRaw);
+    if(n && n !== lastNarrTxt){
+      lastNarrTxt = n;
+      B.text.hidden = false;
+      B.text.className = 'a-text';
+      B.text.textContent = n;
+      thread.scrollTop = thread.scrollHeight;
+    }
+  };
 
   try{
     await apiStream(buildMessages(kind, text), function(_, full){
@@ -1985,10 +2146,11 @@ async function runTask(kind, text){
       var now = performance.now();
       if(isBuild){
         paintStreamNow(false);
-        if(now - lastCode > 350){   /* throttled — highlighting big docs is expensive */
+        if(now - lastNarr > 220){ lastNarr = now; showNarr(); }
+        if(now - lastCode > 350){
           lastCode = now;
           pvCode.innerHTML = highlight(full);
-          pvStat.innerHTML = '<b>' + kfmt(full.length) + '</b> chars · ' + ((now - t0) / 1000).toFixed(0) + 's';
+          pvStat.innerHTML = '<b>' + kfmt(full.length) + '</b> chars · ' + ((now - t0) / 1000).toFixed(0) + 's' + imgLabel();
         }
       } else {
         if(now - lastUI > 180){
@@ -2013,6 +2175,7 @@ async function runTask(kind, text){
       B.tLabel.classList.remove('shine');
       B.tLabel.textContent = 'Thought for ' + ((performance.now() - thinkStart) / 1000).toFixed(1) + 's';
     }
+    showNarr();
     var secs = ((performance.now() - t0) / 1000).toFixed(1);
 
     if(isBuild){
@@ -2025,6 +2188,14 @@ async function runTask(kind, text){
         } else {
           state.files = changed;
         }
+        /* wait for in-flight parallel AI images, then bake everything (AI + stock) */
+        var proms = Object.keys(imgPending).map(function(p){ return imgPending[p]; });
+        if(proms.length && imgStats.q){
+          B.status.innerHTML = '<span class="shine">Placing images…</span>';
+          await Promise.all(proms.map(function(pr){ return pr.catch(function(){}); }));
+        }
+        bakeImages();
+
         var names = Object.keys(state.files);
         var def = names.indexOf('index.html') > -1 ? 'index.html' : names[0];
         if(!state.active || names.indexOf(state.active) === -1) state.active = def;
@@ -2037,13 +2208,19 @@ async function runTask(kind, text){
         pvStat.textContent = 'Done · ' + names.length + (names.length > 1 ? ' pages · ' : ' page · ') + kfmt(total) + ' chars';
         $$('.needs-html').forEach(function(b){ b.classList.remove('hide'); });
         var tt = ttft ? ('ttft ' + (ttft / 1000).toFixed(1) + 's · ') : '';
-        B.status.innerHTML = '<span class="status-done">Ready · connected ' + connSecs + 's · ' + tt + secs + 's total · ' + fmt(total) + ' chars</span>';
+        B.status.innerHTML = '<span class="status-done">Ready · connected ' + connSecs + 's · ' + tt + secs + 's total · ' + fmt(total) + ' chars' + imgLabel() + '</span>';
         addActions(B.acts, 'build');
-        state.chat.push({ ai: 'Done in ' + secs + 's · ' + (hadFiles && text ? (chNames.length + ' file(s) updated.') : (names.length + (names.length>1?' pages.':' page.'))) });
+        state.chat.push({ ai: 'Done in ' + secs + 's · ' + (hadFiles && text ? (chNames.length + ' file(s) updated.') : (names.length + (names.length>1?' pages.':' page.'))) + imgLabel() });
         saveProject();
-        toast('Done in ' + secs + 's', 'flame');
+        toast('Done in ' + secs + 's' + (imgLabel() ? ' · ' + imgLabel().replace(' · ','') : ''), 'flame');
         captureCover(true);
-        if(cfg.imgAuto && cfg.imgMode !== 'none') generateAssets();
+        if(cfg.imgAuto){
+          /* quiet retry for any slots the parallel pass missed (failed gens etc.) */
+          setTimeout(generateAssets, 500);
+        }
+        if(imgStats.q && !imgStats.done){
+          addNote('Image generation was configured but all ' + imgStats.q + ' AI request(s) failed — those slots fell back to stock where possible. Check the image endpoint in Settings.');
+        }
         askAI();
       } else {
         closeDoc();
@@ -2234,10 +2411,10 @@ async function aiImprove(){
   }
 }
 
-/* ================= file & media uploads (images, video, audio, text) ================= */
-var MAX_MEDIA = 6 * 1024 * 1024;      /* 6MB per image/video/audio */
-var MAX_TEXT  = 256 * 1024;           /* 256KB per text file */
-var MAX_TOTAL = 26 * 1024 * 1024;     /* ~26MB media budget per project */
+/* ================= file & media uploads ================= */
+var MAX_MEDIA = 6 * 1024 * 1024;
+var MAX_TEXT  = 256 * 1024;
+var MAX_TOTAL = 26 * 1024 * 1024;
 var TEXT_EXT = ['txt','md','markdown','csv','tsv','json','xml','yml','yaml','js','css','html','htm','log','env','srt','vtt'];
 
 function assetKind(f){
@@ -2312,7 +2489,7 @@ shell.addEventListener('drop', function(e){
   if(e.dataTransfer && e.dataTransfer.files.length) addAssetFiles(e.dataTransfer.files);
 });
 
-/* ================= voice input (new feature #1) ================= */
+/* ================= voice input ================= */
 var recog = null, listening = false;
 function toggleMic(){
   var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -2347,7 +2524,7 @@ function toggleMic(){
 }
  $('#micBtn').addEventListener('click', toggleMic);
 
-/* ================= responsive preview (new feature #2) ================= */
+/* ================= responsive preview ================= */
 var DEVW = { phone: 390, tablet: 820, desktop: 0 };
  $$('.devbtn').forEach(function(b){
   b.addEventListener('click', function(){
@@ -2365,69 +2542,87 @@ var DEVW = { phone: 390, tablet: 820, desktop: 0 };
   });
 });
 
-/* ================= image generation ================= */
+/* ================= image generation (your endpoint, budgeted) ================= */
 async function makeImage(prompt){
-  if(cfg.imgMode === 'pollinations'){
-    var seed = Math.floor(Math.random() * 1000000);
-    return 'https://image.pollinations.ai/prompt/' + encodeURIComponent(prompt) + '?width=1280&height=832&nologo=true&seed=' + seed;
-  }
   var base = (cfg.imgBase || cfg.baseUrl || '').replace(/\/+$/,'');
   var key = cfg.imgKey || cfg.key || '';
   var model = cfg.imgModel || 'dall-e-3';
   if(!base) throw new Error('No image endpoint configured');
-  var r = await fetch(base + '/images/generations', {
-    method:'POST',
-    headers:{ 'Content-Type':'application/json', Authorization:'Bearer ' + key },
-    body: JSON.stringify({ model: model, prompt: prompt, size: '1536x1024', n: 1 })
-  });
-  if(!r.ok){
-    var m = 'HTTP ' + r.status;
-    try{ var j = await r.json(); m = (j.error && (j.error.message || j.error)) || m; }catch(e){}
-    throw new Error(m);
+  async function attempt(size){
+    var r = await fetch(base + '/images/generations', {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json', Authorization:'Bearer ' + key },
+      body: JSON.stringify({ model: model, prompt: prompt, size: size, n: 1 })
+    });
+    if(!r.ok){
+      var m = 'HTTP ' + r.status;
+      try{ var j = await r.json(); m = (j.error && (j.error.message || j.error)) || m; }catch(e){}
+      var err = new Error(m);
+      err.status = r.status;
+      throw err;
+    }
+    var j2 = await r.json();
+    var d = (j2.data && j2.data[0]) || {};
+    if(d.b64_json) return 'data:image/png;base64,' + d.b64_json;
+    if(d.url) return d.url;
+    throw new Error('No image in response');
   }
-  var j2 = await r.json();
-  var d = (j2.data && j2.data[0]) || {};
-  if(d.b64_json) return 'data:image/png;base64,' + d.b64_json;
-  if(d.url) return d.url;
-  throw new Error('No image in response');
+  try{
+    return await attempt('1536x1024');
+  }catch(e){
+    if(e.status === 400) return await attempt('1024x1024');   /* size not supported — retry standard */
+    throw e;
+  }
 }
 function setImgSrc(tag, url){
   if(/\ssrc="/.test(tag)) return tag.replace(/\ssrc="[^"]*"/, ' src="' + url + '"');
   return tag.replace(/>\s*$/, ' src="' + url + '">');
 }
 async function generateAssets(){
-  if(cfg.imgMode === 'none'){ go('settings'); toast('Choose an image model in Settings first', 'wand'); return; }
   var names = Object.keys(state.files);
   if(!names.length){ toast('Build a site first', 'warn'); return; }
   var slots = [];
   var seen = {};
   names.forEach(function(n){
-    var re = /<img\b[^>]*data-gen="([^"]*)"[^>]*>/gi;
+    var re = /<img\b[^>]*data-(gen|stock)="([^"]*)"[^>]*>/gi;
     var m;
     while((m = re.exec(state.files[n]))){
-      var p = m[1].trim();
-      if(p && !seen[p]){ seen[p] = true; slots.push({ file:n, tag:m[0], prompt:p }); }
+      var p = m[2].trim();
+      if(p && !seen[p]){ seen[p] = true; slots.push({ file:n, tag:m[0], kind:m[1].toLowerCase()==='gen'?'gen':'stock', prompt:p }); }
     }
   });
-  if(!slots.length){ toast('No image slots found — ask for a design with imagery', 'warn'); return; }
-  slots = slots.slice(0, 6);
-  addNote('Generating ' + slots.length + ' image' + (slots.length > 1 ? 's' : '') + ' with ' + (cfg.imgMode === 'pollinations' ? 'Pollinations' : (cfg.imgModel || 'your image model')) + '…');
-  var ok = 0, fail = 0;
+  if(!slots.length){ toast('No empty image slots found — all filled', 'wand'); return; }
+  var quota = imgQuota();
+  var genLeft = Math.max(0, quota - (Object.keys(imgReady).length + Object.keys(imgPending).length));
+  var gen = 0, stock = 0, fail = 0;
   for(var i=0;i<slots.length;i++){
     var s = slots[i];
     try{
-      var url = await makeImage(s.prompt);
-      state.files[s.file] = state.files[s.file].replace(s.tag, setImgSrc(s.tag, url));
-      ok++;
+      if(s.kind === 'gen' && imgConfigured() && genLeft > 0 && !imgReady[s.prompt] && !imgPending[s.prompt]){
+        var url = await makeImage(s.prompt);
+        imgReady[s.prompt] = url;
+        genLeft--; gen++;
+      } else if(imgReady[s.prompt]){
+        /* already generated elsewhere — reuse */
+      } else if(s.kind === 'stock' || !imgConfigured() || genLeft <= 0){
+        if(!stockReady[s.prompt]){ stockReady[s.prompt] = stockUrl(s.prompt); }
+      } else {
+        continue;
+      }
+      var finalUrl = imgReady[s.prompt] || stockReady[s.prompt];
+      if(!finalUrl) continue;
+      state.files[s.file] = state.files[s.file].replace(s.tag, bakeTag(s.tag, finalUrl, s.prompt, !imgReady[s.prompt]));
+      pushImgToFrame(s.prompt, finalUrl);
+      if(imgReady[s.prompt]) gen++; else stock++;
     }catch(e){ fail++; }
   }
-  if(ok){
+  if(gen + stock){
     setActiveFile(state.active);
     saveProject();
-    toast(ok + ' image' + (ok>1?'s':'') + ' generated' + (fail ? ' · ' + fail + ' failed' : ''), 'wand');
-    addNote('Added ' + ok + ' generated image' + (ok>1?'s':'') + '.');
+    toast(gen + ' AI + ' + stock + ' stock images placed' + (fail ? ' · ' + fail + ' failed' : ''), 'wand');
+    addNote('Filled ' + gen + ' AI-generated and ' + stock + ' free stock image slot' + ((gen+stock)>1?'s':'') + '.');
     setTimeout(function(){ captureCover(true); }, 1200);
-  } else {
+  } else if(fail){
     toast('Image generation failed — check image settings', 'warn');
   }
 }
@@ -2498,7 +2693,7 @@ function downloadZip(){
   a.download = slugify(projName.value) + '.zip';
   a.click();
   URL.revokeObjectURL(a.href);
-  toast('Project downloaded as ZIP', 'dl');
+  toast('Project downloaded as ZIP — real relative links included', 'dl');
 }
 
 /* ================= import ================= */
@@ -2536,6 +2731,7 @@ function importFiles(html, rebuild){
     files = { 'index.html': html };
   }
   state = { id:null, brief:'Imported site — ' + ($('#impUrl').value.trim() || 'pasted HTML'), html:'', plan:'', chat:[], files:files, active:'index.html', assets:[], cover:'', aiAsked:true };
+  imgPending = {}; imgReady = {}; stockReady = {};
   thread.innerHTML = '';
   projName.value = 'Imported site';
   pvCode.innerHTML = '';
@@ -2580,6 +2776,7 @@ function importFiles(html, rebuild){
 /* ================= project flow ================= */
 function startProject(q){
   state = { id:null, brief:q, html:'', plan:'', chat:[{user:q}], files:{}, active:'index.html', assets:[], cover:'', aiAsked:false };
+  imgPending = {}; imgReady = {}; stockReady = {};
   thread.innerHTML = '';
   projName.value = deriveName(q);
   pvCode.textContent = '';
