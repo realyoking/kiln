@@ -1,4 +1,4 @@
-🔥 Kiln — Build what you think!
+# 🔥 Kiln — Build what you think!
 
 An AI-powered, single-file website generator. Describe your idea in plain English and watch AI design, write, and launch a complete website in real time — right in your browser.
 
@@ -17,14 +17,23 @@ Whether you want a landing page for a coffee roaster, a portfolio for a photogra
 🚀 Features
 
 · 🧠 AI Website Generation — Describe an idea; get a complete, production-ready HTML document.
+
 · 🔑 Bring Your Own Key — Works with OpenAI, OpenRouter, Groq, Together, Ollama, LM Studio, and any OpenAI-compatible endpoint.
+
 · ⚡ Real-Time Streaming Preview — See the site render as it's being generated.
+
 · 💬 Conversational Iteration — Ask for changes ("make it darker", "add a pricing section") and get a full regenerated site.
+
 · 👁️ Dual View Modes — Toggle between Live Preview and Syntax-Highlighted Code.
+
 · ⬇️ Export Anywhere — Copy to clipboard, download as .html, or open in a full-screen preview.
+
 · 🎨 Stunning Atmosphere — Animated embers, drifting orbs, and a warm kiln-fire aesthetic.
+
 · 📱 Fully Responsive — Optimized for desktop, tablet, and mobile.
+
 · 🔒 Privacy-First — All config stored in localStorage. Requests go directly from your browser to your chosen provider.
+
 · 📦 Zero Dependencies — No build step, no framework, no package manager. Just open the file.
 
 ---
