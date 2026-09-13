@@ -88,6 +88,9 @@ input,textarea,select{font-family:inherit}
 @keyframes shk{20%{transform:translateX(-6px)}45%{transform:translateX(5px)}70%{transform:translateX(-3px)}}
 #homeTa{width:100%;background:none;border:0;outline:0;resize:none;color:var(--d-ink);font:15.5px/1.6 'Satoshi';min-height:100px;max-height:220px}
 #homeTa::placeholder,#chatTa::placeholder{color:#ab8a62}
+.pb-status{margin-top:8px;font:600 12px 'Satoshi'}
+.pb-status .shine{background:linear-gradient(90deg,#a3805c 25%,#e06a1f 50%,#a3805c 75%);background-size:200% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 1.5s linear infinite;font:600 12px 'Satoshi'}
 .pb-row{display:flex;align-items:center;justify-content:space-between;margin-top:8px;gap:10px;flex-wrap:wrap}
 .pb-left,.pb-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .pb-hintl{display:inline-flex;align-items:center;gap:8px;font:600 11.5px 'Satoshi';color:var(--d-mut);cursor:pointer;user-select:none;transition:color .2s}
@@ -101,7 +104,7 @@ input,textarea,select{font-family:inherit}
 .underhint{margin-top:13px;font:500 11px 'Satoshi';color:var(--d-mut);display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
 kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radius:4px;padding:1px 5px;font:10.5px 'Satoshi';color:var(--d-ink2)}
 
-/* mode seg + toggles (light ctx = home, dark ctx = chat via .compose-top) */
+/* mode seg + toggles */
 .mode-seg{display:flex;background:rgba(43,21,5,.06);border:1px solid rgba(43,21,5,.14);border-radius:10px;padding:3px}
 .mode{display:inline-flex;align-items:center;gap:6px;font:600 11.5px 'Satoshi';color:#8a6644;background:none;border:0;padding:6px 13px;border-radius:8px;cursor:pointer;transition:.2s}
 .mode .ic{width:12px;height:12px}
@@ -209,11 +212,24 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
 .a-err .ic{width:14px;height:14px}
 .a-err .a-hint{display:block;color:#b08a72;margin-top:4px;font-size:11.5px}
 
+/* in-chat AI-features question card */
+.aiq{margin-top:2px;max-width:340px;border:1px solid rgba(255,160,80,.32);background:rgba(255,140,50,.08);border-radius:14px;padding:13px 14px}
+.aiq-q{font:700 13.5px 'Satoshi';color:#ffd9ae}
+.aiq-d{font:500 11.5px/1.55 'Satoshi';color:#b39c82;margin-top:4px}
+.aiq-btns{display:flex;flex-direction:column;gap:6px;margin-top:11px}
+.aiq-btn{display:flex;align-items:center;gap:8px;width:100%;text-align:left;font:600 12px 'Satoshi';color:#f0dcc4;background:rgba(255,255,255,.05);border:1px solid rgba(255,160,80,.28);padding:9px 12px;border-radius:10px;cursor:pointer;transition:.2s}
+.aiq-btn:hover{background:rgba(255,140,50,.16);border-color:rgba(255,160,80,.5)}
+.aiq-btn .ic{width:13px;height:13px;color:var(--amber)}
+.aiq-set{background:none;border:0;color:#a68d75;font:600 11px 'Satoshi';cursor:pointer;margin-top:10px;padding:0;text-decoration:underline;text-underline-offset:3px}
+.aiq-set:hover{color:#ffd9ae}
+
 /* assets row */
 .asset-row{display:none;flex-wrap:wrap;gap:6px;padding:8px 12px 0}
 .asset-row.on{display:flex}
 .achip{display:inline-flex;align-items:center;gap:7px;font:600 11px 'Satoshi';color:#ffd9ae;background:rgba(255,140,50,.12);border:1px solid rgba(255,160,80,.3);padding:5px 8px 5px 5px;border-radius:999px}
 .achip img{width:20px;height:20px;border-radius:50%;object-fit:cover}
+.achip .aico{width:20px;height:20px;border-radius:50%;background:rgba(255,140,50,.2);display:grid;place-items:center;flex:none}
+.achip .aico .ic{width:11px;height:11px;color:var(--amber)}
 .achip .ax{background:none;border:0;color:#c9ab86;cursor:pointer;display:grid;place-items:center;padding:2px}
 .achip .ax .ic{width:11px;height:11px}
 .achip .ax:hover{color:#fff}
@@ -234,9 +250,11 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
 #chatSend:hover{transform:translateY(-1px)}
 #chatSend .ic{width:16px;height:16px}
 #chatSend.stopping{background:linear-gradient(160deg,#ff7a4d,#e0361f);color:#fff}
-#attachBtn{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:#dcc7ad;cursor:pointer;transition:.2s;flex:none}
-#attachBtn:hover{border-color:rgba(255,160,80,.4);color:#ffd9ae}
-#attachBtn .ic{width:16px;height:16px}
+#attachBtn,#micBtn{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:#dcc7ad;cursor:pointer;transition:.2s;flex:none}
+#attachBtn:hover,#micBtn:hover{border-color:rgba(255,160,80,.4);color:#ffd9ae}
+#attachBtn .ic,#micBtn .ic{width:16px;height:16px}
+#micBtn.on{color:#ff6a4d;border-color:rgba(255,110,60,.6);background:rgba(255,90,40,.14)}
+#micBtn.on .ic{animation:pl 1.2s infinite}
 .drag-over{outline:2px dashed rgba(255,160,80,.6);outline-offset:-6px}
 
 /* preview */
@@ -257,10 +275,13 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
 .pv-stat b{color:#e9cfae}
 .tbtn{width:29px;height:29px;border-radius:8px;display:grid;place-items:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#dcc7ad;cursor:pointer;transition:.2s;flex:none}
 .tbtn:hover{background:rgba(255,150,70,.15);border-color:rgba(255,160,80,.4)}
+.tbtn.on{background:rgba(255,140,50,.22);border-color:rgba(255,160,80,.5);color:#ffd9ae}
 .tbtn .ic{width:13px;height:13px}
 .tbtn.hide,.pv-stat.hide{display:none}
+#devSeg{display:none;gap:4px}
+#devSeg.on{display:flex}
 .pv-body{flex:1;position:relative;min-height:0;background:#0e0b08}
-.pv-body iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.pv-body iframe{position:absolute;inset:0;width:100%;height:100%;border:0;transition:width .25s}
 .codeview{display:none;position:absolute;inset:0;overflow:auto;padding:16px;margin:0;font:12px/1.65 ui-monospace,'SF Mono',Menlo,Consolas,monospace;color:#d8c9b8;white-space:pre-wrap;word-break:break-all}
 .c-tag{color:#ff8a3d}.c-attr{color:#e8b97a}.c-str{color:#a8c98a}.c-com{color:#7a6a58;font-style:italic}
 .skel{position:absolute;inset:0;display:flex;flex-direction:column;gap:12px;padding:18px;transition:opacity .35s}
@@ -439,6 +460,7 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
 
     <div class="promptbox reveal" id="promptbox" style="animation-delay:.42s">
       <textarea id="homeTa" placeholder="Create a portfolio website..." aria-label="Describe your website"></textarea>
+      <div class="pb-status" id="pbStatus" hidden><span class="shine" id="pbStatusText">Enhancing your prompt…</span></div>
       <div class="pb-row">
         <div class="pb-left">
           <div class="mode-seg">
@@ -493,12 +515,12 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
             <button class="mode" data-mode="plan"><span data-ic="map"></span><span class="mlbl">Plan</span></button>
           </div>
           <div class="compose-right">
-            <button class="rtoggle" id="aiChip" title="Put AI inside the generated app"><span data-ic="cpu"></span><span id="aiChipLbl">AI: Off</span></button>
             <button class="rtoggle" id="rQuick" title="Reasoning mode"><span data-ic="spark"></span>Think<span class="rdot"></span></button>
           </div>
         </div>
         <div class="chat-compose">
-          <button id="attachBtn" title="Attach images / logos — the AI will use them" aria-label="Attach assets"><span data-ic="attach"></span></button>
+          <button id="attachBtn" title="Attach images, video, audio or text files — the AI will use them" aria-label="Attach files"><span data-ic="attach"></span></button>
+          <button id="micBtn" title="Voice input" aria-label="Voice input"><span data-ic="mic"></span></button>
           <div class="cbox"><textarea id="chatTa" rows="1" placeholder="Ask for changes — e.g. make it darker, add a pricing section"></textarea></div>
           <button id="chatSend" aria-label="Send"><span class="ic-send" data-ic="up"></span><span class="ic-stop" data-ic="stop" hidden></span></button>
         </div>
@@ -514,6 +536,11 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
           <span class="liveflag" id="liveFlag"><i></i>LIVE</span>
           <span class="grow"></span>
           <span class="pv-stat" id="pvStat">Idle</span>
+          <div id="devSeg" class="hide needs-html">
+            <button class="tbtn devbtn" data-dev="phone" title="Phone preview"><span data-ic="phone"></span></button>
+            <button class="tbtn devbtn" data-dev="tablet" title="Tablet preview"><span data-ic="tablet"></span></button>
+            <button class="tbtn devbtn on" data-dev="desktop" title="Desktop preview"><span data-ic="monitor"></span></button>
+          </div>
           <button class="tbtn hide needs-html" id="pvImprove" title="AI critique & fix — also refreshes the project cover"><span data-ic="spark"></span></button>
           <button class="tbtn hide needs-html" id="pvAssets" title="Generate images for the site"><span data-ic="wand"></span></button>
           <button class="tbtn hide needs-html" id="pvRefresh" title="Reload preview"><span data-ic="refresh"></span></button>
@@ -603,6 +630,14 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
         </div>
         <div class="f-tip">Fast picks: gpt-4o-mini · llama-3.3-70b (Groq) · gemini-2.0-flash. Big "thinking" models spend minutes before the first word — that's the model, not the connection.</div>
       </div>
+
+      <div class="sec-lbl"><span data-ic="cpu"></span>AI INSIDE YOUR GENERATED APPS</div>
+      <div class="presets" id="appAiPresets">
+        <button class="pre" data-ai="none">Off</button>
+        <button class="pre" data-ai="ask">Visitors use their own key</button>
+        <button class="pre" data-ai="embed">Embed my key</button>
+      </div>
+      <div class="f-tip">Kiln also asks this in chat after each build — change it here anytime.</div>
 
       <div class="sec-lbl"><span data-ic="palette"></span>BRAND KIT — APPLIED TO EVERY NEW BUILD</div>
       <div class="setrow" style="margin-top:12px;padding-top:0">
@@ -760,6 +795,9 @@ var RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
 function slugify(s){ return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').split('-').slice(0,3).join('-') || 'site'; }
 function ago(t){ var m=Math.round((Date.now()-t)/60000); if(m<1)return'just now'; if(m<60)return m+'m ago'; var h=Math.round(m/60); if(h<24)return h+'h ago'; var d=Math.round(h/24); if(d<7)return d+'d ago'; return new Date(t).toLocaleDateString(); }
 function rxEscape(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+function withTimeout(p, ms, msg){
+  return Promise.race([p, new Promise(function(_, rej){ setTimeout(function(){ rej(new Error(msg)); }, ms); })]);
+}
 
 /* ================= inline icons ================= */
 var ICONS = {
@@ -796,6 +834,13 @@ var ICONS = {
   attach:'<path d="m21 11-8.5 8.5a5 5 0 0 1-7-7L14 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L15 7"/>',
   cloud:'<path d="M17.5 19a4.5 4.5 0 0 0 .4-9A7 7 0 0 0 4 12.5 4 4 0 0 0 6 19z"/><path d="M12 12v5M9 14l3-3 3 3"/>',
   palette:'<path d="M12 3a9 9 0 1 0 0 18h1.5a2 2 0 0 0 0-4H12a1.5 1.5 0 0 1 0-3h6a3 3 0 0 0 3-3c0-4.4-4-8-9-8z"/><circle cx="7.5" cy="10.5" r="1"/><circle cx="12" cy="7.5" r="1"/><circle cx="16.5" cy="10.5" r="1"/>',
+  mic:'<rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 19v3"/>',
+  phone:'<rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/>',
+  tablet:'<rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M11 18h2"/>',
+  monitor:'<rect x="2" y="4" width="20" height="13" rx="2"/><path d="M9 21h6M12 17v4"/>',
+  film:'<rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/>',
+  music:'<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
+  file:'<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/>',
   camera:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="m8 7 1.5-2.5h5L16 7"/><circle cx="12" cy="13" r="3.5"/>',
   pizza:'<path d="M2.5 9.5a14.5 14.5 0 0 1 19 0L12 21.5z"/><circle cx="9" cy="11" r="1"/><circle cx="14.5" cy="12.5" r="1"/>',
   disc:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/>',
@@ -844,7 +889,7 @@ function fbCopy(t,done){
   ta.remove();
 }
 
-/* ================= IndexedDB storage (#4) ================= */
+/* ================= IndexedDB storage ================= */
 var DB = { db:null, ok:'indexedDB' in window };
 function dbOpen(){
   return new Promise(function(res){
@@ -897,7 +942,6 @@ async function dbClear(){
     rq.onerror = function(){ res(false); };
   });
 }
-/* localStorage fallback + one-time migration */
 function lsAll(){ try{ return JSON.parse(localStorage.getItem('kiln.projects')||'[]'); }catch(e){ return []; } }
 function lsFallbackAll(){ return lsAll().sort(function(a,b){ return (b.updated||0)-(a.updated||0); }); }
 function lsFallbackPut(rec){ var l=lsAll().filter(function(p){return p.id!==rec.id;}); l.unshift(rec); try{ localStorage.setItem('kiln.projects',JSON.stringify(l)); }catch(e){ toast('Storage full — project not saved','warn'); } }
@@ -927,10 +971,6 @@ if(!cfg.brand || typeof cfg.brand !== 'object'){
 function saveCfg(){ try{ localStorage.setItem('kiln.cfg', JSON.stringify(cfg)); }catch(e){} }
 function isReady(){ return !!(cfg.baseUrl && cfg.model); }
 
-var AI_MODES = ['none','ask','embed'];
-var AI_LBL = { none:'AI: Off', ask:'AI: Ask visitor', embed:'AI: My key' };
-var FONTS = ['Inter','Space Grotesk','Satoshi','Manrope','Sora','DM Sans','Outfit','Fraunces','Playfair Display','Instrument Serif','Anton','JetBrains Mono'];
-
 function syncConn(){
   var ok = isReady();
   $('#connDot').className = 'dot' + (ok ? ' on' : '');
@@ -944,7 +984,7 @@ function syncConn(){
   });
   $('#rSwitch').classList.toggle('on', !!cfg.reasoning);
   $('#rSwitch').setAttribute('aria-checked', String(!!cfg.reasoning));
-  $('#aiChipLbl').textContent = AI_LBL[cfg.appAi] || AI_LBL.none;
+  $$('#appAiPresets .pre').forEach(function(b){ b.classList.toggle('on', b.dataset.ai === cfg.appAi); });
   $('#imgAuto').classList.toggle('on', !!cfg.imgAuto);
   $('#imgAuto').setAttribute('aria-checked', String(!!cfg.imgAuto));
   $('#brandSwitch').classList.toggle('on', !!cfg.brand.on);
@@ -953,15 +993,20 @@ function syncConn(){
   $('#brandBtn').classList.toggle('on', !!cfg.brand.on);
 }
 
-/* ================= connection pre-warm (fix for slow connect) ================= */
-var prewarmedAt = 0;
+/* ================= connection pre-warm (abortable) ================= */
+var prewarmedAt = 0, prewarmCtl = null;
+function killPrewarm(){
+  if(prewarmCtl){ try{ prewarmCtl.abort(); }catch(e){} prewarmCtl = null; }
+}
 function prewarm(){
-  if(!cfg.baseUrl || !isReady()) return;
+  if(!isReady()) return;
   var now = Date.now();
-  if(now - prewarmedAt < 30000) return;   // once per 30s
+  if(now - prewarmedAt < 30000) return;
   prewarmedAt = now;
+  killPrewarm();
+  prewarmCtl = new AbortController();
   var h = cfg.key ? { Authorization:'Bearer ' + cfg.key } : {};
-  fetch(cfg.baseUrl + '/models', { headers:h, cache:'no-store' }).catch(function(){});
+  fetch(cfg.baseUrl + '/models', { headers:h, signal: prewarmCtl.signal, cache:'no-store' }).catch(function(){});
 }
 
 /* ================= routing / drawer ================= */
@@ -990,7 +1035,7 @@ function go(name){
   if(name === 'projects') renderProjects();
   if(name === 'templates') renderTemplates();
   if(name === 'settings') fillSettings();
-  if(name === 'chat') setTimeout(function(){ $('#chatTa').focus(); prewarm(); }, 120);
+  if(name === 'chat') setTimeout(function(){ $('#chatTa').focus(); }, 120);
 }
  $$('.dr-item[data-nav]').forEach(function(b){ b.addEventListener('click', function(){ go(b.dataset.nav); }); });
  $('#goSettings').addEventListener('click', function(){ go('settings'); });
@@ -1025,6 +1070,12 @@ function fillSettings(){
   setStat('', 'Preset loaded — add your key and fetch models.');
 });});
  $('#rSwitch').addEventListener('click', function(){ cfg.reasoning = !cfg.reasoning; saveCfg(); syncConn(); });
+
+ $$('#appAiPresets .pre').forEach(function(b){ b.addEventListener('click', function(){
+  $$('#appAiPresets .pre').forEach(function(x){ x.classList.toggle('on', x===b); });
+  cfg.appAi = b.dataset.ai; saveCfg();
+  toast(b.dataset.ai === 'none' ? 'AI features off' : 'AI features: ' + b.textContent, 'cpu');
+});});
 
  $$('#imgPresets .pre').forEach(function(b){ b.addEventListener('click', function(){
   $$('#imgPresets .pre').forEach(function(x){ x.classList.toggle('on', x===b); });
@@ -1070,7 +1121,7 @@ var TEXT_SKIP = /embed|whisper|tts|audio|speech|dall-?e|image|img|moderation|vis
   if(!model){ setStat('err','Pick or type a model ID.'); return; }
   cfg.baseUrl = base; cfg.key = stKey.value.trim(); cfg.model = model;
   saveCfg(); syncConn();
-  prewarmedAt = 0; prewarm();   // warm the new endpoint immediately
+  prewarmedAt = 0; prewarm();
   toast('Connected — ' + model, 'zap');
 });
 function armButton(b, fn, resetLabel){
@@ -1087,9 +1138,10 @@ function armButton(b, fn, resetLabel){
   saveCfg(); syncConn(); fillSettings(); toast('Connection reset','refresh');
 }, 'Reset connection'));
 
-/* ================= brand kit (#7) ================= */
+/* ================= brand kit ================= */
 var brandModal = $('#brandModal');
 function fillBrandSelects(){
+  var FONTS = ['Inter','Space Grotesk','Satoshi','Manrope','Sora','DM Sans','Outfit','Fraunces','Playfair Display','Instrument Serif','Anton','JetBrains Mono'];
   var opts = FONTS.map(function(f){ return '<option>' + f + '</option>'; }).join('');
   $('#brH').innerHTML = opts; $('#brB').innerHTML = opts;
 }
@@ -1148,16 +1200,15 @@ function toggleReasoning(){
  $('#rQuick').addEventListener('click', toggleReasoning);
  $('#rQuickHome').addEventListener('click', toggleReasoning);
 
-/* ================= home composer + pills + enhance (#17) ================= */
+/* ================= home composer + pills + enhance (fast path) ================= */
 var homeTa=$('#homeTa'), homeSend=$('#homeSend'), promptbox=$('#promptbox');
 function homeReady(){ homeSend.classList.toggle('ready', homeTa.value.trim().length > 0); }
 homeTa.addEventListener('input', function(){
   homeTa.style.height='auto';
   homeTa.style.height = Math.min(homeTa.scrollHeight, 220) + 'px';
   homeReady();
-  prewarm();   // warm the connection while typing
+  prewarm();
 });
-homeTa.addEventListener('focus', prewarm);
 homeTa.addEventListener('keydown', function(e){
   if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); tryStart(); }
 });
@@ -1166,36 +1217,67 @@ function tryStart(){
   var q = homeTa.value.trim();
   if(!q){ promptbox.classList.remove('shake'); void promptbox.offsetWidth; promptbox.classList.add('shake'); return; }
   if(!isReady()){ go('settings'); toast('Add your API key and model to start building.', 'key'); return; }
-  prewarm();
+  killPrewarm();
   startProject(q);
 }
 
+/* Enhance — lean system prompt, no reasoning params, streams live into the box, click-to-cancel, restores on any failure */
 var SYS_ENHANCE =
-'You are a prompt engineer for an AI website builder. Expand the user\'s short idea into a rich site brief: what it is and for whom, the key sections, a visual direction (palette mood, typography vibe, layout feel), one signature interaction, and imagery style. Output ONLY the improved brief as one flowing paragraph (60-110 words). No quotes, no preamble, no lists.';
-
-var enhancing = false;
+'Expand the user\'s short idea into a rich website brief as ONE flowing paragraph (60-100 words): audience, key sections, visual direction (palette mood, type vibe), one signature interaction, imagery style. Output only the brief — no quotes, no preamble, no lists.';
+var enhancing = false, enhanceCtl = null;
  $('#enhanceBtn').addEventListener('click', async function(){
+  if(enhancing){   /* second click = cancel */
+    if(enhanceCtl) enhanceCtl.abort();
+    return;
+  }
   var btn = $('#enhanceBtn');
-  if(enhancing) return;
-  var q = homeTa.value.trim();
+  var original = homeTa.value;
+  var q = original.trim();
   if(!q){ promptbox.classList.remove('shake'); void promptbox.offsetWidth; promptbox.classList.add('shake'); return; }
   if(!isReady()){ go('settings'); toast('Connect an API key first.', 'key'); return; }
   enhancing = true;
-  btn.disabled = true;
-  btn.innerHTML = '<span class="ic spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-2.6-6.4L21 8"/></span>Enhancing…';
+  btn.classList.add('on');
+  btn.innerHTML = ic('stop') + 'Stop';
+  $('#pbStatus').hidden = false;
+  var t0 = performance.now();
+  var stTimer = setInterval(function(){
+    $('#pbStatusText').textContent = 'Enhancing… ' + ((performance.now()-t0)/1000).toFixed(1) + 's — click Stop to cancel';
+  }, 150);
   var out = '';
+  enhanceCtl = new AbortController();
   try{
     await apiStream(
       [{ role:'system', content:SYS_ENHANCE }, { role:'user', content:q }],
-      function(_, full){ out = full.replace(/^["'\s]+|["'\s]+$/g,''); homeTa.value = out; homeTa.style.height='auto'; homeTa.style.height=Math.min(homeTa.scrollHeight,220)+'px'; homeReady(); },
-      function(){}, null, null
+      function(_, full){
+        out = full.replace(/^["'\s]+|["'\s]+$/g,'');
+        homeTa.value = out;   /* live — the brief grows as tokens arrive */
+        homeTa.style.height='auto';
+        homeTa.style.height = Math.min(homeTa.scrollHeight, 220) + 'px';
+      },
+      function(){}, enhanceCtl.signal, null, { plain:true }
     );
-    toast('Prompt enhanced — review and build', 'wand');
+    clearInterval(stTimer);
+    $('#pbStatus').hidden = true;
+    if(out && out.length > 10){
+      homeReady();
+      toast('Prompt enhanced in ' + ((performance.now()-t0)/1000).toFixed(1) + 's', 'wand');
+    } else {
+      homeTa.value = original;
+      homeReady();
+      toast('Enhance came back empty — your prompt is untouched', 'warn');
+    }
   }catch(e){
-    toast('Enhance failed — ' + (e.message||'try again'), 'warn');
+    clearInterval(stTimer);
+    $('#pbStatus').hidden = true;
+    homeTa.value = original;
+    homeTa.style.height='auto';
+    homeTa.style.height = Math.min(homeTa.scrollHeight, 220) + 'px';
+    homeReady();
+    toast(e.name === 'AbortError' ? 'Enhance cancelled — prompt restored' : 'Enhance failed — prompt restored', 'warn');
   }finally{
     enhancing = false;
-    btn.disabled = false;
+    enhanceCtl = null;
+    btn.classList.remove('on');
     btn.innerHTML = ic('wand') + 'Enhance';
   }
 });
@@ -1253,7 +1335,7 @@ function renderTemplates(){
   });
 }
 
-/* ================= project store (IndexedDB) ================= */
+/* ================= project store ================= */
 function projectWorthSaving(){
   return state.brief && (Object.keys(state.files||{}).length > 0 || state.plan || (state.chat && state.chat.length > 1));
 }
@@ -1265,7 +1347,7 @@ function saveProject(){
     name: $('#projName').value.trim() || 'Untitled project',
     brief: state.brief, html: state.html, files: state.files, active: state.active,
     plan: state.plan || '', chat: state.chat || [], assets: state.assets || [],
-    cover: state.cover || '', updated: Date.now(), model: cfg.model || ''
+    cover: state.cover || '', aiAsked: !!state.aiAsked, updated: Date.now(), model: cfg.model || ''
   };
   dbPut(rec);
 }
@@ -1306,7 +1388,8 @@ function openProject(p){
   state = {
     id:p.id, brief:p.brief, plan:p.plan||'', chat:p.chat||[],
     files: p.files || (p.html ? {'index.html': p.html} : {}),
-    active:'index.html', html:'', assets: p.assets || [], cover: p.cover || ''
+    active:'index.html', html:'', assets: p.assets || [], cover: p.cover || '',
+    aiAsked: !!p.aiAsked
   };
   var names = Object.keys(state.files);
   state.active = names.indexOf('index.html') > -1 ? 'index.html' : (names[0] || 'index.html');
@@ -1327,32 +1410,29 @@ function openProject(p){
   }
   renderAssetRow();
   renderHistory(state.chat);
-  if(!state.chat.length) addNote('Reopened "' + p.name + '". Ask for changes, attach assets, or hit the sparkle for an AI design review.');
+  if(!state.chat.length) addNote('Reopened "' + p.name + '". Ask for changes, attach files, or hit the sparkle for an AI design review.');
   updateComposerUI();
   go('chat');
 }
 window.addEventListener('pagehide', function(){ if(curScreen === 'chat') saveProject(); });
 
-/* ================= chat state & prompts ================= */
+/* ================= chat state & prompts (system prompt compressed for TTFT) ================= */
 var thread=$('#thread'), chatTa=$('#chatTa'), chatSend=$('#chatSend'),
     pvCode=$('#pvCode'), skel=$('#skel'), pvStat=$('#pvStat'),
     liveFlag=$('#liveFlag'), projName=$('#projName');
 var pvFrame = $('#pvFrame');
 
-var state = { id:null, brief:'', html:'', plan:'', chat:[], files:{}, active:'index.html', assets:[], cover:'' };
+var state = { id:null, brief:'', html:'', plan:'', chat:[], files:{}, active:'index.html', assets:[], cover:'', aiAsked:false };
 var streaming = false, aborter = null;
 
 function buildSystem(){
-  var s = 'You are Kiln, an elite front-end generator. Output raw code only — no markdown fences, no commentary.\n\n'
-    + 'SINGLE-FILE SITES: reply with one complete HTML5 document starting with <!DOCTYPE html>.\n\n'
-    + 'MULTI-FILE SITES: if the project clearly needs separate pages (for example a landing page plus a working app), output each file wrapped exactly like:\n'
-    + '<kiln-file name="index.html">\n(full HTML document)\n</kiln-file>\n'
-    + '<kiln-file name="main.html">\n(full HTML document)\n</kiln-file>\n'
-    + 'index.html is always the entry page and links to the others with plain relative hrefs like href="main.html". Every page is fully self-contained.\n\n'
-    + 'Code rules: one <style> block with CSS variables per page; modern responsive accessible design; Google Fonts via one <link>; icons as inline SVG; no frameworks, no comments; invent realistic brand names and concise copy; keep each page tight (200-350 lines).\n\n'
-    + 'SPEED RULE: when modifying an existing site, return ONLY the files that actually changed — never repeat unchanged files. Each returned file must still be complete.';
+  var s = 'You are Kiln, an elite front-end generator. Output raw code only — no fences, no commentary.\n'
+    + 'Return ONE complete HTML5 document starting with <!DOCTYPE html>.\n'
+    + 'Multi-page projects: output each page as <kiln-file name="index.html">…</kiln-file> <kiln-file name="main.html">…</kiln-file>; index.html is the entry, pages link with relative hrefs, each page self-contained.\n'
+    + 'Style: one <style> block with CSS variables; modern, responsive, accessible; Google Fonts via one <link>; inline SVG icons; no frameworks, no comments; invented realistic brand; 200-350 lines per page.\n'
+    + 'SPEED RULE: when modifying an existing site return ONLY the changed files, each complete — never repeat unchanged files.';
   if(cfg.imgMode !== 'none'){
-    s += '\n\nImagery: where a photo or illustration helps, use <img alt="..." data-gen="a concise visual description"> with NO src attribute. Style img[data-gen] with a warm gradient background, aspect-ratio and object-fit:cover so the layout looks intentional before images load.';
+    s += '\nImagery: where a photo helps use <img alt="..." data-gen="concise visual description"> with NO src; style img[data-gen] with a warm gradient, aspect-ratio, object-fit:cover.';
   }
   s += brandAddendum();
   return s;
@@ -1380,8 +1460,26 @@ function aiAddendum(){
 }
 function assetsAddendum(){
   if(!state.assets.length) return '';
-  var names = state.assets.map(function(a){ return a.name; }).join(', ');
-  return '\n\nUPLOADED ASSETS available: ' + names + '. To use one, reference it exactly as asset:FILENAME (e.g. src="asset:' + state.assets[0].name + '" or url(asset:' + state.assets[0].name + ')). The system replaces these references with the real files automatically. Never base64-encode assets yourself.';
+  var imgs = [], meds = [], txts = [];
+  state.assets.forEach(function(a){
+    if(a.kind === 'text') txts.push(a);
+    else if(a.kind === 'video' || a.kind === 'audio') meds.push(a);
+    else imgs.push(a);
+  });
+  var s = '';
+  if(imgs.length) s += '\n\nUPLOADED IMAGES: ' + imgs.map(function(a){ return a.name; }).join(', ') + '. Reference exactly as src="asset:NAME".';
+  if(meds.length) s += '\n\nUPLOADED MEDIA: ' + meds.map(function(a){ return a.name; }).join(', ') + '. Use <video controls src="asset:NAME"></video> or <audio controls src="asset:NAME"></audio> where appropriate. Never base64-encode assets yourself.';
+  if(txts.length){
+    s += '\n\nUPLOADED TEXT FILES — use their REAL content in the site (data for tables/charts, copy for text, etc.):';
+    var used = 0;
+    txts.forEach(function(t){
+      if(used > 30000) return;
+      var c = (t.content || '').slice(0, 12000);
+      used += c.length;
+      s += '\n--- ' + t.name + ' ---\n' + c;
+    });
+  }
+  return s;
 }
 
 var GREET_RE = /^(hi+|hey+|hello+|yo|sup|howdy|hola|good\s*(morning|afternoon|evening))\b[\s!,.?]*$/i;
@@ -1473,12 +1571,57 @@ function mdLite(t){
   }).join('');
 }
 
-/* ================= streaming API ================= */
-async function apiStream(msgs, onDelta, onThink, signal, onConnected){
+/* ================= in-chat AI-features question ================= */
+function askAI(){
+  if(state.aiAsked) return;
+  if(!Object.keys(state.files).length) return;
+  state.aiAsked = true;
+  var card = el('<div class="msg-ai"><div class="a-av">' + logoSVG() + '</div><div class="a-body"><div class="aiq">'
+    + '<div class="aiq-q">Add AI features to this app?</div>'
+    + '<div class="aiq-d">I can wire this site to any OpenAI-compatible API — a chatbox, content generation, smart tools. Visitors can bring their own key, or yours from Settings can be embedded.</div>'
+    + '<div class="aiq-btns"></div>'
+    + '<button class="aiq-set">Change later in Settings</button></div></div></div>');
+  var box = card.querySelector('.aiq-btns');
+  var opts = [
+    ['none','No AI — keep it static'],
+    ['ask','Yes — visitors enter their own key'],
+    ['embed','Yes — embed my key from Settings']
+  ];
+  opts.forEach(function(o){
+    var b = el('<button class="aiq-btn">' + (cfg.appAi === o[0] ? ic('check') : '') + '<span>' + o[1] + '</span></button>');
+    b.addEventListener('click', function(){
+      cfg.appAi = o[0]; saveCfg(); syncConn();
+      box.innerHTML = '';
+      if(o[0] === 'none'){
+        addNote('AI features off for this app. Say "add AI features" anytime, or change it in Settings.');
+        saveProject();
+      } else {
+        if(o[0] === 'embed' && !isReady()){
+          addNote('Connect your API key in Settings first — then I can embed it into the app.');
+        } else {
+          addNote(o[0] === 'ask' ? 'Wiring it up: visitors will get a key-setup modal inside the app…' : 'Wiring it up: embedding your connection into the app…');
+          runTask('build', 'Add AI features to this site: ' + (o[0] === 'ask'
+            ? 'include a settings modal where the visitor enters Base URL, API key and model, saved to localStorage, calling /chat/completions directly with graceful error handling.'
+            : 'embed my connection as constants, still with an editable settings modal, calling /chat/completions directly with graceful error handling.'));
+        }
+      }
+    });
+    box.appendChild(b);
+  });
+  card.querySelector('.aiq-set').addEventListener('click', function(){ go('settings'); });
+  thread.appendChild(card); thread.scrollTop = thread.scrollHeight;
+}
+
+/* ================= streaming API (opts.plain skips reasoning entirely — used by Enhance) ================= */
+async function apiStream(msgs, onDelta, onThink, signal, onConnected, opts){
   var url = cfg.baseUrl + '/chat/completions';
-  function body(useR){
+  var useR = !!cfg.reasoning && !(opts && opts.plain);
+  function body(){
     var b = { model: cfg.model, messages: msgs, stream: true, temperature: 0.65 };
-    if(useR){ b.reasoning_effort = 'medium'; b.reasoning = { effort:'medium' }; }
+    if(useR){
+      if(/openrouter|anthropic/i.test(cfg.baseUrl)) b.reasoning = { effort:'medium' };
+      else b.reasoning_effort = 'medium';
+    }
     return b;
   }
   function init(b){
@@ -1486,57 +1629,79 @@ async function apiStream(msgs, onDelta, onThink, signal, onConnected){
       headers: { 'Content-Type':'application/json', Authorization:'Bearer ' + (cfg.key || '') },
       body: JSON.stringify(b) };
   }
-  var res = await fetch(url, init(body(!!cfg.reasoning)));
-  if(!res.ok && res.status === 400 && cfg.reasoning){
-    res = await fetch(url, init(body(false)));
+  var retried = false;
+  var res = await fetch(url, init(body()));
+  if(!res.ok && res.status === 400 && useR){
+    retried = true;
+    res = await fetch(url, init({ model: cfg.model, messages: msgs, stream: true, temperature: 0.65 }));
   }
-  if(onConnected) onConnected();
   if(!res.ok){
     var msg = 'HTTP ' + res.status;
     try{ var j = await res.json(); msg = (j.error && (j.error.message || j.error)) || msg; }catch(e){}
     throw new Error(msg);
   }
+  if(onConnected) onConnected(retried);
+
   var ct = res.headers.get('content-type') || '';
   if(ct.indexOf('event-stream') === -1 || !res.body){
-    var j2 = await res.json();
+    var j2 = await withTimeout(res.json(), 45000, 'Response body stalled — no data for 45s.');
     var m = (j2.choices && j2.choices[0] && j2.choices[0].message) || {};
     if(typeof m.reasoning_content === 'string' && m.reasoning_content) onThink(m.reasoning_content);
-    var c = m.content || '';
-    if(c) onDelta(c, c);
-    return c;
+    var c0 = m.content || '';
+    if(c0) onDelta(c0, c0);
+    if(!c0) throw new Error('Empty response from the model.');
+    return c0;
   }
+
   var reader = res.body.getReader(), dec = new TextDecoder();
-  var buf = '', full = '';
-  for(;;){
-    var rd = await reader.read();
-    if(rd.done) break;
-    buf += dec.decode(rd.value, { stream:true });
-    var lines = buf.split('\n'); buf = lines.pop();
-    for(var i=0;i<lines.length;i++){
-      var t = lines[i].trim();
-      if(t.indexOf('data:') !== 0) continue;
-      var data = t.slice(5).trim();
-      if(data === '[DONE]') continue;
-      try{
-        var j3 = JSON.parse(data);
-        var d = (j3.choices && j3.choices[0] && j3.choices[0].delta) || {};
-        var r = d.reasoning_content || d.reasoning;
-        if(typeof r === 'string' && r) onThink(r);
-        if(d.content){ full += d.content; onDelta(d.content, full); }
-      }catch(e){}
+  var buf = '', full = '', gotChunk = false;
+  var idleTimer = null;
+  function armIdle(){
+    if(idleTimer) clearTimeout(idleTimer);
+    idleTimer = setTimeout(function(){ try{ reader.cancel('idle'); }catch(e){} }, 45000);
+  }
+  try{
+    for(;;){
+      armIdle();
+      var rd = await reader.read();
+      if(rd.value && rd.value.length) gotChunk = true;
+      if(rd.done) break;
+      buf += dec.decode(rd.value, { stream:true });
+      var lines = buf.split('\n'); buf = lines.pop();
+      for(var i=0;i<lines.length;i++){
+        var t = lines[i].trim();
+        if(t.indexOf('data:') !== 0) continue;
+        var data = t.slice(5).trim();
+        if(data === '[DONE]') continue;
+        try{
+          var j3 = JSON.parse(data);
+          var d = (j3.choices && j3.choices[0] && j3.choices[0].delta) || {};
+          var r = d.reasoning_content || d.reasoning;
+          if(typeof r === 'string' && r) onThink(r);
+          if(d.content){ full += d.content; onDelta(d.content, full); }
+        }catch(e){}
+      }
     }
+  } finally {
+    if(idleTimer) clearTimeout(idleTimer);
+  }
+  if(!full){
+    if(!gotChunk) throw new Error('Connection stalled — no data for 45s after connecting. Endpoint may be overloaded.');
+    throw new Error('Empty response from the model.');
   }
   return full;
 }
 
-/* ================= incremental iframe painting ================= */
+/* ================= incremental iframe painting (throttled so streaming never fights the main thread) ================= */
 var docOpen=false, docLen=0, prevEx='';
+var lastPaintT = 0;
 function frameDoc(){ try{ return pvFrame.contentDocument; }catch(e){ return null; } }
 function newFrame(){
   var f = pvFrame.cloneNode(false);
   pvFrame.replaceWith(f);
   pvFrame = f;
   docOpen=false; docLen=0; prevEx='';
+  lastPaintT = 0;
 }
 function writeDoc(ex){
   var d = frameDoc();
@@ -1575,21 +1740,25 @@ function parseFiles(raw){
 }
 function applyAssets(html){
   state.assets.forEach(function(a){
+    if(!a.dataUrl) return;
     var re = new RegExp('asset:' + rxEscape(a.name), 'g');
     html = html.replace(re, a.dataUrl);
   });
   return html;
 }
-function currentFilesText(){
-  var per = 24000, total = 60000, out = '', used = 0;
-  var names = Object.keys(state.files);
-  for(var i=0;i<names.length;i++){
-    var n = names[i];
-    var chunk = '--- ' + n + ' ---\n' + state.files[n].slice(0, per);
-    if(used + chunk.length > total) break;
-    out += chunk + '\n\n'; used += chunk.length;
-  }
-  return out;
+function fileOutline(name){
+  var html = state.files[name] || '';
+  var out = ['--- ' + name + ' (outline) ---'];
+  var heads = html.match(/<h[1-3][^>]*>[\s\S]*?<\/h[1-3]>/gi) || [];
+  heads.slice(0, 12).forEach(function(h){
+    var txt = h.replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim().slice(0, 80);
+    if(txt) out.push('heading: ' + txt);
+  });
+  var marks = html.match(/(?:id|class)="[^"]{2,40}"/g) || [];
+  var uniq = [];
+  marks.forEach(function(s){ if(uniq.indexOf(s) === -1 && uniq.length < 15) uniq.push(s); });
+  out.push('structure: ' + uniq.join(' '));
+  return out.join('\n');
 }
 function injectNav(html, name){
   var nav = '<script>(function(){document.addEventListener("click",function(e){var t=e.target;while(t&&t.tagName!=="A"){t=t.parentElement}if(!t)return;var h=(t.getAttribute("href")||"").toLowerCase().replace(/^\\.\\//,"");if(/\\.html?$/.test(h)){e.preventDefault();parent.postMessage({kilnNav:h},"*")}});})();<\/script>';
@@ -1619,7 +1788,7 @@ function updateFileTabs(names, active){
     var b = el('<button class="ftab' + (n===active?' on':'') + '">' + escH(n) + '</button>');
     b.addEventListener('click', function(){
       state.active = n;
-      if(streaming){ tabsSig=''; paintStreamNow(); }
+      if(streaming){ tabsSig=''; paintStreamNow(true); }
       else setActiveFile(n);
     });
     box.appendChild(b);
@@ -1656,8 +1825,15 @@ function buildMessages(kind, text){
   if(kind === 'build'){
     out.push({ role:'system', content: buildSystem() });
     if(state.html && Object.keys(state.files).length){
-      out.push({ role:'user', content:'Current site files:\n' + currentFilesText() });
-      out.push({ role:'assistant', content:'Got it — I will return ONLY the changed files, complete, in the kiln-file format.' });
+      var names = Object.keys(state.files);
+      var active = (state.active && names.indexOf(state.active) > -1) ? state.active : (names.indexOf('index.html') > -1 ? 'index.html' : names[0]);
+      var parts = ['ACTIVE FILE (full source):\n--- ' + active + ' ---\n' + state.files[active].slice(0, 28000)];
+      var others = names.filter(function(n){ return n !== active; });
+      if(others.length){
+        parts.push('OTHER PAGES (outlines only — keep their design consistent; return one of them changed ONLY if the request requires it):\n' + others.map(fileOutline).join('\n'));
+      }
+      out.push({ role:'user', content: parts.join('\n\n') });
+      out.push({ role:'assistant', content:'Got it — I will return ONLY the files that change, complete, in the kiln-file format.' });
       out.push({ role:'user', content:'Apply this change and return only the updated files:\n' + (text || 'Refine the design.') + aiAddendum() + assetsAddendum() });
     } else {
       var c = 'Create a complete website for this idea:\n\n' + state.brief;
@@ -1707,7 +1883,10 @@ function addActions(acts, kind){
 }
 
 var paintName = null;
-function paintStreamNow(){
+function paintStreamNow(force){
+  var now = performance.now();
+  if(!force && (now - lastPaintT) < 180) return;   /* throttle — never let painting steal the main thread */
+  lastPaintT = now;
   var files = parseFiles(runRaw);
   var names = Object.keys(files);
   if(!names.length) return;
@@ -1724,6 +1903,7 @@ function paintStreamNow(){
 var runRaw = '';
 
 async function runTask(kind, text){
+  if(streaming){ toast('Still working — stop the current task first', 'warn'); return; }
   var isBuild = kind === 'build';
   var headLabel = isBuild ? 'Kiln' : (kind === 'plan' ? 'Kiln · plan' : 'Kiln · chat');
   var B = newAiBubble(headLabel);
@@ -1735,28 +1915,45 @@ async function runTask(kind, text){
 
   var t0 = performance.now();
   var ttft = 0, thinkStart = 0, sawThink = false, thinkDone = false, sawContent = false;
-  var think = '', connSecs = '0.0';
+  var think = '', connSecs = '0.0', connected = false;
   var lastCode = 0, lastUI = 0;
   runRaw = '';
 
-  B.status.innerHTML = '<span class="shine">Connecting…</span>';
+  var myAbort = new AbortController();
+  aborter = myAbort;
+
   var connInt = setInterval(function(){
-    B.status.innerHTML = '<span class="shine">Connecting… ' + ((performance.now()-t0)/1000).toFixed(0) + 's</span>';
+    var s = ((performance.now() - t0) / 1000).toFixed(0);
+    if(!connected){
+      B.status.innerHTML = '<span class="shine">Connecting… ' + s + 's</span>';
+    } else {
+      B.status.innerHTML = '<span class="shine">Waiting for first token… ' + s + 's' + (cfg.reasoning ? ' (thinking)' : '') + '</span>';
+    }
   }, 500);
+
   var timedOut = false;
-  var timeout = setTimeout(function(){
-    timedOut = true;
-    if(aborter) aborter.abort();
+  var connectTimeout = setTimeout(function(){
+    if(!sawContent && !sawThink){
+      timedOut = true;
+      myAbort.abort();
+    }
   }, 30000);
+
   var tick = setInterval(function(){
     if(sawThink && !thinkDone){
       B.tLabel.textContent = 'Thinking… ' + ((performance.now() - thinkStart) / 1000).toFixed(0) + 's';
     }
   }, 400);
 
+  function disarm(){
+    clearTimeout(connectTimeout);
+    clearInterval(connInt);
+  }
+
   var onThink = function(d){
     if(!sawThink){
       sawThink = true; thinkStart = performance.now();
+      disarm();
       B.status.innerHTML = '<span class="shine">Model is thinking…</span>';
       B.tRow.hidden = false; B.tBody.textContent = '';
     }
@@ -1770,6 +1967,7 @@ async function runTask(kind, text){
   };
   var firstContent = function(){
     if(!ttft) ttft = performance.now() - t0;
+    if(!sawThink) disarm();
     if(sawThink && !thinkDone){
       thinkDone = true;
       B.tLabel.classList.remove('shine');
@@ -1780,16 +1978,14 @@ async function runTask(kind, text){
     B.status.innerHTML = '<span class="shine">' + lbl + '</span>';
   };
 
-  aborter = new AbortController();
-
   try{
     await apiStream(buildMessages(kind, text), function(_, full){
       runRaw = full;
       if(!sawContent){ sawContent = true; firstContent(); }
       var now = performance.now();
       if(isBuild){
-        paintStreamNow();
-        if(now - lastCode > 250){
+        paintStreamNow(false);
+        if(now - lastCode > 350){   /* throttled — highlighting big docs is expensive */
           lastCode = now;
           pvCode.innerHTML = highlight(full);
           pvStat.innerHTML = '<b>' + kfmt(full.length) + '</b> chars · ' + ((now - t0) / 1000).toFixed(0) + 's';
@@ -1803,15 +1999,15 @@ async function runTask(kind, text){
           thread.scrollTop = thread.scrollHeight;
         }
       }
-    }, onThink, aborter.signal, function(){
-      clearInterval(connInt); clearTimeout(timeout);
+    }, onThink, myAbort.signal, function(retried){
+      connected = true;
       connSecs = ((performance.now() - t0) / 1000).toFixed(1);
       if(!sawContent && !sawThink){
-        B.status.innerHTML = '<span class="shine">Connected in ' + connSecs + 's · waiting for the model' + (cfg.reasoning ? ' (thinking)' : '') + '…</span>';
+        B.status.innerHTML = '<span class="shine">Connected in ' + connSecs + 's' + (retried ? ' · reasoning not supported, retried clean' : '') + ' · waiting for the model…</span>';
       }
     });
 
-    clearInterval(connInt); clearTimeout(timeout); clearInterval(tick);
+    disarm(); clearInterval(tick);
     if(sawThink && !thinkDone){
       thinkDone = true;
       B.tLabel.classList.remove('shine');
@@ -1840,14 +2036,15 @@ async function runTask(kind, text){
         var total = 0; names.forEach(function(n){ total += state.files[n].length; });
         pvStat.textContent = 'Done · ' + names.length + (names.length > 1 ? ' pages · ' : ' page · ') + kfmt(total) + ' chars';
         $$('.needs-html').forEach(function(b){ b.classList.remove('hide'); });
-        var tt = ttft ? ((ttft / 1000).toFixed(1) + 's to first token · ') : '';
-        B.status.innerHTML = '<span class="status-done">Ready · connected in ' + connSecs + 's · ' + tt + secs + 's total · ' + fmt(total) + ' chars</span>';
+        var tt = ttft ? ('ttft ' + (ttft / 1000).toFixed(1) + 's · ') : '';
+        B.status.innerHTML = '<span class="status-done">Ready · connected ' + connSecs + 's · ' + tt + secs + 's total · ' + fmt(total) + ' chars</span>';
         addActions(B.acts, 'build');
         state.chat.push({ ai: 'Done in ' + secs + 's · ' + (hadFiles && text ? (chNames.length + ' file(s) updated.') : (names.length + (names.length>1?' pages.':' page.'))) });
         saveProject();
         toast('Done in ' + secs + 's', 'flame');
         captureCover(true);
         if(cfg.imgAuto && cfg.imgMode !== 'none') generateAssets();
+        askAI();
       } else {
         closeDoc();
         B.status.innerHTML = '';
@@ -1876,7 +2073,7 @@ async function runTask(kind, text){
       saveProject();
     }
   }catch(e){
-    clearInterval(connInt); clearTimeout(timeout); clearInterval(tick);
+    disarm(); clearInterval(tick);
     if(sawThink && !thinkDone){
       B.tLabel.classList.remove('shine');
       B.tLabel.textContent = 'Thinking stopped';
@@ -1887,10 +2084,10 @@ async function runTask(kind, text){
         if(isBuild) closeDoc();
         B.status.innerHTML = '';
         B.err.style.display = 'block';
-        B.err.innerHTML = '<b>' + ic('warn') + 'Timed out after 30s connecting to ' + escH((cfg.baseUrl||'').replace(/^https?:\/\//,'').split('/')[0]) + '.</b>'
-          + '<span class="a-hint">Double-check the Base URL in Settings. If it\'s correct, the endpoint may be down or blocking browser requests (CORS).</span>';
-        state.chat.push({ ai: 'Connection timed out.' });
-        toast('Connection timed out', 'warn');
+        B.err.innerHTML = '<b>' + ic('warn') + 'No first token within 30s from ' + escH((cfg.baseUrl||'').replace(/^https?:\/\//,'').split('/')[0]) + '.</b>'
+          + '<span class="a-hint">The endpoint connected but stayed silent — it may be overloaded, queued, or the model name may be wrong. Check Settings, or turn Think off for a faster start.</span>';
+        state.chat.push({ ai: 'Timed out waiting for the first token.' });
+        toast('No response in 30s', 'warn');
       } else if(isBuild && ex){
         state.html = ex;
         var f1 = parseFiles(runRaw);
@@ -1919,13 +2116,14 @@ async function runTask(kind, text){
       toast('Generation failed', 'warn');
     }
   }finally{
-    aborter = null;
+    disarm(); clearInterval(tick);
+    if(aborter === myAbort) aborter = null;
     setStreamingUI(false);
     thread.scrollTop = thread.scrollHeight;
   }
 }
 
-/* ================= cover capture + AI critique (#11) ================= */
+/* ================= cover capture + AI critique ================= */
 function captureShot(){
   return new Promise(function(res, rej){
     var d;
@@ -2036,38 +2234,72 @@ async function aiImprove(){
   }
 }
 
-/* ================= asset upload (#6) ================= */
+/* ================= file & media uploads (images, video, audio, text) ================= */
+var MAX_MEDIA = 6 * 1024 * 1024;      /* 6MB per image/video/audio */
+var MAX_TEXT  = 256 * 1024;           /* 256KB per text file */
+var MAX_TOTAL = 26 * 1024 * 1024;     /* ~26MB media budget per project */
+var TEXT_EXT = ['txt','md','markdown','csv','tsv','json','xml','yml','yaml','js','css','html','htm','log','env','srt','vtt'];
+
+function assetKind(f){
+  if(/^image\//.test(f.type)) return 'image';
+  if(/^video\//.test(f.type)) return 'video';
+  if(/^audio\//.test(f.type)) return 'audio';
+  if(/^text\//.test(f.type) || /json|xml|javascript/.test(f.type)) return 'text';
+  var ext = (f.name.split('.').pop() || '').toLowerCase();
+  if(ext === 'svg') return 'image';
+  if(TEXT_EXT.indexOf(ext) > -1) return 'text';
+  return null;
+}
+function mediaBytes(){
+  return state.assets.reduce(function(n, a){ return n + (a.dataUrl ? a.dataUrl.length : 0); }, 0);
+}
 function renderAssetRow(){
   var row = $('#assetRow');
   row.innerHTML = '';
   row.classList.toggle('on', state.assets.length > 0);
   state.assets.forEach(function(a, i){
-    var c = el('<span class="achip"><img src="' + a.dataUrl + '" alt=""><span>' + escH(a.name) + '</span><button class="ax" aria-label="Remove">' + ic('x') + '</button></span>');
+    var thumb;
+    if(a.kind === 'image' && a.dataUrl) thumb = '<img src="' + a.dataUrl + '" alt="">';
+    else if(a.kind === 'video') thumb = '<span class="aico">' + ic('film') + '</span>';
+    else if(a.kind === 'audio') thumb = '<span class="aico">' + ic('music') + '</span>';
+    else thumb = '<span class="aico">' + ic('file') + '</span>';
+    var c = el('<span class="achip">' + thumb + '<span>' + escH(a.name) + '</span><button class="ax" aria-label="Remove">' + ic('x') + '</button></span>');
     c.querySelector('.ax').addEventListener('click', function(){
       state.assets.splice(i, 1);
       renderAssetRow();
-      toast('Asset removed — ask for a rebuild to apply', 'trash');
+      toast('Attachment removed — ask for a rebuild to apply', 'trash');
     });
     row.appendChild(c);
   });
 }
 function addAssetFiles(fileList){
-  var files = Array.prototype.slice.call(fileList).filter(function(f){
-    return /^image\//.test(f.type) || /\.(png|jpe?g|gif|webp|svg|ico)$/i.test(f.name);
-  });
-  if(!files.length){ toast('Only images can be attached', 'warn'); return; }
+  var files = Array.prototype.slice.call(fileList);
+  if(!files.length) return;
   var room = 8 - state.assets.length;
-  if(room <= 0){ toast('Max 8 assets per project', 'warn'); return; }
-  files = files.slice(0, room);
-  files.forEach(function(f){
-    if(f.size > 2 * 1024 * 1024){ toast(f.name + ' is over 2MB — skipped', 'warn'); return; }
-    var rd = new FileReader();
-    rd.onload = function(){
-      state.assets.push({ name: f.name.replace(/[^\w.\-]/g,'_'), type: f.type, dataUrl: rd.result });
-      renderAssetRow();
-      toast(f.name + ' attached — the AI can now use it', 'attach');
-    };
-    rd.readAsDataURL(f);
+  if(room <= 0){ toast('Max 8 attachments per project', 'warn'); return; }
+  files.slice(0, room).forEach(function(f){
+    var kind = assetKind(f);
+    if(!kind){ toast(f.name + ' — unsupported type', 'warn'); return; }
+    if(kind === 'text'){
+      if(f.size > MAX_TEXT){ toast(f.name + ' is over 256KB — skipped', 'warn'); return; }
+      var rd = new FileReader();
+      rd.onload = function(){
+        state.assets.push({ name: f.name.replace(/[^\w.\-]/g,'_'), kind:'text', type: f.type || 'text/plain', content: String(rd.result) });
+        renderAssetRow();
+        toast(f.name + ' attached — its content will be used in the build', 'attach');
+      };
+      rd.readAsText(f);
+    } else {
+      if(f.size > MAX_MEDIA){ toast(f.name + ' is over 6MB — skipped', 'warn'); return; }
+      if(mediaBytes() + f.size * 1.4 > MAX_TOTAL){ toast('Media budget full — remove something first', 'warn'); return; }
+      var rd2 = new FileReader();
+      rd2.onload = function(){
+        state.assets.push({ name: f.name.replace(/[^\w.\-]/g,'_'), kind: kind, type: f.type, dataUrl: rd2.result });
+        renderAssetRow();
+        toast(f.name + ' attached — the AI can use it', 'attach');
+      };
+      rd2.readAsDataURL(f);
+    }
   });
 }
  $('#attachBtn').addEventListener('click', function(){ $('#assetFile').click(); });
@@ -2078,6 +2310,59 @@ shell.addEventListener('drop', function(e){
   e.preventDefault();
   shell.classList.remove('drag-over');
   if(e.dataTransfer && e.dataTransfer.files.length) addAssetFiles(e.dataTransfer.files);
+});
+
+/* ================= voice input (new feature #1) ================= */
+var recog = null, listening = false;
+function toggleMic(){
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){ toast('Voice input is not supported in this browser', 'mic'); return; }
+  if(listening){ if(recog) recog.stop(); return; }
+  try{ recog = new SR(); }catch(e){ toast('Voice unavailable', 'mic'); return; }
+  recog.lang = navigator.language || 'en-US';
+  recog.interimResults = true;
+  recog.continuous = false;
+  var base = chatTa.value;
+  recog.onresult = function(ev){
+    var s = '';
+    for(var i = ev.resultIndex; i < ev.results.length; i++) s += ev.results[i][0].transcript;
+    chatTa.value = (base ? base + ' ' : '') + s;
+    chatTa.style.height = 'auto';
+    chatTa.style.height = Math.min(chatTa.scrollHeight, 110) + 'px';
+    chatReady();
+  };
+  recog.onend = function(){
+    listening = false;
+    $('#micBtn').classList.remove('on');
+  };
+  recog.onerror = function(ev){
+    listening = false;
+    $('#micBtn').classList.remove('on');
+    if(ev.error !== 'aborted' && ev.error !== 'no-speech') toast('Mic error: ' + ev.error, 'mic');
+  };
+  recog.start();
+  listening = true;
+  $('#micBtn').classList.add('on');
+  toast('Listening…', 'mic');
+}
+ $('#micBtn').addEventListener('click', toggleMic);
+
+/* ================= responsive preview (new feature #2) ================= */
+var DEVW = { phone: 390, tablet: 820, desktop: 0 };
+ $$('.devbtn').forEach(function(b){
+  b.addEventListener('click', function(){
+    $$('.devbtn').forEach(function(x){ x.classList.toggle('on', x === b); });
+    var w = DEVW[b.dataset.dev];
+    if(!w){
+      pvFrame.style.width = '';
+      pvFrame.style.margin = '';
+      pvFrame.style.outline = '';
+    } else {
+      pvFrame.style.width = w + 'px';
+      pvFrame.style.margin = '0 auto';
+      pvFrame.style.outline = '1px solid rgba(255,255,255,.14)';
+    }
+  });
 });
 
 /* ================= image generation ================= */
@@ -2147,7 +2432,7 @@ async function generateAssets(){
   }
 }
 
-/* ================= ZIP export (inline writer, no CDN) ================= */
+/* ================= ZIP export ================= */
 function crc32(buf){
   var table = crc32.table;
   if(!table){
@@ -2172,8 +2457,8 @@ function makeZip(files){
     var local = new DataView(new ArrayBuffer(30));
     local.setUint32(0, 0x04034b50, true);
     local.setUint16(4, 20, true);
-    local.setUint16(6, 0x0800, true);   // UTF-8 names
-    local.setUint16(8, 0, true);        // stored
+    local.setUint16(6, 0x0800, true);
+    local.setUint16(8, 0, true);
     local.setUint32(14, crc, true);
     local.setUint32(18, data.length, true);
     local.setUint32(22, data.length, true);
@@ -2216,7 +2501,7 @@ function downloadZip(){
   toast('Project downloaded as ZIP', 'dl');
 }
 
-/* ================= import (#13) ================= */
+/* ================= import ================= */
 var importModal = $('#importModal'), impStat = $('#impStat');
 function setImpStat(cls,msg){ impStat.className='stat '+cls; impStat.textContent=msg; }
 function openImport(){ importModal.classList.add('open'); setImpStat('',''); setTimeout(function(){ $('#impUrl').focus(); }, 80); }
@@ -2250,7 +2535,7 @@ function importFiles(html, rebuild){
   if(!Object.keys(files).length){
     files = { 'index.html': html };
   }
-  state = { id:null, brief:'Imported site — ' + ($('#impUrl').value.trim() || 'pasted HTML'), html:'', plan:'', chat:[], files:files, active:'index.html', assets:[], cover:'' };
+  state = { id:null, brief:'Imported site — ' + ($('#impUrl').value.trim() || 'pasted HTML'), html:'', plan:'', chat:[], files:files, active:'index.html', assets:[], cover:'', aiAsked:true };
   thread.innerHTML = '';
   projName.value = 'Imported site';
   pvCode.innerHTML = '';
@@ -2294,7 +2579,7 @@ function importFiles(html, rebuild){
 
 /* ================= project flow ================= */
 function startProject(q){
-  state = { id:null, brief:q, html:'', plan:'', chat:[{user:q}], files:{}, active:'index.html', assets:[], cover:'' };
+  state = { id:null, brief:q, html:'', plan:'', chat:[{user:q}], files:{}, active:'index.html', assets:[], cover:'', aiAsked:false };
   thread.innerHTML = '';
   projName.value = deriveName(q);
   pvCode.textContent = '';
@@ -2317,7 +2602,7 @@ function startProject(q){
 var GREETINGS = [
   "Hey! I'm Kiln. Tell me what to build — or switch to **Plan mode** and just chat: ideas, comparisons, brainstorms. Try *“give me 10 SaaS ideas”*.",
   "Hello! Describe a website and I'll build it — or ask me anything, like *“what should my first side project be?”*",
-  "Hi! Pick a template, drop a prompt, attach a logo, or just talk to me. Building starts the moment you describe a site."
+  "Hi! Pick a template, drop a prompt, attach files, or just talk to me. Building starts the moment you describe a site."
 ];
 function greetReply(){
   var g = GREETINGS[Math.floor(Math.random() * GREETINGS.length)];
@@ -2334,7 +2619,6 @@ chatTa.addEventListener('input', function(){
   chatReady();
   prewarm();
 });
-chatTa.addEventListener('focus', prewarm);
 chatTa.addEventListener('keydown', function(e){
   if(e.key === 'Enter' && !e.shiftKey && !streaming){ e.preventDefault(); sendChat(); }
 });
@@ -2346,6 +2630,7 @@ function sendChat(){
   var v = chatTa.value.trim();
   if(!v || streaming) return;
   if(!isReady()){ go('settings'); toast('Connect an API key first.', 'key'); return; }
+  killPrewarm();
   chatTa.value = ''; chatTa.style.height='auto'; chatReady();
 
   var kind = classify(v);
@@ -2368,17 +2653,6 @@ function sendChat(){
   homeTa.value=''; homeReady();
   setTimeout(function(){ homeTa.focus(); }, 150);
   toast('New project — describe your next idea', 'plus');
-});
- $('#aiChip').addEventListener('click', function(){
-  var i = AI_MODES.indexOf(cfg.appAi || 'none');
-  i = (i + 1) % AI_MODES.length;
-  var next = AI_MODES[i];
-  if(next === 'embed' && !isReady()){
-    toast('Connect your key first — using Ask-visitor mode', 'key');
-    next = 'ask';
-  }
-  cfg.appAi = next; saveCfg(); syncConn();
-  toast(AI_LBL[next] + (next === 'none' ? '' : ' — new builds will include it'), 'cpu');
 });
 
 /* preview toolbar */
@@ -2410,8 +2684,8 @@ document.addEventListener('keydown', function(e){
   if(e.key === 'Escape'){ modal.classList.remove('open'); closeDrawer(); brandModal.classList.remove('open'); importModal.classList.remove('open'); }
 });
 
-/* hidden file input for assets */
-var assetInput = el('<input type="file" accept="image/*" multiple hidden>');
+/* hidden file input for attachments */
+var assetInput = el('<input type="file" hidden multiple accept="image/*,video/*,audio/*,.txt,.md,.markdown,.csv,.tsv,.json,.xml,.yml,.yaml,.js,.css,.html,.htm,.log,.env,.srt,.vtt,.svg">');
 assetInput.id = 'assetFile';
 document.body.appendChild(assetInput);
 assetInput.addEventListener('change', function(){ addAssetFiles(assetInput.files); assetInput.value=''; });
