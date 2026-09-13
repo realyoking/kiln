@@ -23,7 +23,7 @@ button{font-family:inherit}
 body{font-family:'Satoshi',sans-serif;color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 input,textarea{font-family:inherit}
 
-/* ============ photo background: cream -> orange -> black ============ */
+/* ============ photo background ============ */
 .bg{position:fixed;inset:0;z-index:0;background:
   radial-gradient(120% 55% at 50% -8%, rgba(255,255,250,.95), rgba(255,246,226,.55) 42%, rgba(255,228,180,0) 74%),
   linear-gradient(180deg,#fbf4e6 0%,#f9e9cb 11%,#f6cd92 22%,#f0a054 33%,#e77c2c 43%,#cd5d17 52%,#9c420f 62%,#63260a 72%,#301407 82%,#140a05 92%,#080403 100%);}
@@ -34,7 +34,6 @@ input,textarea{font-family:inherit}
 .grain{position:fixed;inset:0;z-index:5;pointer-events:none;opacity:.045;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='300' height='300' filter='url(%23n)'/></svg>");}
 
-/* ============ icons ============ */
 .ic{width:16px;height:16px;flex:none;display:block}
 
 /* ============ screens ============ */
@@ -67,7 +66,7 @@ input,textarea{font-family:inherit}
 .icon-btn{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:rgba(43,21,5,.05);border:1px solid rgba(43,21,5,.15);color:var(--d-ink);cursor:pointer;transition:.2s;flex:none}
 .icon-btn:hover{background:rgba(43,21,5,.11)}
 
-/* ============ home hero ============ */
+/* ============ hero ============ */
 .hero-copy{display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:clamp(14px,4.5vh,44px)}
 .title{font:600 clamp(38px,6.4vw,78px)/1.06 'Clash Display';letter-spacing:-.02em;color:#241003}
 .think{position:relative;display:inline-block;font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:#b4530e;padding:0 .05em}
@@ -76,18 +75,20 @@ input,textarea{font-family:inherit}
 @keyframes draw{to{stroke-dashoffset:0}}
 .sub{font:400 clamp(14px,1.6vw,17px)/1.65 'Satoshi';color:var(--d-ink2);max-width:560px;margin-top:15px}
 
-/* ============ prompt box (light glass) ============ */
+/* ============ prompt box ============ */
 .promptbox{width:min(760px,100%);margin-top:clamp(20px,3.6vh,34px);display:flex;flex-direction:column;border-radius:22px;
   background:rgba(255,253,247,.62);border:1px solid rgba(255,255,255,.75);
   backdrop-filter:blur(26px) saturate(160%);-webkit-backdrop-filter:blur(26px) saturate(160%);
   padding:16px 16px 12px;box-shadow:0 24px 60px -24px rgba(80,30,0,.38), inset 0 1px 0 rgba(255,255,255,.95);
-  transition:border-color .25s, box-shadow .25s}
+  transition:box-shadow .25s}
 .promptbox:focus-within{box-shadow:0 24px 70px -24px rgba(80,30,0,.42), 0 0 0 4px rgba(255,140,50,.13), inset 0 1px 0 rgba(255,255,255,1)}
 .promptbox.shake{animation:shk .4s}
 @keyframes shk{20%{transform:translateX(-6px)}45%{transform:translateX(5px)}70%{transform:translateX(-3px)}}
-#homeTa{width:100%;background:none;border:0;outline:0;resize:none;color:var(--d-ink);font:15.5px/1.6 'Satoshi';min-height:110px;max-height:220px}
+#homeTa{width:100%;background:none;border:0;outline:0;resize:none;color:var(--d-ink);font:15.5px/1.6 'Satoshi';min-height:100px;max-height:220px}
 #homeTa::placeholder,#chatTa::placeholder{color:#ab8a62}
-.pb-row{display:flex;align-items:center;justify-content:space-between;margin-top:8px;gap:10px}
+.pb-row{display:flex;align-items:center;justify-content:space-between;margin-top:8px;gap:10px;flex-wrap:wrap}
+.pb-left{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pb-right{display:flex;align-items:center;gap:10px}
 .pb-hintl{display:inline-flex;align-items:center;gap:8px;font:600 11.5px 'Satoshi';color:var(--d-mut);cursor:pointer;user-select:none;transition:color .2s}
 .pb-hintl:hover{color:var(--d-ink2)}
 .pb-hintl .ic{width:14px;height:14px;color:var(--or2)}
@@ -99,7 +100,18 @@ input,textarea{font-family:inherit}
 .underhint{margin-top:13px;font:500 11px 'Satoshi';color:var(--d-mut);display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
 kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radius:4px;padding:1px 5px;font:10.5px 'Satoshi';color:var(--d-ink2)}
 
-/* ============ pills (dark glass, bottom zone) ============ */
+/* mode seg + think (shared home/chat) */
+.mode-seg{display:flex;background:rgba(43,21,5,.06);border:1px solid rgba(43,21,5,.14);border-radius:10px;padding:3px}
+.mode{display:inline-flex;align-items:center;gap:6px;font:600 11.5px 'Satoshi';color:#8a6644;background:none;border:0;padding:6px 13px;border-radius:8px;cursor:pointer;transition:.2s}
+.mode .ic{width:12px;height:12px}
+.mode.on{background:rgba(255,140,50,.22);color:#9c420f}
+.rtoggle{display:inline-flex;align-items:center;gap:7px;font:600 11.5px 'Satoshi';color:#8a6644;background:none;border:1px solid rgba(43,21,5,.16);padding:7px 12px;border-radius:999px;cursor:pointer;transition:.2s}
+.rtoggle .ic{width:13px;height:13px}
+.rtoggle .rdot{width:6px;height:6px;border-radius:50%;background:#b09478;transition:.2s}
+.rtoggle.on{color:#9c420f;border-color:rgba(194,87,15,.5)}
+.rtoggle.on .rdot{background:#ff7a1a;animation:pl 1.6s infinite}
+
+/* ============ pills ============ */
 .pills{width:min(1150px,100%);margin-top:auto;padding-top:clamp(22px,4vh,42px);display:flex;flex-direction:column;gap:12px;overflow:hidden;
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);
   mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
@@ -128,18 +140,20 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
 .dr-head .mark{background:rgba(255,130,40,.14);border-color:rgba(255,160,80,.3)}
 .dr-head .wordmark{color:#faf1e4}
 .dr-items{display:flex;flex-direction:column;gap:4px;padding-top:14px;flex:1}
-.dr-item{display:flex;align-items:center;gap:12px;font:600 14px 'Satoshi';color:#e8d5be;background:none;border:0;padding:12px;border-radius:12px;cursor:pointer;transition:.2s;text-align:left}
+.dr-item{display:flex;align-items:center;gap:12px;font:600 14px 'Satoshi';color:#e8d5be;background:none;border:0;padding:12px;border-radius:12px;cursor:pointer;transition:.2s;text-align:left;min-width:0}
 .dr-item .ic{width:17px;height:17px;color:#c99a6d}
+.dr-item>span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .dr-item:hover{background:rgba(255,255,255,.07)}
 .dr-item.on{background:rgba(255,140,50,.16);color:#ffd9ae}
 .dr-item.on .ic{color:var(--amber)}
+.dr-item.secondary{font-weight:500;font-size:13px;color:#c9ab86}
 .dr-foot{padding:14px 8px 4px;border-top:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:8px;font:500 11.5px 'Satoshi';color:#b1937a;min-width:0}
 .dr-foot span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .dr-foot .dot.on{background:#5ad06e}
 
-/* ============ chat screen ============ */
+/* ============ chat ============ */
 #scr-chat{padding:0 14px 14px}
-.chat-wrap{height:100dvh;display:flex;flex-direction:column;padding-bottom:0}
+.chat-wrap{height:100dvh;display:flex;flex-direction:column}
 .chat-nav{padding-bottom:12px}
 .proj-name{background:none;border:0;outline:0;color:var(--d-ink);font:600 15.5px 'Clash Display';flex:1;min-width:40px;max-width:32vw;border-bottom:1px dashed transparent;padding:2px 0}
 .proj-name:focus{border-bottom-color:rgba(194,87,15,.5)}
@@ -167,7 +181,6 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
 .a-head{font:700 12.5px 'Satoshi';color:#f6ead9;margin-bottom:5px;display:flex;gap:8px;align-items:baseline}
 .a-head .a-model{font:500 10.5px 'Satoshi';color:#a68d75;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
-/* shimmer status + thinking — bare text, no boxes */
 .shine{background:linear-gradient(90deg,#8f7256 25%,#ffdcb0 50%,#8f7256 75%);background-size:200% 100%;
   -webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 1.5s linear infinite;font:600 13px 'Satoshi'}
 @keyframes shine{to{background-position:-200% 0}}
@@ -194,17 +207,13 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
 .a-err .ic{width:14px;height:14px}
 .a-err .a-hint{display:block;color:#b08a72;margin-top:4px;font-size:11.5px}
 
-/* composer */
-.compose-top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 12px 0}
-.mode-seg{display:flex;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:3px}
-.mode{display:inline-flex;align-items:center;gap:6px;font:600 11.5px 'Satoshi';color:#b49a80;background:none;border:0;padding:6px 13px;border-radius:8px;cursor:pointer;transition:.2s}
-.mode .ic{width:12px;height:12px}
-.mode.on{background:rgba(255,140,50,.2);color:#ffd9ae}
-.rtoggle{display:inline-flex;align-items:center;gap:7px;font:600 11.5px 'Satoshi';color:#b49a80;background:none;border:1px solid rgba(255,255,255,.12);padding:7px 12px;border-radius:999px;cursor:pointer;transition:.2s}
-.rtoggle .ic{width:13px;height:13px}
-.rtoggle .rdot{width:6px;height:6px;border-radius:50%;background:#6b5a48;transition:.2s}
-.rtoggle.on{color:#ffd9ae;border-color:rgba(255,160,80,.45)}
-.rtoggle.on .rdot{background:#ff9a45;animation:pl 1.6s infinite}
+.compose-top{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 12px 0;flex-wrap:wrap}
+.compose-top .mode-seg{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12)}
+.compose-top .mode{color:#b49a80}
+.compose-top .mode.on{background:rgba(255,140,50,.2);color:#ffd9ae}
+.compose-top .rtoggle{color:#b49a80;border-color:rgba(255,255,255,.12)}
+.compose-top .rtoggle.on{color:#ffd9ae;border-color:rgba(255,160,80,.45)}
+.compose-right{display:flex;gap:7px;align-items:center}
 .chat-compose{display:flex;gap:9px;align-items:flex-end;padding:10px 12px 12px}
 .cbox{flex:1;display:flex;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:9px 9px 9px 14px;transition:border-color .25s}
 .cbox:focus-within{border-color:rgba(255,160,80,.45)}
@@ -215,12 +224,16 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
 #chatSend .ic{width:16px;height:16px}
 #chatSend.stopping{background:linear-gradient(160deg,#ff7a4d,#e0361f);color:#fff}
 
-/* preview pane */
+/* preview */
 .pv-tools{display:flex;align-items:center;gap:8px;padding:9px 10px;border-bottom:1px solid rgba(255,255,255,.09);flex-wrap:wrap}
 .tabs{display:flex;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:3px}
 .tab{font:600 11.5px 'Satoshi';color:#b49a80;background:none;border:0;padding:6px 14px;border-radius:8px;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:6px}
 .tab .ic{width:12px;height:12px}
 .tab.on{background:rgba(255,140,50,.18);color:#ffd9ae}
+#fileTabs{display:none;gap:6px;flex-wrap:wrap}
+.ftab{font:600 11px 'Satoshi';color:#c9ab86;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);padding:5px 11px;border-radius:8px;cursor:pointer;transition:.2s}
+.ftab:hover{border-color:rgba(255,160,80,.4)}
+.ftab.on{background:rgba(255,140,50,.2);color:#ffd9ae;border-color:rgba(255,160,80,.45)}
 .liveflag{display:none;align-items:center;gap:6px;font:700 9.5px 'Satoshi';letter-spacing:.2em;color:#ffb066}
 .liveflag.on{display:inline-flex}
 .liveflag i{width:6px;height:6px;border-radius:50%;background:#ff9a45;animation:pl 1.2s infinite}
@@ -270,7 +283,7 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
 .empty .ic{width:26px;height:26px;color:#b08a5e;margin:0 auto 10px}
 
 /* ============ settings ============ */
-.set-card{max-width:600px;margin:0 auto;border-radius:20px;padding:22px 24px;
+.set-card{max-width:620px;margin:0 auto;border-radius:20px;padding:22px 24px;
   background:linear-gradient(165deg,rgba(30,14,6,.66),rgba(20,9,4,.56));
   border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(24px) saturate(150%);-webkit-backdrop-filter:blur(24px) saturate(150%);
   box-shadow:0 30px 70px -30px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.12)}
@@ -278,7 +291,9 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
 .st-head .mark{background:rgba(255,130,40,.14);border-color:rgba(255,160,80,.3)}
 .st-title{font:600 18px 'Clash Display';color:#faf1e4}
 .st-sub{font:500 11.5px/1.5 'Satoshi';color:#a68d75;margin-top:3px}
-.presets{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.sec-lbl{font:700 10px 'Satoshi';letter-spacing:.22em;color:#c9a983;margin-top:22px;display:flex;align-items:center;gap:8px}
+.sec-lbl .ic{width:13px;height:13px;color:var(--amber)}
+.presets{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .pre{font:600 11.5px 'Satoshi';color:#e8d6c0;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);padding:7px 13px;border-radius:999px;cursor:pointer;transition:.2s}
 .pre:hover,.pre.on{border-color:rgba(255,160,80,.5);background:rgba(255,140,50,.14)}
 .field{display:flex;flex-direction:column;gap:6px;margin-top:15px}
@@ -292,10 +307,10 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
 .f-row .f-in{flex:1}
 .f-row .tbtn{width:auto;height:auto;padding:0 13px;border-radius:12px;gap:6px;font:600 11.5px 'Satoshi';display:inline-flex;align-items:center}
 .f-tip{font:500 11px 'Satoshi';color:#8f7b66;margin-top:5px}
-.setrow{display:flex;align-items:center;gap:12px;justify-content:space-between;padding:14px 0;border-top:1px solid rgba(255,255,255,.08);margin-top:14px}
+.setrow{display:flex;align-items:center;gap:12px;justify-content:space-between;padding:14px 0 0;margin-top:14px}
 .setrow b{display:flex;align-items:center;gap:8px;font:700 13px 'Satoshi';color:#f0dfc9}
 .setrow b .ic{width:14px;height:14px;color:var(--amber)}
-.setrow .sr-s{display:block;font:500 11.5px 'Satoshi';color:#a68d75;margin-top:3px;max-width:380px;line-height:1.5}
+.setrow .sr-s{display:block;font:500 11.5px 'Satoshi';color:#a68d75;margin-top:3px;max-width:400px;line-height:1.5}
 .switch{width:38px;height:22px;border-radius:99px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);position:relative;cursor:pointer;transition:.2s;flex:none}
 .switch::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#cbb59d;transition:.2s}
 .switch.on{background:rgba(255,122,26,.4);border-color:rgba(255,150,70,.55)}
@@ -323,7 +338,6 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
 .toast.out{opacity:0;transform:translateY(8px)}
 :focus-visible{outline:2px solid rgba(224,106,31,.7);outline-offset:2px}
 
-/* ============ responsive & motion ============ */
 @media (max-width:920px){
   .chat-shell{grid-template-columns:1fr;grid-template-rows:minmax(0,44%) minmax(0,1fr)}
   .pv-pane{order:-1}
@@ -331,6 +345,7 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
 @media (max-width:640px){
   .conn{display:none}
   .ghostbtn span.lbl{display:none}
+  .pb-hintl .lbl2{display:none}
   .pill{font-size:12px;padding:9px 14px 9px 11px}
   .pv-stat{display:none}
   .mode .mlbl{display:none}
@@ -358,11 +373,11 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
     <span class="byo">BYOK</span>
   </div>
   <div class="dr-items">
-    <button class="dr-item on" data-nav="home"><span data-ic="house"></span>Home</button>
-    <button class="dr-item" data-nav="chat" id="drChat" hidden><span data-ic="chat"></span>Back to project</button>
-    <button class="dr-item" data-nav="projects"><span data-ic="folder"></span>Projects</button>
-    <button class="dr-item" data-nav="templates"><span data-ic="grid"></span>Templates</button>
-    <button class="dr-item" data-nav="settings"><span data-ic="settings"></span>Settings</button>
+    <button class="dr-item on" data-nav="home"><span data-ic="house"></span><span>Home</span></button>
+    <button class="dr-item secondary" data-nav="chat" id="drChat" hidden><span data-ic="chat"></span><span id="drChatLbl">Back to project</span></button>
+    <button class="dr-item" data-nav="projects"><span data-ic="folder"></span><span>Projects</span></button>
+    <button class="dr-item" data-nav="templates"><span data-ic="grid"></span><span>Templates</span></button>
+    <button class="dr-item" data-nav="settings"><span data-ic="settings"></span><span>Settings</span></button>
   </div>
   <div class="dr-foot"><span class="dot" id="drDot"></span><span id="drConn">Not connected</span></div>
 </aside>
@@ -372,7 +387,7 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
   <div class="wrap">
     <nav class="nav reveal" style="animation-delay:.05s">
       <div class="brand">
-        <button class="icon-btn" id="burgerHome" aria-label="Menu"><span data-ic="menu"></span></button>
+        <button class="icon-btn burger" aria-label="Menu"><span data-ic="menu"></span></button>
         <span class="mark" data-logo></span>
         <span class="wordmark">Kiln</span>
         <span class="byo">BYOK</span>
@@ -385,20 +400,29 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
 
     <div class="hero-copy">
       <h1 class="title reveal" style="animation-delay:.16s">Build what you<br><span class="think">think!<svg class="u" viewBox="0 0 200 26" fill="none" aria-hidden="true"><path d="M5 18 C 55 8, 130 6, 195 13" stroke="#e06a1f" stroke-width="6" stroke-linecap="round"/></svg></span></h1>
-      <p class="sub reveal" style="animation-delay:.28s">Describe your idea and watch AI design, write and launch your website instantly. Bring your own key — no code, no limits.</p>
+      <p class="sub reveal" style="animation-delay:.28s">Describe your idea and watch AI design, write and launch your website instantly. Multi-page sites, AI-powered apps, generated images — bring your own key.</p>
     </div>
 
     <div class="promptbox reveal" id="promptbox" style="animation-delay:.42s">
       <textarea id="homeTa" placeholder="Create a portfolio website..." aria-label="Describe your website"></textarea>
       <div class="pb-row">
-        <span class="pb-hintl" id="pbSettings"><span data-ic="settings"></span>Model settings</span>
-        <button class="sendbtn" id="homeSend" aria-label="Build it"><span data-ic="up"></span></button>
+        <div class="pb-left">
+          <div class="mode-seg">
+            <button class="mode on" data-mode="build"><span data-ic="code"></span><span class="mlbl">Build</span></button>
+            <button class="mode" data-mode="plan"><span data-ic="map"></span><span class="mlbl">Plan</span></button>
+          </div>
+          <button class="rtoggle" id="rQuickHome" title="Reasoning mode"><span data-ic="spark"></span>Think<span class="rdot"></span></button>
+        </div>
+        <div class="pb-right">
+          <span class="pb-hintl" id="pbSettings"><span data-ic="settings"></span><span class="lbl2">Model settings</span></span>
+          <button class="sendbtn" id="homeSend" aria-label="Build it"><span data-ic="up"></span></button>
+        </div>
       </div>
     </div>
     <div class="underhint reveal" style="animation-delay:.54s">
       <span><kbd>Enter</kbd> to build</span>
       <span><kbd>Shift</kbd>+<kbd>Enter</kbd> new line</span>
-      <span>Your key never leaves this browser</span>
+      <span>Plan mode answers questions too — try "give me 10 SaaS ideas"</span>
     </div>
 
     <div class="pills reveal" id="pills" style="animation-delay:.68s">
@@ -413,7 +437,7 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
   <div class="chat-wrap">
     <nav class="nav chat-nav">
       <div class="brand">
-        <button class="icon-btn" id="burgerChat" aria-label="Menu"><span data-ic="menu"></span></button>
+        <button class="icon-btn burger" aria-label="Menu"><span data-ic="menu"></span></button>
         <span class="mark sm" data-logo></span>
         <input class="proj-name" id="projName" value="Untitled project" aria-label="Project name">
         <button class="icon-btn" id="newProjBtn" title="New project" aria-label="New project"><span data-ic="plus"></span></button>
@@ -431,7 +455,10 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
             <button class="mode on" data-mode="build"><span data-ic="code"></span><span class="mlbl">Build</span></button>
             <button class="mode" data-mode="plan"><span data-ic="map"></span><span class="mlbl">Plan</span></button>
           </div>
-          <button class="rtoggle" id="rQuick" title="Reasoning mode"><span data-ic="spark"></span>Think<span class="rdot"></span></button>
+          <div class="compose-right">
+            <button class="rtoggle" id="aiChip" title="Put AI inside the generated app"><span data-ic="cpu"></span><span id="aiChipLbl">AI: Off</span></button>
+            <button class="rtoggle" id="rQuick" title="Reasoning mode"><span data-ic="spark"></span>Think<span class="rdot"></span></button>
+          </div>
         </div>
         <div class="chat-compose">
           <div class="cbox"><textarea id="chatTa" rows="1" placeholder="Ask for changes — e.g. make it darker, add a pricing section"></textarea></div>
@@ -445,12 +472,14 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
             <button class="tab on" data-tab="preview"><span data-ic="eye"></span>Preview</button>
             <button class="tab" data-tab="code"><span data-ic="code"></span>Code</button>
           </div>
+          <div id="fileTabs"></div>
           <span class="liveflag" id="liveFlag"><i></i>LIVE</span>
           <span class="grow"></span>
           <span class="pv-stat" id="pvStat">Idle</span>
+          <button class="tbtn hide needs-html" id="pvAssets" title="Generate images for the site"><span data-ic="wand"></span></button>
           <button class="tbtn hide needs-html" id="pvRefresh" title="Reload preview"><span data-ic="refresh"></span></button>
-          <button class="tbtn hide needs-html" id="pvCopy" title="Copy HTML"><span data-ic="copy"></span></button>
-          <button class="tbtn hide needs-html" id="pvDownload" title="Download HTML"><span data-ic="dl"></span></button>
+          <button class="tbtn hide needs-html" id="pvCopy" title="Copy this page's HTML"><span data-ic="copy"></span></button>
+          <button class="tbtn hide needs-html" id="pvDownload" title="Download project"><span data-ic="dl"></span></button>
           <button class="tbtn hide needs-html" id="pvExpand" title="Open full preview"><span data-ic="max"></span></button>
         </div>
         <div class="pv-body">
@@ -473,7 +502,7 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
     <div class="nav-r"><button class="ghostbtn" id="newProject"><span data-ic="plus"></span><span class="lbl">New project</span></button></div>
   </nav>
   <div class="page">
-    <div class="pg-head"><div><div class="pg-title">Projects</div><div class="pg-sub">Saved in this browser — each with its own chat and preview.</div></div></div>
+    <div class="pg-head"><div><div class="pg-title">Projects</div><div class="pg-sub">Every project you've built, saved in this browser — open any to continue it.</div></div></div>
     <div class="proj-list" id="projList"></div>
   </div>
 </section>
@@ -487,7 +516,7 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
     </div>
   </nav>
   <div class="page">
-    <div class="pg-head"><div><div class="pg-title">Templates</div><div class="pg-sub">One tap starts a fresh, separate project from a proven brief.</div></div></div>
+    <div class="pg-head"><div><div class="pg-title">Templates</div><div class="pg-sub">Loads the brief into Home — edit it, then hit Enter.</div></div></div>
     <div class="tgrid" id="tGrid"></div>
   </div>
 </section>
@@ -528,12 +557,37 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
           <button class="f-eye" id="stEye" aria-label="Show key"><span data-ic="eye"></span></button>
         </div>
       </div>
-      <div class="field"><label>MODEL</label>
+      <div class="field"><label>TEXT MODEL</label>
         <div class="f-row">
           <div class="f-in"><input id="stModel" list="stDatalist" placeholder="gpt-4o-mini" spellcheck="false"><datalist id="stDatalist"></datalist></div>
           <button class="tbtn" id="stFetch"><span data-ic="refresh"></span>Fetch models</button>
         </div>
-        <div class="f-tip">Fast picks: gpt-4o-mini · llama-3.3-70b (Groq) · gemini-2.0-flash — big reasoning models are much slower.</div>
+        <div class="f-tip">Fast picks: gpt-4o-mini · llama-3.3-70b (Groq) · gemini-2.0-flash. Big "thinking" models can spend minutes before the first word — that's the model, not the connection.</div>
+      </div>
+
+      <div class="sec-lbl"><span data-ic="wand"></span>IMAGE MODEL — GENERATES ASSETS FOR YOUR SITES</div>
+      <div class="presets" id="imgPresets">
+        <button class="pre" data-img="none">Off</button>
+        <button class="pre" data-img="pollinations">Pollinations — free, no key</button>
+        <button class="pre" data-img="custom">OpenAI-compatible</button>
+      </div>
+      <div id="imgCustom" hidden>
+        <div class="field"><label>IMAGE BASE URL</label>
+          <div class="f-in"><input id="imgBase" placeholder="https://api.openai.com/v1" spellcheck="false"></div>
+        </div>
+        <div class="field"><label>IMAGE API KEY (OPTIONAL — FALLS BACK TO MAIN KEY)</label>
+          <div class="f-in"><input id="imgKey" type="password" placeholder="sk-…" spellcheck="false" autocomplete="off"></div>
+        </div>
+        <div class="field"><label>IMAGE MODEL</label>
+          <div class="f-in"><input id="imgModel" placeholder="dall-e-3" spellcheck="false"></div>
+        </div>
+      </div>
+      <div class="setrow">
+        <div>
+          <b><span data-ic="spark"></span>Auto-generate images after each build</b>
+          <span class="sr-s">The builder leaves marked image slots (data-gen) in the design; Kiln fills them with generated assets.</span>
+        </div>
+        <button class="switch" id="imgAuto" role="switch" aria-checked="false" aria-label="Auto-generate images"></button>
       </div>
 
       <div class="setrow">
@@ -547,7 +601,7 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
       <div class="stat" id="stStat"></div>
 
       <div class="st-foot">
-        <span class="note"><span data-ic="shield"></span>The key is saved only in this browser's localStorage and sent straight to your chosen endpoint — no middleman.</span>
+        <span class="note"><span data-ic="shield"></span>Keys are saved only in this browser's localStorage and sent straight to your chosen endpoints — no middleman.</span>
         <button class="savebtn" id="stSave"><span data-ic="check"></span>Save &amp; connect</button>
       </div>
 
@@ -577,19 +631,18 @@ kbd{background:rgba(43,21,5,.07);border:1px solid rgba(43,21,5,.16);border-radiu
 <script>
 'use strict';
 /* ================= helpers ================= */
-const $  = s => document.querySelector(s);
-const $$ = s => Array.from(document.querySelectorAll(s));
-const wait = ms => new Promise(r => setTimeout(r, ms));
-const el = h => { const t = document.createElement('template'); t.innerHTML = h.trim(); return t.content.firstElementChild; };
-const escH = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-const fmt = n => n.toLocaleString('en-US');
-const kfmt = n => n > 999 ? (n/1000).toFixed(1)+'k' : String(n);
-const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const slugify = s => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').split('-').slice(0,3).join('-') || 'site';
-const ago = t => { const m=Math.round((Date.now()-t)/60000); if(m<1)return'just now'; if(m<60)return m+'m ago'; const h=Math.round(m/60); if(h<24)return h+'h ago'; const d=Math.round(h/24); if(d<7)return d+'d ago'; return new Date(t).toLocaleDateString(); };
+var $ = function(s){ return document.querySelector(s); };
+var $$ = function(s){ return Array.prototype.slice.call(document.querySelectorAll(s)); };
+function el(h){ var t=document.createElement('template'); t.innerHTML=h.trim(); return t.content.firstElementChild; }
+function escH(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function fmt(n){ return n.toLocaleString('en-US'); }
+function kfmt(n){ return n>999 ? (n/1000).toFixed(1)+'k' : String(n); }
+var RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+function slugify(s){ return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').split('-').slice(0,3).join('-') || 'site'; }
+function ago(t){ var m=Math.round((Date.now()-t)/60000); if(m<1)return'just now'; if(m<60)return m+'m ago'; var h=Math.round(m/60); if(h<24)return h+'h ago'; var d=Math.round(h/24); if(d<7)return d+'d ago'; return new Date(t).toLocaleDateString(); }
 
-/* ================= inline icon set (no CDN — can't break) ================= */
-const ICONS = {
+/* ================= inline icons ================= */
+var ICONS = {
   menu:'<path d="M4 7h16M4 12h16M4 17h16"/>',
   house:'<path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/>',
   chat:'<path d="M21 14a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
@@ -618,6 +671,8 @@ const ICONS = {
   shield:'<path d="M12 2 4 6v6c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10V6z"/><path d="m9 12 2 2 4-4"/>',
   flame:'<path d="M12 2c.5 3-4.5 5.5-4.5 10a4.5 4.5 0 0 0 9 0c0-2-1-3.6-2.2-5-.2 1.4-.8 2.3-1.8 2.8C13.2 7.4 12.8 4.6 12 2z"/>',
   globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/>',
+  wand:'<path d="M15 4V2m0 12v-2M8 10h2m6 0h2m-2.3-3.7 1.4-1.4M6.5 18.5 14 11m1.7-4.3 1.4-1.4"/><path d="M3 21l7-7"/>',
+  cpu:'<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/>',
   camera:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="m8 7 1.5-2.5h5L16 7"/><circle cx="12" cy="13" r="3.5"/>',
   pizza:'<path d="M2.5 9.5a14.5 14.5 0 0 1 19 0L12 21.5z"/><circle cx="9" cy="11" r="1"/><circle cx="14.5" cy="12.5" r="1"/>',
   disc:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/>',
@@ -627,18 +682,17 @@ const ICONS = {
   clap:'<rect x="3" y="9" width="18" height="11" rx="2"/><path d="M3.5 9 5 4l16 2.2L19.6 9M8 4.4 10 9M13 5l2 4"/>',
   wave:'<path d="M3 12h2M8 6v12M12 3v18M16 7v10M21 11h-2"/>',
   mount:'<path d="m3 19 6-10 4 6 3-4 5 8z"/>',
-  cpu:'<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/>',
   fork:'<path d="M5 3v6a2 2 0 0 0 4 0V3M7 11v10"/><path d="M17 3c-2 2-2.5 5-2.5 8H17v10"/>',
   pen:'<path d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"/>'
 };
-const ic = n => '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (ICONS[n]||'') + '</svg>';
- $$('[data-ic]').forEach(n => { n.innerHTML = ic(n.getAttribute('data-ic')); });
+function ic(n){ return '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (ICONS[n]||'') + '</svg>'; }
+ $$('[data-ic]').forEach(function(n){ n.innerHTML = ic(n.getAttribute('data-ic')); });
 
-/* ================= logo (chevrons + flame, combined SVG) ================= */
-let logoUid = 0;
+/* ================= logo ================= */
+var logoUid = 0;
 function logoSVG(){
   logoUid++;
-  const u = 'kg' + logoUid;
+  var u = 'kg' + logoUid;
   return '<svg viewBox="0 0 32 32" fill="none" aria-hidden="true">'
     + '<defs><linearGradient id="'+u+'" x1="6" y1="4" x2="26" y2="28" gradientUnits="userSpaceOnUse">'
     + '<stop stop-color="#e06a1f"/><stop offset="1" stop-color="#b4470e"/></linearGradient></defs>'
@@ -646,198 +700,240 @@ function logoSVG(){
     + '<path d="M21.4 10.4 27 16l-5.6 5.6" stroke="url(#'+u+')" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>'
     + '<path d="M16 5.6c-2.9 3.4-5.4 6-5.4 10a5.4 5.4 0 0 0 10.8 0c0-2-.7-3.7-1.9-5.4-.4 1.7-1.1 2.6-2.1 3.2.5-2.4-.1-5.3-1.4-7.8Z" fill="url(#'+u+')"/></svg>';
 }
- $$('[data-logo]').forEach(n => { n.innerHTML = logoSVG(); });
+ $$('[data-logo]').forEach(function(n){ n.innerHTML = logoSVG(); });
 
 /* ================= toasts / clipboard ================= */
 function toast(msg, icon){
-  const t = el('<div class="toast">' + ic(icon||'check') + '<span>' + escH(msg) + '</span></div>');
+  var t = el('<div class="toast">' + ic(icon||'check') + '<span>' + escH(msg) + '</span></div>');
   $('#toasts').appendChild(t);
-  setTimeout(() => { t.classList.add('out'); setTimeout(() => t.remove(), 320); }, 2800);
+  setTimeout(function(){ t.classList.add('out'); setTimeout(function(){ t.remove(); }, 320); }, 2800);
 }
 function copyText(t){
-  const done = () => toast('Copied to clipboard','copy');
+  var done = function(){ toast('Copied to clipboard','copy'); };
   if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(t).then(done).catch(() => fbCopy(t, done));
-  } else fbCopy(t, done);
+    navigator.clipboard.writeText(t).then(done).catch(function(){ fbCopy(t,done); });
+  } else fbCopy(t,done);
 }
-function fbCopy(t, done){
-  const ta = document.createElement('textarea');
-  ta.value = t; ta.style.cssText = 'position:fixed;opacity:0';
+function fbCopy(t,done){
+  var ta=document.createElement('textarea'); ta.value=t; ta.style.cssText='position:fixed;opacity:0';
   document.body.appendChild(ta); ta.select();
   try{ document.execCommand('copy'); done(); }catch(e){}
   ta.remove();
 }
 
-/* ================= config (BYOK) ================= */
-let cfg = {};
+/* ================= config ================= */
+var cfg = {};
 try{ cfg = JSON.parse(localStorage.getItem('kiln.cfg') || '{}'); }catch(e){ cfg = {}; }
+if(!cfg.imgMode) cfg.imgMode = 'none';
+if(!cfg.appAi) cfg.appAi = 'none';
 function saveCfg(){ try{ localStorage.setItem('kiln.cfg', JSON.stringify(cfg)); }catch(e){} }
-const isReady = () => !!(cfg.baseUrl && cfg.model);
+function isReady(){ return !!(cfg.baseUrl && cfg.model); }
+
+var AI_MODES = ['none','ask','embed'];
+var AI_LBL = { none:'AI: Off', ask:'AI: Ask visitor', embed:'AI: My key' };
 
 function syncConn(){
-  const ok = isReady();
+  var ok = isReady();
   $('#connDot').className = 'dot' + (ok ? ' on' : '');
   $('#drDot').className = 'dot' + (ok ? ' on' : '');
-  const label = ok ? (cfg.model.length > 28 ? cfg.model.slice(0,28) + '…' : cfg.model) : 'Not connected';
+  var label = ok ? (cfg.model.length > 28 ? cfg.model.slice(0,28) + '…' : cfg.model) : 'Not connected';
   $('#connText').textContent = label;
   $('#drConn').textContent = label;
   $('#modelChipText').textContent = ok ? cfg.model : 'no model';
-  $('#rQuick').classList.toggle('on', !!cfg.reasoning);
+  ['rQuick','rQuickHome'].forEach(function(id){
+    var n = document.getElementById(id);
+    n.classList.toggle('on', !!cfg.reasoning);
+  });
   $('#rSwitch').classList.toggle('on', !!cfg.reasoning);
   $('#rSwitch').setAttribute('aria-checked', String(!!cfg.reasoning));
+  $('#aiChipLbl').textContent = AI_LBL[cfg.appAi] || AI_LBL.none;
+  $('#imgAuto').classList.toggle('on', !!cfg.imgAuto);
+  $('#imgAuto').setAttribute('aria-checked', String(!!cfg.imgAuto));
 }
 
 /* ================= routing / drawer ================= */
-const drawer = $('#drawer'), scrim = $('#scrim');
-const SCREENS = { home:'#scr-home', chat:'#scr-chat', projects:'#scr-projects', templates:'#scr-templates', settings:'#scr-settings' };
+var drawer = $('#drawer'), scrim = $('#scrim');
+var SCREENS = { home:'#scr-home', chat:'#scr-chat', projects:'#scr-projects', templates:'#scr-templates', settings:'#scr-settings' };
+var curScreen = 'home';
 function openDrawer(){ drawer.classList.add('on'); scrim.classList.add('on'); }
 function closeDrawer(){ drawer.classList.remove('on'); scrim.classList.remove('on'); }
- $$('.burger').forEach(b => b.addEventListener('click', openDrawer));
+ $$('.burger').forEach(function(b){ b.addEventListener('click', openDrawer); });
 scrim.addEventListener('click', closeDrawer);
 
 function go(name){
   if(name === 'chat' && !state.brief) name = 'home';
-  $$('.screen').forEach(s => s.classList.remove('active'));
+  if(curScreen === 'chat' && name !== 'chat') saveProject();   // never lose work when leaving a project
+  curScreen = name;
+  $$('.screen').forEach(function(s){ s.classList.remove('active'); });
   $(SCREENS[name]).classList.add('active');
-  $$('.dr-item[data-nav]').forEach(b => b.classList.toggle('on', b.dataset.nav === name));
-  $('#drChat').hidden = !state.brief;
+  $$('.dr-item[data-nav]').forEach(function(b){ b.classList.toggle('on', b.dataset.nav === name); });
+  var hasProj = !!state.brief;
+  $('#drChat').hidden = !hasProj;
+  if(hasProj){
+    var nm = ($('#projName').value || 'project');
+    $('#drChatLbl').textContent = 'Back to "' + (nm.length > 22 ? nm.slice(0,22) + '…' : nm) + '"';
+  }
   closeDrawer();
   if(name === 'projects') renderProjects();
   if(name === 'templates') renderTemplates();
   if(name === 'settings') fillSettings();
-  if(name === 'chat') setTimeout(() => $('#chatTa').focus(), 120);
+  if(name === 'chat') setTimeout(function(){ $('#chatTa').focus(); }, 120);
 }
- $$('.dr-item[data-nav]').forEach(b => b.addEventListener('click', () => go(b.dataset.nav)));
- $('#goSettings').addEventListener('click', () => go('settings'));
- $('#connWrap').addEventListener('click', () => go('settings'));
- $('#pbSettings').addEventListener('click', () => go('settings'));
- $('#modelChip').addEventListener('click', () => go('settings'));
- $('#newProject').addEventListener('click', () => go('home'));
+ $$('.dr-item[data-nav]').forEach(function(b){ b.addEventListener('click', function(){ go(b.dataset.nav); }); });
+ $('#goSettings').addEventListener('click', function(){ go('settings'); });
+ $('#connWrap').addEventListener('click', function(){ go('settings'); });
+ $('#pbSettings').addEventListener('click', function(){ go('settings'); });
+ $('#modelChip').addEventListener('click', function(){ go('settings'); });
+ $('#newProject').addEventListener('click', function(){ go('home'); });
 
 /* ================= settings ================= */
-const stBase = $('#stBase'), stKey = $('#stKey'), stModel = $('#stModel'), stDatalist = $('#stDatalist'), stStat = $('#stStat');
-function setStat(cls, msg){ stStat.className = 'stat ' + cls; stStat.textContent = msg; }
+var stBase=$('#stBase'), stKey=$('#stKey'), stModel=$('#stModel'), stDatalist=$('#stDatalist'), stStat=$('#stStat');
+function setStat(cls,msg){ stStat.className='stat '+cls; stStat.textContent=msg; }
 function fillSettings(){
   stBase.value = cfg.baseUrl || '';
   stKey.value = cfg.key || '';
   stModel.value = cfg.model || '';
-  setStat('', '');
+  $('#imgBase').value = cfg.imgBase || '';
+  $('#imgKey').value = cfg.imgKey || '';
+  $('#imgModel').value = cfg.imgModel || '';
+  $$('#imgPresets .pre').forEach(function(b){ b.classList.toggle('on', b.dataset.img === cfg.imgMode); });
+  $('#imgCustom').hidden = cfg.imgMode !== 'custom';
+  setStat('','');
 }
- $('#stEye').addEventListener('click', () => {
-  const show = stKey.type === 'password';
+ $('#stEye').addEventListener('click', function(){
+  var show = stKey.type === 'password';
   stKey.type = show ? 'text' : 'password';
   $('#stEye').innerHTML = ic(show ? 'eyeoff' : 'eye');
 });
- $$('#presets .pre').forEach(b => b.addEventListener('click', () => {
-  $$('#presets .pre').forEach(x => x.classList.toggle('on', x === b));
+ $$('#presets .pre').forEach(function(b){ b.addEventListener('click', function(){
+  $$('#presets .pre').forEach(function(x){ x.classList.toggle('on', x===b); });
   stBase.value = b.dataset.url;
   setStat('', 'Preset loaded — add your key and fetch models.');
-}));
- $('#rSwitch').addEventListener('click', () => { cfg.reasoning = !cfg.reasoning; saveCfg(); syncConn(); });
+});});
+ $('#rSwitch').addEventListener('click', function(){ cfg.reasoning = !cfg.reasoning; saveCfg(); syncConn(); });
 
-const TEXT_SKIP = /embed|whisper|tts|audio|speech|dall-?e|image|img|moderation|vision|clip|rerank|diffusion|guard|stable|flux|sora|video|realtime|transcri|paint|draw/i;
- $('#stFetch').addEventListener('click', async () => {
-  const base = stBase.value.trim().replace(/\/+$/,'');
-  const key = stKey.value.trim();
+ $$('#imgPresets .pre').forEach(function(b){ b.addEventListener('click', function(){
+  $$('#imgPresets .pre').forEach(function(x){ x.classList.toggle('on', x===b); });
+  cfg.imgMode = b.dataset.img; saveCfg();
+  $('#imgCustom').hidden = cfg.imgMode !== 'custom';
+  toast(cfg.imgMode==='none' ? 'Image generation off' : 'Image model: ' + b.textContent, 'wand');
+});});
+ $('#imgBase').addEventListener('change', function(){ cfg.imgBase = $('#imgBase').value.trim(); saveCfg(); });
+ $('#imgKey').addEventListener('change', function(){ cfg.imgKey = $('#imgKey').value.trim(); saveCfg(); });
+ $('#imgModel').addEventListener('change', function(){ cfg.imgModel = $('#imgModel').value.trim(); saveCfg(); });
+ $('#imgAuto').addEventListener('click', function(){ cfg.imgAuto = !cfg.imgAuto; saveCfg(); syncConn(); });
+
+var TEXT_SKIP = /embed|whisper|tts|audio|speech|dall-?e|image|img|moderation|vision|clip|rerank|diffusion|guard|stable|flux|sora|video|realtime|transcri|paint|draw/i;
+ $('#stFetch').addEventListener('click', async function(){
+  var base = stBase.value.trim().replace(/\/+$/,'');
+  var key = stKey.value.trim();
   if(!base){ setStat('err','Add a base URL first.'); return; }
   setStat('load','Fetching model list…');
   try{
-    const r = await fetch(base + '/models', { headers: key ? { Authorization:'Bearer ' + key } : {} });
+    var r = await fetch(base + '/models', { headers: key ? { Authorization:'Bearer ' + key } : {} });
     if(!r.ok){
-      let m = 'HTTP ' + r.status;
-      try{ const j = await r.json(); m = (j.error && (j.error.message || j.error)) || m; }catch(e){}
+      var m = 'HTTP ' + r.status;
+      try{ var j = await r.json(); m = (j.error && (j.error.message || j.error)) || m; }catch(e){}
       if(r.status === 401) m += ' — key rejected';
       throw new Error(m);
     }
-    const j = await r.json();
-    let ids = (j.data || j.models || []).map(m => m.id || m.name).filter(Boolean).filter(id => !TEXT_SKIP.test(id));
+    var j2 = await r.json();
+    var ids = (j2.data || j2.models || []).map(function(x){ return x.id || x.name; }).filter(Boolean).filter(function(id){ return !TEXT_SKIP.test(id); });
     ids = Array.from(new Set(ids)).sort();
-    stDatalist.innerHTML = ids.map(i => '<option value="' + escH(i) + '">').join('');
+    stDatalist.innerHTML = ids.map(function(i){ return '<option value="' + escH(i) + '">'; }).join('');
     if(ids.length && ids.indexOf(stModel.value.trim()) === -1){
-      stModel.value = ids.find(i => /mini|flash|haiku|fast|8b|70b/i.test(i)) || ids[0];
+      stModel.value = ids.find(function(i){ return /mini|flash|haiku|fast|8b|70b/i.test(i); }) || ids[0];
     }
     setStat(ids.length ? 'ok' : 'err', ids.length ? ids.length + ' text models found — one selected.' : 'Endpoint reachable but no text models listed. Type a model ID manually.');
   }catch(e){
     setStat('err', (e.message || 'Request failed') + ' — check URL, key and CORS.');
   }
 });
- $('#stSave').addEventListener('click', () => {
-  const base = stBase.value.trim().replace(/\/+$/,'');
-  const model = stModel.value.trim();
+ $('#stSave').addEventListener('click', function(){
+  var base = stBase.value.trim().replace(/\/+$/,'');
+  var model = stModel.value.trim();
   if(!base){ setStat('err','Base URL is required.'); return; }
   if(!model){ setStat('err','Pick or type a model ID.'); return; }
   cfg.baseUrl = base; cfg.key = stKey.value.trim(); cfg.model = model;
   saveCfg(); syncConn();
   toast('Connected — ' + model, 'zap');
 });
- $('#clearProjects').addEventListener('click', e => {
-  const b = e.currentTarget;
-  if(b.dataset.armed){
-    localStorage.removeItem('kiln.projects');
-    delete b.dataset.armed; b.textContent = 'Delete all projects';
-    toast('All projects deleted','trash');
-    renderProjects();
-  } else {
-    b.dataset.armed = '1'; b.textContent = 'Tap again to confirm';
-    setTimeout(() => { delete b.dataset.armed; b.textContent = 'Delete all projects'; }, 2600);
-  }
-});
- $('#resetConfig').addEventListener('click', e => {
-  const b = e.currentTarget;
-  if(b.dataset.armed){
-    cfg = {}; saveCfg(); syncConn(); fillSettings();
-    delete b.dataset.armed; b.textContent = 'Reset connection';
-    toast('Connection reset','refresh');
-  } else {
-    b.dataset.armed = '1'; b.textContent = 'Tap again to confirm';
-    setTimeout(() => { delete b.dataset.armed; b.textContent = 'Reset connection'; }, 2600);
-  }
-});
+function armButton(b, fn, resetLabel){
+  return function(){
+    if(b.dataset.armed){ delete b.dataset.armed; b.textContent = resetLabel; fn(); }
+    else { b.dataset.armed='1'; b.textContent='Tap again to confirm'; setTimeout(function(){ delete b.dataset.armed; b.textContent = resetLabel; }, 2600); }
+  };
+}
+ $('#clearProjects').addEventListener('click', armButton($('#clearProjects'), function(){
+  localStorage.removeItem('kiln.projects'); toast('All projects deleted','trash'); renderProjects();
+}, 'Delete all projects'));
+ $('#resetConfig').addEventListener('click', armButton($('#resetConfig'), function(){
+  cfg = { imgMode:'none', appAi:'none' }; saveCfg(); syncConn(); fillSettings(); toast('Connection reset','refresh');
+}, 'Reset connection'));
+
+/* ================= mode + think (shared: home & chat) ================= */
+var chatMode = 'build';
+function updateComposerUI(){
+  $$('.mode').forEach(function(b){ b.classList.toggle('on', b.dataset.mode === chatMode); });
+  var hasFiles = Object.keys(state.files || {}).length > 0;
+  $('#chatTa').placeholder = chatMode === 'plan'
+    ? 'Plan the site — or just ask me anything ("give me 10 SaaS ideas")'
+    : (hasFiles ? 'Ask for changes — or ask me anything' : 'Describe the site to build — or plan it first');
+}
+ $$('.mode').forEach(function(b){ b.addEventListener('click', function(){
+  if(chatMode === b.dataset.mode) return;
+  chatMode = b.dataset.mode;
+  updateComposerUI();
+  toast(chatMode === 'plan' ? "Plan mode — plans the site, answers anything else" : 'Build mode — writes and edits the site', chatMode === 'plan' ? 'map' : 'code');
+});});
+function toggleReasoning(){
+  cfg.reasoning = !cfg.reasoning; saveCfg(); syncConn();
+  toast(cfg.reasoning ? 'Reasoning on — deeper thinking' : 'Reasoning off — faster', 'spark');
+}
+ $('#rQuick').addEventListener('click', toggleReasoning);
+ $('#rQuickHome').addEventListener('click', toggleReasoning);
 
 /* ================= home composer + pills ================= */
-const homeTa = $('#homeTa'), homeSend = $('#homeSend'), promptbox = $('#promptbox');
+var homeTa=$('#homeTa'), homeSend=$('#homeSend'), promptbox=$('#promptbox');
 function homeReady(){ homeSend.classList.toggle('ready', homeTa.value.trim().length > 0); }
-homeTa.addEventListener('input', () => {
-  homeTa.style.height = 'auto';
+homeTa.addEventListener('input', function(){
+  homeTa.style.height='auto';
   homeTa.style.height = Math.min(homeTa.scrollHeight, 220) + 'px';
   homeReady();
 });
-homeTa.addEventListener('keydown', e => {
+homeTa.addEventListener('keydown', function(e){
   if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); tryStart(); }
 });
 homeSend.addEventListener('click', tryStart);
 function tryStart(){
-  const q = homeTa.value.trim();
-  if(!q){
-    promptbox.classList.remove('shake'); void promptbox.offsetWidth; promptbox.classList.add('shake');
-    return;
-  }
+  var q = homeTa.value.trim();
+  if(!q){ promptbox.classList.remove('shake'); void promptbox.offsetWidth; promptbox.classList.add('shake'); return; }
   if(!isReady()){ go('settings'); toast('Add your API key and model to start building.', 'key'); return; }
   startProject(q);
 }
 
-const PILL_ROWS = [
+var PILL_ROWS = [
   [['flame','A landing page for a specialty coffee roaster'],['camera','A portfolio for a documentary photographer'],['spark','A waitlist page for an AI note-taking app'],['pizza','A menu site for a wood-fired pizzeria'],['disc','A site for an underground techno night'],['sun','A booking page for a yoga studio'],['bag','A storefront for handmade ceramics']],
   [['pad','A launch page for an indie game'],['clap','A portfolio for a motion designer'],['wave','A homepage for a jazz duo'],['mount','A site for a mountain trekking guide'],['cpu','A splash page for a hardware startup'],['fork','A site for a neighborhood ramen bar'],['pen','A portfolio for an illustrator']]
 ];
- $$('.p-row').forEach((row, ri) => {
-  const set = row.querySelector('.p-set');
-  PILL_ROWS[ri].forEach(pair => {
+ $$('.p-row').forEach(function(row, ri){
+  var set = row.querySelector('.p-set');
+  PILL_ROWS[ri].forEach(function(pair){
     set.appendChild(el('<button class="pill">' + ic(pair[0]) + '<span>' + pair[1] + '</span></button>'));
   });
   row.appendChild(set.cloneNode(true));
 });
- $('#pills').addEventListener('click', e => {
-  const p = e.target.closest('.pill'); if(!p) return;
+ $('#pills').addEventListener('click', function(e){
+  var p = e.target.closest('.pill'); if(!p) return;
   homeTa.value = p.querySelector('span').textContent;
   homeReady(); tryStart();
 });
 
-/* ================= templates ================= */
-const TEMPLATES = [
+/* ================= templates — prefill Home ================= */
+var TEMPLATES = [
   ['flame','Coffee roaster','A landing page for a specialty coffee roaster with a bean shop'],
   ['camera','Photography portfolio','A portfolio for a documentary photographer with series and about'],
-  ['spark','SaaS waitlist','A waitlist page for an AI note-taking app with features'],
+  ['spark','AI notes app','An AI-powered note-taking web app with a landing page and the app itself'],
   ['pizza','Pizzeria menu','A menu site for a wood-fired pizzeria'],
   ['disc','Techno night','A site for an underground techno night with lineup and tickets'],
   ['sun','Yoga studio','A booking page for a yoga studio with a weekly schedule'],
@@ -851,148 +947,208 @@ const TEMPLATES = [
   ['pen','Illustrator','A portfolio for an illustrator with galleries']
 ];
 function renderTemplates(){
-  const g = $('#tGrid'); g.innerHTML = '';
-  TEMPLATES.forEach(t => {
-    const c = el('<div class="tcard"><span class="tc-ic">' + ic(t[0]) + '</span>'
+  var g = $('#tGrid'); g.innerHTML = '';
+  TEMPLATES.forEach(function(t){
+    var c = el('<div class="tcard"><span class="tc-ic">' + ic(t[0]) + '</span>'
       + '<div class="tc-name">' + t[1] + '</div><div class="tc-desc">' + t[2] + '</div>'
-      + '<button class="pbtn tc-use">' + ic('code') + 'Use template</button></div>');
-    c.querySelector('.tc-use').addEventListener('click', () => {
-      if(!isReady()){ go('settings'); toast('Connect an API key first.', 'key'); return; }
-      startProject(t[2]);
+      + '<button class="pbtn tc-use">' + ic('pen') + 'Load to Home</button></div>');
+    c.querySelector('.tc-use').addEventListener('click', function(){
+      homeTa.value = t[2];
+      homeTa.style.height='auto'; homeTa.style.height = Math.min(homeTa.scrollHeight,220)+'px';
+      homeReady();
+      go('home');
+      homeTa.focus();
+      homeTa.setSelectionRange(homeTa.value.length, homeTa.value.length);
+      toast('Template loaded — edit the prompt, then Enter', 'pen');
     });
     g.appendChild(c);
   });
 }
 
-/* ================= project store (each project fully separate) ================= */
-const loadProjects = () => { try{ return JSON.parse(localStorage.getItem('kiln.projects') || '[]'); }catch(e){ return []; } };
+/* ================= project store ================= */
+function loadProjects(){ try{ return JSON.parse(localStorage.getItem('kiln.projects') || '[]'); }catch(e){ return []; } }
+function projectWorthSaving(){
+  return state.brief && (Object.keys(state.files||{}).length > 0 || state.plan || (state.chat && state.chat.length > 1));
+}
 function saveProject(){
-  if(!state.html) return;
+  if(!projectWorthSaving()) return;
   if(!state.id) state.id = 'p' + Date.now();
-  const rec = {
+  var rec = {
     id: state.id,
     name: $('#projName').value.trim() || 'Untitled project',
-    brief: state.brief, html: state.html, plan: state.plan || '',
-    chat: state.chat || [], updated: Date.now(), model: cfg.model || ''
+    brief: state.brief, html: state.html, files: state.files, active: state.active,
+    plan: state.plan || '', chat: state.chat || [], updated: Date.now(), model: cfg.model || ''
   };
-  const list = loadProjects().filter(p => p.id !== rec.id);
+  var list = loadProjects().filter(function(p){ return p.id !== rec.id; });
   list.unshift(rec);
   try{ localStorage.setItem('kiln.projects', JSON.stringify(list)); }
   catch(e){ toast('Storage full — project not saved', 'warn'); }
 }
 function renderProjects(){
-  const list = loadProjects(), box = $('#projList');
+  var list = loadProjects(), box = $('#projList');
   box.innerHTML = '';
   if(!list.length){
-    box.innerHTML = '<div class="empty">' + ic('folder') + '<div>No projects yet — build something on Home or grab a template.</div></div>';
+    box.innerHTML = '<div class="empty">' + ic('folder') + '<div>No projects yet — build something on Home or load a template.</div></div>';
     return;
   }
-  list.forEach(p => {
-    const c = el('<div class="pcard"><span class="pc-ic">' + ic('grid') + '</span>'
+  list.forEach(function(p){
+    var nFiles = p.files ? Object.keys(p.files).length : 1;
+    var c = el('<div class="pcard"><span class="pc-ic">' + ic('grid') + '</span>'
       + '<div class="pc-main"><div class="pc-name">' + escH(p.name) + '</div>'
-      + '<div class="pc-meta">' + ago(p.updated) + ' · ' + kfmt((p.html||'').length) + ' chars · ' + escH(p.model||'') + '</div></div>'
+      + '<div class="pc-meta">' + ago(p.updated) + ' · ' + nFiles + (nFiles>1?' pages · ':' page · ') + kfmt((p.html||'').length) + ' chars · ' + escH(p.model||'') + '</div></div>'
       + '<div class="pc-acts"><button class="pbtn pc-open">' + ic('folder') + 'Open</button>'
       + '<button class="pbtn pc-del">' + ic('trash') + 'Delete</button></div></div>');
-    c.addEventListener('click', e => { if(!e.target.closest('.pc-del')) openProject(p); });
-    const del = c.querySelector('.pc-del');
-    del.addEventListener('click', e => {
+    c.addEventListener('click', function(e){ if(!e.target.closest('.pc-del')) openProject(p); });
+    var del = c.querySelector('.pc-del');
+    del.addEventListener('click', function(e){
       e.stopPropagation();
       if(del.dataset.armed){
-        try{ localStorage.setItem('kiln.projects', JSON.stringify(loadProjects().filter(x => x.id !== p.id))); }catch(err){}
+        try{ localStorage.setItem('kiln.projects', JSON.stringify(loadProjects().filter(function(x){ return x.id !== p.id; }))); }catch(err){}
         renderProjects(); toast('Project deleted','trash');
       } else {
-        del.dataset.armed = '1'; del.innerHTML = ic('warn') + 'Sure?';
-        setTimeout(() => { if(del.isConnected){ delete del.dataset.armed; del.innerHTML = ic('trash') + 'Delete'; } }, 2600);
+        del.dataset.armed='1'; del.innerHTML = ic('warn') + 'Sure?';
+        setTimeout(function(){ if(del.isConnected){ delete del.dataset.armed; del.innerHTML = ic('trash') + 'Delete'; } }, 2600);
       }
     });
     box.appendChild(c);
   });
 }
 function openProject(p){
-  state = { id:p.id, brief:p.brief, html:p.html||'', plan:p.plan||'', chat:p.chat||[] };
+  state = {
+    id:p.id, brief:p.brief, plan:p.plan||'', chat:p.chat||[],
+    files: p.files || (p.html ? {'index.html': p.html} : {}),
+    active:'index.html', html:''
+  };
+  var names = Object.keys(state.files);
+  state.active = names.indexOf('index.html') > -1 ? 'index.html' : (names[0] || 'index.html');
+  state.html = state.files[state.active] || '';
   thread.innerHTML = '';
   $('#projName').value = p.name;
-  $('#pvCode').textContent = state.html ? highlight(state.html) : '';
-  $('#pvStat').textContent = state.html ? ('Ready · ' + kfmt(state.html.length) + ' chars') : 'Idle';
+  pvCode.innerHTML = state.html ? highlight(state.html) : '';
+  pvStat.textContent = state.html ? ('Ready · ' + kfmt(state.html.length) + ' chars') : 'Idle';
   newFrame();
   if(state.html){
-    writeDoc(state.html); closeDoc();
-    $('#skel').classList.add('off');
-    $$('.needs-html').forEach(b => b.classList.remove('hide'));
+    writeDoc(injectNav(state.html, state.active)); closeDoc();
+    skel.classList.add('off');
+    $$('.needs-html').forEach(function(b){ b.classList.remove('hide'); });
+    updateFileTabs(names, state.active);
   } else {
-    $('#skel').classList.remove('off');
-    $$('.needs-html').forEach(b => b.classList.add('hide'));
+    skel.classList.remove('off');
+    $$('.needs-html').forEach(function(b){ b.classList.add('hide'); });
   }
   renderHistory(state.chat);
-  if(!state.chat.length) addNote('Reopened "' + p.name + '". Ask for changes, or switch to Plan mode to rethink it.');
+  if(!state.chat.length) addNote('Reopened "' + p.name + '". Ask for changes, or just chat with me.');
+  updateComposerUI();
   go('chat');
 }
 
 /* ================= chat state & prompts ================= */
-const thread = $('#thread'), chatTa = $('#chatTa'), chatSend = $('#chatSend'),
-      pvCode = $('#pvCode'), skel = $('#skel'), pvStat = $('#pvStat'),
-      liveFlag = $('#liveFlag'), projName = $('#projName');
-let pvFrame = $('#pvFrame');
+var thread=$('#thread'), chatTa=$('#chatTa'), chatSend=$('#chatSend'),
+    pvCode=$('#pvCode'), skel=$('#skel'), pvStat=$('#pvStat'),
+    liveFlag=$('#liveFlag'), projName=$('#projName');
+var pvFrame = $('#pvFrame');
 
-let state = { id:null, brief:'', html:'', plan:'', chat:[] };
-let chatMode = 'build';
-let streaming = false, aborter = null;
+var state = { id:null, brief:'', html:'', plan:'', chat:[], files:{}, active:'index.html' };
+var streaming = false, aborter = null;
 
-const SYS_BUILD =
-'You are Kiln, an elite front-end generator. Reply with ONE complete HTML5 document and nothing else — raw code, no markdown fences, no commentary, starting with <!DOCTYPE html>.\n'
-+ 'Constraints for speed and quality: single file; one <style> block using CSS variables; modern, responsive, accessible design; Google Fonts via a single <link> when it adds character; icons as tiny inline SVG only; no images, no frameworks, no comments; invent a realistic brand name and concise copy. Keep the whole document tight — aim for 200-350 lines. Achieve impact through type, color and spacing, not bulk.\n'
-+ 'When asked to change an existing site, return the COMPLETE updated document.';
-
-const SYS_PLAN =
-'You are Kiln in planning mode. Do NOT write any HTML. Produce a concise build plan for the requested website:\n'
-+ '1) Concept — one sentence.\n2) Sections — ordered list, one line each with its purpose.\n'
+function buildSystem(){
+  var s = 'You are Kiln, an elite front-end generator. Output raw code only — no markdown fences, no commentary.\n\n'
+    + 'SINGLE-FILE SITES: reply with one complete HTML5 document starting with <!DOCTYPE html>.\n\n'
+    + 'MULTI-FILE SITES: if the project clearly needs separate pages (for example a landing page plus a working app), output each file wrapped exactly like:\n'
+    + '<kiln-file name="index.html">\n(full HTML document)\n</kiln-file>\n'
+    + '<kiln-file name="main.html">\n(full HTML document)\n</kiln-file>\n'
+    + 'index.html is always the entry page and links to the others with plain relative hrefs like href="main.html". Every page is fully self-contained.\n\n'
+    + 'Code rules: one <style> block with CSS variables per page; modern responsive accessible design; Google Fonts via one <link>; icons as inline SVG; no frameworks, no comments; invent realistic brand names and concise copy; keep each page tight (200-350 lines). When asked to change an existing site, return the COMPLETE updated files in the same kiln-file format — include EVERY file, even unchanged ones.';
+  if(cfg.imgMode !== 'none'){
+    s += '\n\nImagery: where a photo or illustration helps, use <img alt="..." data-gen="a concise visual description"> with NO src attribute. Style img[data-gen] with a warm gradient background, aspect-ratio and object-fit:cover so the layout looks intentional before images load.';
+  }
+  return s;
+}
+var SYS_PLAN =
+'You are Kiln in planning mode for a website builder. If the user is asking about the website itself (its structure, design, features, or a change to it), produce this concise plan:\n'
++ '1) Concept — one sentence.\n2) Pages & sections — ordered list, one line each with its purpose.\n'
 + '3) Palette — 4-5 hex colors with roles.\n4) Typography — a pairing and scale.\n'
 + '5) Copy tone — one or two lines with an example headline.\n6) Signature detail — one memorable visual or interaction idea.\n'
-+ 'Under 220 words. Markdown headings and bullets only.';
++ 'Under 220 words. Markdown headings and bullets only. Do NOT write HTML.\n'
++ 'IMPORTANT: if the message is a general question, brainstorm request, opinion ask, or small talk (like "give me 10 SaaS ideas" or "hi"), do NOT force the plan template — just answer helpfully in markdown.';
+var SYS_CHAT =
+'You are Kiln, the assistant inside a website builder. The user is chatting with you — answering questions, brainstorming, comparing options, or making small talk. Reply directly in clean markdown (short headings, bullets, bold for key names). Do NOT output HTML, kiln-file blocks, or a build plan unless explicitly asked. Be concrete and opinionated: real product names, real numbers, sharp takes. Keep answers under ~300 words unless asked for more.';
 
-const NEW_RE = /^(please\s+)?(can you\s+)?(create|build|make|design|generate|start)\s+(me\s+)?(a|an|another|the)\s+\w/i;
-const TWEAK_RE = /\b(add|change|remove|dark|light|colou?r|section|fix|update|modify|tweak|instead|more|less|bigger|smaller|font|animate|mobile|shorter|longer|redesign|swap|replace|hero|pricing|footer|header|navbar|menu|button|form|text|title|logo|image|icon|layout|spacing|padding|margin|page)\b/i;
+function aiAddendum(){
+  if(cfg.appAi === 'ask'){
+    return '\n\nAI FEATURES: make this an AI-powered app. Include a small settings modal (gear button) where the visitor enters Base URL (default https://api.openai.com/v1), API key and model; save to localStorage; call fetch(baseUrl + \'/chat/completions\') directly from the page and handle errors gracefully with inline messages.';
+  }
+  if(cfg.appAi === 'embed' && isReady()){
+    return '\n\nAI FEATURES: pre-configure the app with this OpenAI-compatible connection (embed as constants; still provide an editable settings modal):\n' + JSON.stringify({ baseUrl: cfg.baseUrl, apiKey: cfg.key, model: cfg.model });
+  }
+  return '';
+}
+
+/* ============ intent classification ============ */
+var GREET_RE = /^(hi+|hey+|hello+|yo|sup|howdy|hola|good\s*(morning|afternoon|evening))\b[\s!,.?]*$/i;
+var NEW_RE = /^(please\s+)?(can you\s+)?(create|build|make|design|generate|start|give me|i want|i need)\s+(me\s+)?(a|an|another|the)\s+\w/i;
+var TWEAK_RE = /\b(add|change|remove|dark|light|colou?r|section|fix|update|modify|tweak|instead|more|less|bigger|smaller|font|animate|mobile|shorter|longer|redesign|swap|replace|hero|pricing|footer|header|navbar|menu|button|form|text|title|logo|image|icon|layout|spacing|padding|margin|page)\b/i;
+var CHAT_RE = /\b(idea|ideas|suggest|recommend|brainstorm|name (some|a few)|explain|what\s|what's|whats|why\s|how (do|does|can|about|should)|which|compare|vs\.?|difference|pros and cons|best way|tell me|give me|list of|examples?|opinion|thoughts)\b/i;
+var SITEY_RE = /\b(site|website|web ?page|page|landing|portfolio|store|blog|dashboard|app|homepage)\b/i;
+
+function classify(v){
+  var t = v.trim();
+  if(GREET_RE.test(t)) return 'greet';
+  var hasFiles = Object.keys(state.files || {}).length > 0;
+  if(NEW_RE.test(t) && !TWEAK_RE.test(t)) return 'newproject';
+  var short = t.split(/\s+/).length < 4;
+  if(chatMode === 'plan'){
+    if(hasFiles && TWEAK_RE.test(t) && !CHAT_RE.test(t)) return 'plan';
+    if(CHAT_RE.test(t) || short) return 'chat';
+    return 'plan';
+  }
+  /* build mode */
+  if(hasFiles && TWEAK_RE.test(t)) return 'build';
+  if(CHAT_RE.test(t)) return 'chat';
+  if(short && !SITEY_RE.test(t)) return 'chat';
+  return 'build';
+}
 
 function deriveName(q){
-  let w = q.replace(/^(please\s+)?(can you\s+)?(create|build|make|design|generate)\s+(me\s+)?(a|an|the)?\s*/i, '');
+  var w = q.replace(/^(please\s+)?(can you\s+)?(create|build|make|design|generate)\s+(me\s+)?(a|an|the)?\s*/i, '');
   w = w.split(/\s+/).slice(0, 5).join(' ');
-  const t = w.replace(/\b\w/g, c => c.toUpperCase());
+  var t = w.replace(/\b\w/g, function(c){ return c.toUpperCase(); });
   return (t || 'Untitled project').slice(0, 42);
 }
 function addUserBubble(t){
-  const m = el('<div class="msg-user"></div>');
-  m.textContent = t;
-  thread.appendChild(m);
-  thread.scrollTop = thread.scrollHeight;
+  var m = el('<div class="msg-user"></div>'); m.textContent = t;
+  thread.appendChild(m); thread.scrollTop = thread.scrollHeight;
 }
 function addNote(t){
-  const b = el('<div class="msg-ai"><div class="a-av">' + logoSVG() + '</div><div class="a-body"><span class="status-done">' + escH(t) + '</span></div></div>');
-  thread.appendChild(b);
-  thread.scrollTop = thread.scrollHeight;
+  var b = el('<div class="msg-ai"><div class="a-av">' + logoSVG() + '</div><div class="a-body"><span class="status-done">' + escH(t) + '</span></div></div>');
+  thread.appendChild(b); thread.scrollTop = thread.scrollHeight;
+}
+function addChatNote(t){
+  var b = el('<div class="msg-ai"><div class="a-av">' + logoSVG() + '</div><div class="a-body"><div class="a-text md">' + mdLite(t) + '</div></div></div>');
+  thread.appendChild(b); thread.scrollTop = thread.scrollHeight;
 }
 function addPlanNote(plan){
-  const b = el('<div class="msg-ai"><div class="a-av">' + logoSVG() + '</div><div class="a-body"><div class="a-text md">' + mdLite(plan) + '</div></div></div>');
-  thread.appendChild(b);
-  thread.scrollTop = thread.scrollHeight;
+  var b = el('<div class="msg-ai"><div class="a-av">' + logoSVG() + '</div><div class="a-body"><div class="a-text md">' + mdLite(plan) + '</div></div></div>');
+  thread.appendChild(b); thread.scrollTop = thread.scrollHeight;
 }
 function renderHistory(list){
-  (list || []).forEach(m => {
+  (list || []).forEach(function(m){
     if(m.user) addUserBubble(m.user);
     else if(m.aiPlan) addPlanNote(m.aiPlan);
+    else if(m.aiChat) addChatNote(m.aiChat);
     else if(m.ai) addNote(m.ai);
   });
 }
-function newAiBubble(){
-  const b = el('<div class="msg-ai"><div class="a-av">' + logoSVG() + '</div><div class="a-body">'
-    + '<div class="a-head">Kiln <span class="a-model">' + escH(cfg.model || '') + '</span></div>'
+function newAiBubble(kindLabel){
+  var b = el('<div class="msg-ai"><div class="a-av">' + logoSVG() + '</div><div class="a-body">'
+    + '<div class="a-head">' + (kindLabel || 'Kiln') + ' <span class="a-model">' + escH(cfg.model || '') + '</span></div>'
     + '<div class="status-line"><span class="shine">Connecting…</span></div>'
     + '<div class="t-row" hidden><button class="t-toggle"><span class="shine">Thinking…</span>' + ic('down') + '</button></div>'
     + '<div class="t-body"></div>'
     + '<div class="a-text" hidden></div>'
     + '<div class="a-acts"></div><div class="a-err"></div></div></div>');
-  thread.appendChild(b);
-  thread.scrollTop = thread.scrollHeight;
-  const B = {
+  thread.appendChild(b); thread.scrollTop = thread.scrollHeight;
+  var B = {
     status: b.querySelector('.status-line'),
     tRow: b.querySelector('.t-row'),
     tToggle: b.querySelector('.t-toggle'),
@@ -1002,72 +1158,71 @@ function newAiBubble(){
     acts: b.querySelector('.a-acts'),
     err: b.querySelector('.a-err')
   };
-  B.tToggle.addEventListener('click', () => {
+  B.tToggle.addEventListener('click', function(){
     B.tBody.classList.toggle('on');
     B.tToggle.classList.toggle('open');
   });
   return B;
 }
 function mdLite(t){
-  const inline = s => escH(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/`(.+?)`/g, '<code>$1</code>');
-  return t.split('\n').map(line => {
-    if(/^#{1,4}\s/.test(line)) return '<div class="md-h">' + inline(line.replace(/^#{1,4}\s/, '')) + '</div>';
-    if(/^\s*[-*•]\s/.test(line)) return '<div class="md-li">•&nbsp;' + inline(line.replace(/^\s*[-*•]\s/, '')) + '</div>';
+  function inline(s){ return escH(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/`(.+?)`/g,'<code>$1</code>'); }
+  return t.split('\n').map(function(line){
+    if(/^#{1,4}\s/.test(line)) return '<div class="md-h">' + inline(line.replace(/^#{1,4}\s/,'')) + '</div>';
+    if(/^\s*[-*•]\s/.test(line)) return '<div class="md-li">•&nbsp;' + inline(line.replace(/^\s*[-*•]\s/,'')) + '</div>';
     if(/^\s*\d+[.)]\s/.test(line)) return '<div class="md-li">' + inline(line) + '</div>';
     if(!line.trim()) return '<div style="height:6px"></div>';
     return '<div>' + inline(line) + '</div>';
   }).join('');
 }
 
-/* ================= streaming API (reasoning-aware + retry) ================= */
-async function apiStream(msgs, onDelta, onThink, signal){
-  const url = cfg.baseUrl + '/chat/completions';
-  const body = useR => {
-    const b = { model: cfg.model, messages: msgs, stream: true, temperature: 0.65 };
-    if(useR){ b.reasoning_effort = 'medium'; b.reasoning = { effort: 'medium' }; }
+/* ================= streaming API ================= */
+async function apiStream(msgs, onDelta, onThink, signal, onConnected){
+  var url = cfg.baseUrl + '/chat/completions';
+  function body(useR){
+    var b = { model: cfg.model, messages: msgs, stream: true, temperature: 0.65 };
+    if(useR){ b.reasoning_effort = 'medium'; b.reasoning = { effort:'medium' }; }
     return b;
-  };
-  const init = b => ({
-    method:'POST', signal,
-    headers:{ 'Content-Type':'application/json', Authorization:'Bearer ' + (cfg.key || '') },
-    body: JSON.stringify(b)
-  });
-
-  let res = await fetch(url, init(body(!!cfg.reasoning)));
-  if(!res.ok && res.status === 400 && cfg.reasoning){
-    res = await fetch(url, init(body(false)));  // endpoint rejected reasoning params — retry clean
   }
+  function init(b){
+    return { method:'POST', signal: signal,
+      headers: { 'Content-Type':'application/json', Authorization:'Bearer ' + (cfg.key || '') },
+      body: JSON.stringify(b) };
+  }
+  var res = await fetch(url, init(body(!!cfg.reasoning)));
+  if(!res.ok && res.status === 400 && cfg.reasoning){
+    res = await fetch(url, init(body(false)));
+  }
+  if(onConnected) onConnected();
   if(!res.ok){
-    let msg = 'HTTP ' + res.status;
-    try{ const j = await res.json(); msg = (j.error && (j.error.message || j.error)) || msg; }catch(e){}
+    var msg = 'HTTP ' + res.status;
+    try{ var j = await res.json(); msg = (j.error && (j.error.message || j.error)) || msg; }catch(e){}
     throw new Error(msg);
   }
-  const ct = res.headers.get('content-type') || '';
+  var ct = res.headers.get('content-type') || '';
   if(ct.indexOf('event-stream') === -1 || !res.body){
-    const j = await res.json();
-    const m = (j.choices && j.choices[0] && j.choices[0].message) || {};
+    var j2 = await res.json();
+    var m = (j2.choices && j2.choices[0] && j2.choices[0].message) || {};
     if(typeof m.reasoning_content === 'string' && m.reasoning_content) onThink(m.reasoning_content);
-    const c = m.content || '';
+    var c = m.content || '';
     if(c) onDelta(c, c);
     return c;
   }
-  const reader = res.body.getReader(), dec = new TextDecoder();
-  let buf = '', full = '';
+  var reader = res.body.getReader(), dec = new TextDecoder();
+  var buf = '', full = '';
   for(;;){
-    const rd = await reader.read();
+    var rd = await reader.read();
     if(rd.done) break;
     buf += dec.decode(rd.value, { stream:true });
-    const lines = buf.split('\n');
-    buf = lines.pop();
-    for(const line of lines){
-      const t = line.trim();
+    var lines = buf.split('\n'); buf = lines.pop();
+    for(var i=0;i<lines.length;i++){
+      var t = lines[i].trim();
       if(t.indexOf('data:') !== 0) continue;
-      const data = t.slice(5).trim();
+      var data = t.slice(5).trim();
       if(data === '[DONE]') continue;
       try{
-        const j = JSON.parse(data);
-        const d = (j.choices && j.choices[0] && j.choices[0].delta) || {};
-        const r = d.reasoning_content || d.reasoning;
+        var j3 = JSON.parse(data);
+        var d = (j3.choices && j3.choices[0] && j3.choices[0].delta) || {};
+        var r = d.reasoning_content || d.reasoning;
         if(typeof r === 'string' && r) onThink(r);
         if(d.content){ full += d.content; onDelta(d.content, full); }
       }catch(e){}
@@ -1077,31 +1232,94 @@ async function apiStream(msgs, onDelta, onThink, signal){
 }
 
 /* ================= incremental iframe painting ================= */
-let docOpen = false, docLen = 0, prevEx = '';
+var docOpen=false, docLen=0, prevEx='';
 function frameDoc(){ try{ return pvFrame.contentDocument; }catch(e){ return null; } }
 function newFrame(){
-  const f = pvFrame.cloneNode(false);   // brand-new blank document — no leftovers between projects
+  var f = pvFrame.cloneNode(false);
   pvFrame.replaceWith(f);
   pvFrame = f;
-  docOpen = false; docLen = 0; prevEx = '';
+  docOpen=false; docLen=0; prevEx='';
 }
 function writeDoc(ex){
-  const d = frameDoc();
+  var d = frameDoc();
   if(!d || !ex) return;
-  const bad = docLen > 0 && (ex.length < docLen || ex.slice(0, docLen) !== prevEx);
+  var bad = docLen > 0 && (ex.length < docLen || ex.slice(0, docLen) !== prevEx);
   try{
     if(!docOpen || bad){ d.open(); d.write(ex); docOpen = true; }
     else if(ex.length > docLen){ d.write(ex.slice(docLen)); }
     docLen = ex.length; prevEx = ex;
   }catch(e){}
 }
-function closeDoc(){ if(docOpen){ try{ pvFrame.contentDocument.close(); }catch(e){} docOpen = false; } }
+function closeDoc(){ if(docOpen){ try{ pvFrame.contentDocument.close(); }catch(e){} docOpen=false; } }
 function getExtracted(t){
-  const i = t.search(/<!doctype html/i);
+  var i = t.search(/<!doctype html/i);
   if(i >= 0) return t.slice(i);
-  const j = t.search(/<html[\s>]/i);
+  var j = t.search(/<html[\s>]/i);
   if(j >= 0) return t.slice(j);
   return null;
+}
+function parseFiles(raw){
+  var files = {};
+  var re = /<kiln-file\s+name="([^"]+)"\s*>([\s\S]*?)(?:<\/kiln-file>|$)/gi;
+  var m, found = false;
+  while((m = re.exec(raw))){
+    found = true;
+    var name = m[1].trim();
+    if(!name) continue;
+    var content = m[2].replace(/^```[a-z]*\n?/i,'').replace(/```\s*$/,'').replace(/^\s*\n/,'').replace(/\s+$/,'');
+    if(content) files[name] = content;
+  }
+  if(!found){
+    var ex = getExtracted(raw);
+    if(ex) files['index.html'] = ex;
+  }
+  return files;
+}
+function currentFilesText(){
+  return Object.keys(state.files).map(function(n){ return '--- ' + n + ' ---\n' + state.files[n]; }).join('\n\n').slice(0, 60000);
+}
+function injectNav(html, name){
+  var nav = '<script>(function(){document.addEventListener("click",function(e){var t=e.target;while(t&&t.tagName!=="A"){t=t.parentElement}if(!t)return;var h=(t.getAttribute("href")||"").toLowerCase().replace(/^\\.\\//,"");if(/\\.html?$/.test(h)){e.preventDefault();parent.postMessage({kilnNav:h},"*")}});})();<\/script>';
+  if(/<\/body>/i.test(html)) return html.replace(/<\/body>/i, nav + '</body>');
+  return html + nav;
+}
+window.addEventListener('message', function(e){
+  var d = e.data;
+  if(d && d.kilnNav && state.files){
+    var want = String(d.kilnNav).toLowerCase();
+    var hit = Object.keys(state.files).find(function(n){ return n.toLowerCase() === want; });
+    if(hit){
+      setActiveFile(hit);
+      if(modal.classList.contains('open')){ mFrame.srcdoc = injectNav(state.html, state.active); }
+    }
+  }
+});
+
+var tabsSig = '';
+function updateFileTabs(names, active){
+  var sig = names.join('|') + '#' + active;
+  if(sig === tabsSig) return;
+  tabsSig = sig;
+  var box = $('#fileTabs');
+  box.innerHTML = '';
+  names.forEach(function(n){
+    var b = el('<button class="ftab' + (n===active?' on':'') + '">' + escH(n) + '</button>');
+    b.addEventListener('click', function(){
+      state.active = n;
+      if(streaming){ tabsSig=''; paintStreamNow(); }
+      else setActiveFile(n);
+    });
+    box.appendChild(b);
+  });
+  box.style.display = names.length > 1 ? 'flex' : 'none';
+}
+function setActiveFile(name){
+  state.active = name;
+  state.html = state.files[name] || '';
+  newFrame();
+  writeDoc(injectNav(state.html, name)); closeDoc();
+  updateFileTabs(Object.keys(state.files), name);
+  pvCode.innerHTML = highlight(state.html);
 }
 function highlight(code){
   return escH(code)
@@ -1110,7 +1328,7 @@ function highlight(code){
     .replace(/([\w-]+)=(&quot;[^&]*?&quot;|'[^']*')/g, '<span class="c-attr">$1</span>=<span class="c-str">$2</span>');
 }
 
-/* ================= task runner ================= */
+/* ================= task runner (build | plan | chat) ================= */
 function setStreamingUI(on){
   streaming = on;
   chatSend.classList.toggle('stopping', on);
@@ -1121,157 +1339,202 @@ function setStreamingUI(on){
   liveFlag.classList.toggle('on', on);
 }
 function buildMessages(kind, text){
-  const out = [{ role:'system', content: kind === 'build' ? SYS_BUILD : SYS_PLAN }];
+  var out = [];
   if(kind === 'build'){
-    if(state.html){
-      out.push({ role:'user', content:'Current site HTML:\n' + state.html.slice(0, 60000) });
-      out.push({ role:'assistant', content:'Got it — I will return the complete updated HTML document only.' });
-      out.push({ role:'user', content:'Apply this change and return the COMPLETE updated HTML document only:\n' + (text || 'Refine the design.') });
+    out.push({ role:'system', content: buildSystem() });
+    if(state.html && Object.keys(state.files).length){
+      out.push({ role:'user', content:'Current site files:\n' + currentFilesText() });
+      out.push({ role:'assistant', content:'Got it — I will return every file, complete and updated, in the kiln-file format.' });
+      out.push({ role:'user', content:'Apply this change and return the COMPLETE updated files only:\n' + (text || 'Refine the design.') + aiAddendum() });
     } else {
-      let c = 'Create a complete single-page website for this idea:\n\n' + state.brief;
+      var c = 'Create a complete website for this idea:\n\n' + state.brief;
       if(state.plan) c += '\n\nFollow this approved plan:\n' + state.plan.slice(0, 4000);
       if(text) c += '\n\nAdditional requirements: ' + text;
+      c += aiAddendum();
       out.push({ role:'user', content:c });
     }
+  } else if(kind === 'plan'){
+    out.push({ role:'system', content: SYS_PLAN });
+    var p = 'Project brief: ' + state.brief + '\n';
+    if(text) p += '\nRequest: ' + text;
+    if(Object.keys(state.files).length) p += '\n\nThe site already exists. Current files for context:\n' + currentFilesText().slice(0, 20000);
+    p += '\n\nProduce the plan only — no HTML.';
+    out.push({ role:'user', content:p });
   } else {
-    let c = 'Project brief: ' + state.brief + '\n';
-    if(text) c += '\nRequest: ' + text;
-    if(state.html) c += '\n\nThe site already exists. Current HTML for context:\n' + state.html.slice(0, 20000);
-    c += '\n\nProduce the plan only — no HTML.';
-    out.push({ role:'user', content:c });
+    out.push({ role:'system', content: SYS_CHAT });
+    var ctx = 'Conversation context — current project brief: ' + (state.brief || '(none)');
+    if(Object.keys(state.files).length) ctx += ' · pages: ' + Object.keys(state.files).join(', ');
+    ctx += '\n\nUser message: ' + text;
+    out.push({ role:'user', content: ctx });
   }
   return out;
 }
 function addActions(acts, kind){
-  acts.style.display = 'flex';
-  acts.innerHTML = '';
-  const mk = (icon, label, fn) => {
-    const b = el('<button class="pbtn">' + ic(icon) + label + '</button>');
+  acts.style.display = 'flex'; acts.innerHTML = '';
+  function mk(icon, label, fn){
+    var b = el('<button class="pbtn">' + ic(icon) + label + '</button>');
     b.addEventListener('click', fn);
     acts.appendChild(b);
-  };
+  }
   if(kind === 'plan'){
-    mk('code', 'Build it', () => {
-      if(state.html) runTask('build', 'Apply the following plan to the site:\n' + state.plan);
+    mk('code', 'Build it', function(){
+      if(state.html && Object.keys(state.files).length) runTask('build', 'Apply the following plan to the site:\n' + state.plan);
       else runTask('build');
     });
-    mk('copy', 'Copy plan', () => copyText(state.plan));
+    mk('copy', 'Copy plan', function(){ copyText(state.plan); });
+  } else if(kind === 'chat'){
+    mk('map', 'Plan a site from this', function(){ runTask('plan', state.chatBasis || ''); });
   } else {
-    mk('copy', 'Copy HTML', () => copyText(state.html));
+    if(cfg.imgMode !== 'none') mk('wand', 'Generate images', generateAssets);
+    mk('copy', 'Copy page HTML', function(){ copyText(state.html); });
     mk('dl', 'Download', downloadHtml);
-    mk('max', 'Open full', () => openModal(state.html));
+    mk('max', 'Open full', function(){ openModal(state.html); });
   }
 }
 
+var paintName = null;
+function paintStreamNow(){
+  var files = parseFiles(runRaw);
+  var names = Object.keys(files);
+  if(!names.length) return;
+  var target = (names.indexOf('index.html') > -1) ? 'index.html' : names[0];
+  if(state.active && names.indexOf(state.active) > -1) target = state.active;
+  if(paintName !== target){ newFrame(); paintName = target; }
+  var content = files[target];
+  if(content && content.length > 60) skel.classList.add('off');
+  if(content) writeDoc(content);
+  updateFileTabs(names, target);
+}
+var runRaw = '';
+
 async function runTask(kind, text){
-  const isBuild = kind === 'build';
-  const B = newAiBubble();
+  var isBuild = kind === 'build';
+  var headLabel = isBuild ? 'Kiln' : (kind === 'plan' ? 'Kiln · plan' : 'Kiln · chat');
+  var B = newAiBubble(headLabel);
+  state.chatBasis = text || '';
   setStreamingUI(true);
   if(isBuild && !state.html){ newFrame(); skel.classList.remove('off'); }
-  if(isBuild) pvCode.textContent = '';
+  if(isBuild){ pvCode.textContent = ''; paintName = null; }
   pvStat.textContent = isBuild ? '0 chars' : '';
 
-  const t0 = performance.now();
-  let ttft = 0, thinkStart = 0, sawThink = false, thinkDone = false, sawContent = false;
-  let raw = '', think = '';
-  let lastCode = 0, lastUI = 0;
+  var t0 = performance.now();
+  var ttft = 0, thinkStart = 0, sawThink = false, thinkDone = false, sawContent = false;
+  var think = '', connSecs = '0.0';
+  var lastCode = 0, lastUI = 0;
+  runRaw = '';
 
-  const tick = setInterval(() => {
+  B.status.innerHTML = '<span class="shine">Connecting…</span>';
+  var connInt = setInterval(function(){
+    B.status.innerHTML = '<span class="shine">Connecting… ' + ((performance.now()-t0)/1000).toFixed(0) + 's</span>';
+  }, 500);
+  var timedOut = false;
+  var timeout = setTimeout(function(){
+    timedOut = true;
+    if(aborter) aborter.abort();
+  }, 30000);
+  var tick = setInterval(function(){
     if(sawThink && !thinkDone){
       B.tLabel.textContent = 'Thinking… ' + ((performance.now() - thinkStart) / 1000).toFixed(0) + 's';
     }
   }, 400);
 
-  const onThink = d => {
+  var onThink = function(d){
     if(!sawThink){
-      sawThink = true;
-      thinkStart = performance.now();
-      B.status.innerHTML = '<span class="shine">Reasoning…</span>';
-      B.tRow.hidden = false;
-      B.tBody.textContent = '';
+      sawThink = true; thinkStart = performance.now();
+      B.status.innerHTML = '<span class="shine">Model is thinking…</span>';
+      B.tRow.hidden = false; B.tBody.textContent = '';
     }
     think += d;
-    const now = performance.now();
+    var now = performance.now();
     if(now - lastUI > 150){
       lastUI = now;
       B.tBody.textContent = think;
       if(B.tBody.classList.contains('on')) B.tBody.scrollTop = B.tBody.scrollHeight;
     }
   };
-  const firstContent = () => {
+  var firstContent = function(){
     if(!ttft) ttft = performance.now() - t0;
     if(sawThink && !thinkDone){
       thinkDone = true;
       B.tLabel.classList.remove('shine');
       B.tLabel.textContent = 'Thought for ' + ((performance.now() - thinkStart) / 1000).toFixed(1) + 's';
-      B.tBody.classList.remove('on');
-      B.tToggle.classList.remove('open');
+      B.tBody.classList.remove('on'); B.tToggle.classList.remove('open');
     }
-    B.status.innerHTML = '<span class="shine">' + (isBuild ? 'Writing HTML…' : 'Writing plan…') + '</span>';
+    var lbl = isBuild ? 'Writing HTML…' : (kind === 'plan' ? 'Writing plan…' : 'Typing…');
+    B.status.innerHTML = '<span class="shine">' + lbl + '</span>';
   };
 
   aborter = new AbortController();
 
   try{
-    await apiStream(buildMessages(kind, text), (_, full) => {
-      raw = full;
+    await apiStream(buildMessages(kind, text), function(_, full){
+      runRaw = full;
       if(!sawContent){ sawContent = true; firstContent(); }
-      const now = performance.now();
+      var now = performance.now();
       if(isBuild){
-        const ex = getExtracted(raw);
-        if(ex){
-          writeDoc(ex);
-          if(ex.length > 60) skel.classList.add('off');
-        }
+        paintStreamNow();
         if(now - lastCode > 250){
           lastCode = now;
-          pvCode.innerHTML = highlight(raw);
-          pvStat.innerHTML = '<b>' + kfmt(raw.length) + '</b> chars · ' + ((now - t0) / 1000).toFixed(0) + 's';
+          pvCode.innerHTML = highlight(full);
+          pvStat.innerHTML = '<b>' + kfmt(full.length) + '</b> chars · ' + ((now - t0) / 1000).toFixed(0) + 's';
         }
       } else {
-        if(now - lastUI > 150){
+        if(now - lastUI > 180){
           lastUI = now;
           B.text.hidden = false;
           B.text.className = 'a-text md';
-          B.text.innerHTML = mdLite(raw.replace(/```[a-z]*\n?/gi, ''));
+          B.text.innerHTML = mdLite(full.replace(/```[a-z]*\n?/gi, ''));
           thread.scrollTop = thread.scrollHeight;
         }
       }
-    }, onThink, aborter.signal);
+    }, onThink, aborter.signal, function(){
+      clearInterval(connInt); clearTimeout(timeout);
+      connSecs = ((performance.now() - t0) / 1000).toFixed(1);
+      if(!sawContent && !sawThink){
+        B.status.innerHTML = '<span class="shine">Connected in ' + connSecs + 's · waiting for the model' + (cfg.reasoning ? ' (thinking)' : '') + '…</span>';
+      }
+    });
 
-    clearInterval(tick);
+    clearInterval(connInt); clearTimeout(timeout); clearInterval(tick);
     if(sawThink && !thinkDone){
       thinkDone = true;
       B.tLabel.classList.remove('shine');
       B.tLabel.textContent = 'Thought for ' + ((performance.now() - thinkStart) / 1000).toFixed(1) + 's';
     }
-    const secs = ((performance.now() - t0) / 1000).toFixed(1);
+    var secs = ((performance.now() - t0) / 1000).toFixed(1);
 
     if(isBuild){
-      const ex = getExtracted(raw) || '';
-      if(/<\/html>/i.test(ex)){
-        state.html = ex;
-        writeDoc(state.html); closeDoc();
+      var files = parseFiles(runRaw);
+      var names = Object.keys(files);
+      if(names.length){
+        state.files = files;
+        var def = names.indexOf('index.html') > -1 ? 'index.html' : names[0];
+        if(!state.active || names.indexOf(state.active) === -1) state.active = def;
+        state.html = files[state.active];
+        newFrame(); writeDoc(injectNav(state.html, state.active)); closeDoc();
+        updateFileTabs(names, state.active);
         skel.classList.add('off');
         pvCode.innerHTML = highlight(state.html);
-        pvStat.textContent = 'Done · ' + kfmt(state.html.length) + ' chars';
-        $$('.needs-html').forEach(b => b.classList.remove('hide'));
-        const tt = ttft ? ((ttft / 1000).toFixed(1) + 's to first token · ') : '';
-        B.status.innerHTML = '<span class="status-done">Ready · ' + tt + secs + 's · ' + fmt(state.html.length) + ' chars</span>';
+        var total = 0; names.forEach(function(n){ total += files[n].length; });
+        pvStat.textContent = 'Done · ' + names.length + (names.length > 1 ? ' pages · ' : ' page · ') + kfmt(total) + ' chars';
+        $$('.needs-html').forEach(function(b){ b.classList.remove('hide'); });
+        var tt = ttft ? ((ttft / 1000).toFixed(1) + 's to first token · ') : '';
+        B.status.innerHTML = '<span class="status-done">Ready · connected in ' + connSecs + 's · ' + tt + secs + 's total · ' + fmt(total) + ' chars</span>';
         addActions(B.acts, 'build');
-        state.chat.push({ ai: 'Done in ' + secs + 's · ' + kfmt(state.html.length) + ' chars. Preview is live.' });
+        state.chat.push({ ai: 'Done in ' + secs + 's · ' + names.length + (names.length>1?' pages.':' page.') });
         saveProject();
-        toast('Site ready in ' + secs + 's', 'flame');
+        toast(names.length > 1 ? (names.length + ' pages ready in ' + secs + 's') : ('Site ready in ' + secs + 's'), 'flame');
+        if(cfg.imgAuto && cfg.imgMode !== 'none') generateAssets();
       } else {
         closeDoc();
         B.status.innerHTML = '';
         B.err.style.display = 'block';
-        B.err.innerHTML = '<b>' + ic('warn') + "The model didn't return a complete document.</b>"
+        B.err.innerHTML = '<b>' + ic('warn') + "The model didn't return a parseable document.</b>"
           + '<span class="a-hint">Try again, or switch to a faster code-focused model in Settings.</span>';
         state.chat.push({ ai: 'Attempt failed — incomplete HTML.' });
       }
-    } else {
-      state.plan = raw.replace(/```[a-z]*\n?/gi, '').trim();
+    } else if(kind === 'plan'){
+      state.plan = runRaw.replace(/```[a-z]*\n?/gi, '').trim();
       B.text.hidden = false;
       B.text.className = 'a-text md';
       B.text.innerHTML = mdLite(state.plan);
@@ -1279,20 +1542,38 @@ async function runTask(kind, text){
       addActions(B.acts, 'plan');
       state.chat.push({ aiPlan: state.plan });
       saveProject();
+    } else {
+      var reply = runRaw.replace(/```[a-z]*\n?/gi, '').trim();
+      B.text.hidden = false;
+      B.text.className = 'a-text md';
+      B.text.innerHTML = mdLite(reply);
+      B.status.innerHTML = '<span class="status-done">Answered · ' + secs + 's</span>';
+      addActions(B.acts, 'chat');
+      state.chat.push({ aiChat: reply });
+      saveProject();
     }
   }catch(e){
-    clearInterval(tick);
+    clearInterval(connInt); clearTimeout(timeout); clearInterval(tick);
     if(sawThink && !thinkDone){
       B.tLabel.classList.remove('shine');
       B.tLabel.textContent = 'Thinking stopped';
     }
-    if(e.name === 'AbortError'){
-      const ex = isBuild ? (getExtracted(raw) || '') : '';
-      if(isBuild && ex){
+    if(e.name === 'AbortError' || timedOut){
+      var ex = isBuild ? (getExtracted(runRaw) || '') : '';
+      if(timedOut && !ex){
+        if(isBuild) closeDoc();
+        B.status.innerHTML = '';
+        B.err.style.display = 'block';
+        B.err.innerHTML = '<b>' + ic('warn') + 'Timed out after 30s connecting to ' + escH((cfg.baseUrl||'').replace(/^https?:\/\//,'').split('/')[0]) + '.</b>'
+          + '<span class="a-hint">Double-check the Base URL in Settings. If it\'s correct, the endpoint may be down or blocking browser requests (CORS).</span>';
+        state.chat.push({ ai: 'Connection timed out.' });
+        toast('Connection timed out', 'warn');
+      } else if(isBuild && ex){
         state.html = ex;
-        closeDoc();
-        skel.classList.add('off');
-        $$('.needs-html').forEach(b => b.classList.remove('hide'));
+        var f1 = parseFiles(runRaw);
+        if(Object.keys(f1).length){ state.files = f1; state.active = Object.keys(f1)[0]; state.html = f1[state.active]; }
+        closeDoc(); skel.classList.add('off');
+        $$('.needs-html').forEach(function(b){ b.classList.remove('hide'); });
         pvCode.innerHTML = highlight(state.html);
         pvStat.textContent = 'Partial · ' + kfmt(state.html.length) + ' chars';
         B.status.innerHTML = '<span class="status-done">Stopped · partial kept (' + kfmt(ex.length) + ' chars)</span>';
@@ -1308,7 +1589,7 @@ async function runTask(kind, text){
       if(isBuild) closeDoc();
       B.status.innerHTML = '';
       B.err.style.display = 'block';
-      const msg = escH(e.message || 'Generation failed');
+      var msg = escH(e.message || 'Generation failed');
       B.err.innerHTML = '<b>' + ic('warn') + msg + '</b>'
         + '<span class="a-hint">Check the base URL and key in Settings — the endpoint must allow browser CORS (OpenAI, OpenRouter, Groq, LM Studio and Ollama all do).</span>';
       state.chat.push({ ai: 'Failed — ' + msg });
@@ -1321,46 +1602,127 @@ async function runTask(kind, text){
   }
 }
 
+/* ================= image asset generation ================= */
+async function makeImage(prompt){
+  if(cfg.imgMode === 'pollinations'){
+    var seed = Math.floor(Math.random() * 1000000);
+    return 'https://image.pollinations.ai/prompt/' + encodeURIComponent(prompt) + '?width=1280&height=832&nologo=true&seed=' + seed;
+  }
+  var base = (cfg.imgBase || cfg.baseUrl || '').replace(/\/+$/,'');
+  var key = cfg.imgKey || cfg.key || '';
+  var model = cfg.imgModel || 'dall-e-3';
+  if(!base) throw new Error('No image endpoint configured');
+  var r = await fetch(base + '/images/generations', {
+    method:'POST',
+    headers:{ 'Content-Type':'application/json', Authorization:'Bearer ' + key },
+    body: JSON.stringify({ model: model, prompt: prompt, size: '1536x1024', n: 1 })
+  });
+  if(!r.ok){
+    var m = 'HTTP ' + r.status;
+    try{ var j = await r.json(); m = (j.error && (j.error.message || j.error)) || m; }catch(e){}
+    throw new Error(m);
+  }
+  var j2 = await r.json();
+  var d = (j2.data && j2.data[0]) || {};
+  if(d.b64_json) return 'data:image/png;base64,' + d.b64_json;
+  if(d.url) return d.url;
+  throw new Error('No image in response');
+}
+function setImgSrc(tag, url){
+  if(/\ssrc="/.test(tag)) return tag.replace(/\ssrc="[^"]*"/, ' src="' + url + '"');
+  return tag.replace(/>\s*$/, ' src="' + url + '">');
+}
+async function generateAssets(){
+  if(cfg.imgMode === 'none'){ go('settings'); toast('Choose an image model in Settings first', 'wand'); return; }
+  var names = Object.keys(state.files);
+  if(!names.length){ toast('Build a site first', 'warn'); return; }
+  var slots = [];
+  var seen = {};
+  names.forEach(function(n){
+    var re = /<img\b[^>]*data-gen="([^"]*)"[^>]*>/gi;
+    var m;
+    while((m = re.exec(state.files[n]))){
+      var p = m[1].trim();
+      if(p && !seen[p]){ seen[p] = true; slots.push({ file:n, tag:m[0], prompt:p }); }
+    }
+  });
+  if(!slots.length){ toast('No image slots found — ask for a design with imagery', 'warn'); return; }
+  slots = slots.slice(0, 6);
+  addNote('Generating ' + slots.length + ' image' + (slots.length > 1 ? 's' : '') + ' with ' + (cfg.imgMode === 'pollinations' ? 'Pollinations' : (cfg.imgModel || 'your image model')) + '…');
+  var ok = 0, fail = 0;
+  for(var i=0;i<slots.length;i++){
+    var s = slots[i];
+    try{
+      var url = await makeImage(s.prompt);
+      state.files[s.file] = state.files[s.file].replace(s.tag, setImgSrc(s.tag, url));
+      ok++;
+    }catch(e){ fail++; }
+  }
+  if(ok){
+    setActiveFile(state.active);
+    saveProject();
+    toast(ok + ' image' + (ok>1?'s':'') + ' generated' + (fail ? ' · ' + fail + ' failed' : ''), 'wand');
+    addNote('Added ' + ok + ' generated image' + (ok>1?'s':'') + '. Tap the wand button in the toolbar to regenerate.');
+  } else {
+    toast('Image generation failed — check image settings', 'warn');
+  }
+}
+
 /* ================= project flow ================= */
 function startProject(q){
-  state = { id:null, brief:q, html:'', plan:'', chat:[] };
-  state.chat.push({ user:q });
+  state = { id:null, brief:q, html:'', plan:'', chat:[{user:q}], files:{}, active:'index.html' };
   thread.innerHTML = '';
   projName.value = deriveName(q);
   pvCode.textContent = '';
   pvStat.textContent = '0 chars';
   skel.classList.remove('off');
-  $$('.needs-html').forEach(b => b.classList.add('hide'));
-  newFrame();                      // fresh iframe — old preview can never show
+  $$('.needs-html').forEach(function(b){ b.classList.add('hide'); });
+  updateFileTabs([], 'index.html');
+  newFrame();
   go('chat');
   addUserBubble(q);
-  runTask('build');
+  if(chatMode === 'plan'){
+    runTask('plan');
+  } else {
+    runTask('build');
+  }
 }
 
-/* chat composer */
+/* ================= greeting ================= */
+var GREETINGS = [
+  "Hey! I'm Kiln. Tell me what to build — or switch to **Plan mode** and just chat: ideas, comparisons, brainstorms. Try *“give me 10 SaaS ideas”*.",
+  "Hello! Describe a website and I'll build it — or ask me anything, like *“what should my first side project be?”*",
+  "Hi! Pick a template, drop a prompt, or just talk to me. Building starts the moment you describe a site."
+];
+function greetReply(){
+  var g = GREETINGS[Math.floor(Math.random() * GREETINGS.length)];
+  addChatNote(g);
+  state.chat.push({ aiChat: g });
+  saveProject();
+}
+
+/* ================= chat composer ================= */
 function chatReady(){ chatSend.classList.toggle('ready', streaming || chatTa.value.trim().length > 0); }
-chatTa.addEventListener('input', () => {
-  chatTa.style.height = 'auto';
+chatTa.addEventListener('input', function(){
+  chatTa.style.height='auto';
   chatTa.style.height = Math.min(chatTa.scrollHeight, 110) + 'px';
   chatReady();
 });
-chatTa.addEventListener('keydown', e => {
+chatTa.addEventListener('keydown', function(e){
   if(e.key === 'Enter' && !e.shiftKey && !streaming){ e.preventDefault(); sendChat(); }
 });
-chatSend.addEventListener('click', () => {
+chatSend.addEventListener('click', function(){
   if(streaming){ if(aborter) aborter.abort(); return; }
   sendChat();
 });
 function sendChat(){
-  const v = chatTa.value.trim();
+  var v = chatTa.value.trim();
   if(!v || streaming) return;
   if(!isReady()){ go('settings'); toast('Connect an API key first.', 'key'); return; }
-  chatTa.value = '';
-  chatTa.style.height = 'auto';
-  chatReady();
+  chatTa.value = ''; chatTa.style.height='auto'; chatReady();
 
-  // A fresh site request while a project is open -> separate new project
-  if(state.html && NEW_RE.test(v) && !TWEAK_RE.test(v)){
+  var kind = classify(v);
+  if(kind === 'newproject'){
     saveProject();
     startProject(v);
     toast('Started a new project', 'plus');
@@ -1368,68 +1730,78 @@ function sendChat(){
   }
   addUserBubble(v);
   state.chat.push({ user:v });
-  if(chatMode === 'plan') runTask('plan', v);
+  if(kind === 'greet') greetReply();
+  else if(kind === 'chat') runTask('chat', v);
+  else if(kind === 'plan') runTask('plan', v);
   else runTask('build', v);
 }
- $('#newProjBtn').addEventListener('click', () => {
+ $('#newProjBtn').addEventListener('click', function(){
   saveProject();
   go('home');
-  homeTa.value = ''; homeReady();
-  setTimeout(() => homeTa.focus(), 150);
+  homeTa.value=''; homeReady();
+  setTimeout(function(){ homeTa.focus(); }, 150);
   toast('New project — describe your next idea', 'plus');
 });
- $$('.mode').forEach(b => b.addEventListener('click', () => {
-  $$('.mode').forEach(x => x.classList.toggle('on', x === b));
-  chatMode = b.dataset.mode;
-  chatTa.placeholder = chatMode === 'plan'
-    ? 'Describe what to plan — a new site, or changes to this one'
-    : (state.html ? 'Ask for changes — e.g. make it darker, add a pricing section' : 'Describe the site to build — or plan it first');
-  if(chatMode === 'plan') toast("Plan mode — I'll outline before we build", 'map');
-}));
- $('#rQuick').addEventListener('click', () => {
-  cfg.reasoning = !cfg.reasoning;
-  saveCfg(); syncConn();
-  toast(cfg.reasoning ? 'Reasoning on — deeper thinking' : 'Reasoning off — faster', 'spark');
+ $('#aiChip').addEventListener('click', function(){
+  var i = AI_MODES.indexOf(cfg.appAi || 'none');
+  i = (i + 1) % AI_MODES.length;
+  var next = AI_MODES[i];
+  if(next === 'embed' && !isReady()){
+    toast('Connect your key first — using Ask-visitor mode', 'key');
+    next = 'ask';
+  }
+  cfg.appAi = next; saveCfg(); syncConn();
+  toast(AI_LBL[next] + (next === 'none' ? '' : ' — new builds will include it'), 'cpu');
 });
 
 /* preview toolbar */
- $$('.pv-tools .tab[data-tab]').forEach(b => b.addEventListener('click', () => {
-  $$('.pv-tools .tab[data-tab]').forEach(x => x.classList.toggle('on', x === b));
-  const preview = b.dataset.tab === 'preview';
+ $$('.pv-tools .tab[data-tab]').forEach(function(b){ b.addEventListener('click', function(){
+  $$('.pv-tools .tab[data-tab]').forEach(function(x){ x.classList.toggle('on', x===b); });
+  var preview = b.dataset.tab === 'preview';
   pvFrame.style.display = preview ? '' : 'none';
   pvCode.style.display = preview ? 'none' : 'block';
-}));
- $('#pvRefresh').addEventListener('click', () => { if(state.html){ newFrame(); writeDoc(state.html); closeDoc(); } });
- $('#pvCopy').addEventListener('click', () => { if(state.html) copyText(state.html); });
- $('#pvDownload').addEventListener('click', () => { if(state.html) downloadHtml(); });
- $('#pvExpand').addEventListener('click', () => { if(state.html) openModal(state.html); });
+});});
+ $('#pvAssets').addEventListener('click', generateAssets);
+ $('#pvRefresh').addEventListener('click', function(){
+  if(state.html){ newFrame(); writeDoc(injectNav(state.html, state.active)); closeDoc(); }
+});
+ $('#pvCopy').addEventListener('click', function(){ if(state.html) copyText(state.html); });
+ $('#pvDownload').addEventListener('click', function(){ if(state.html) downloadHtml(); });
+ $('#pvExpand').addEventListener('click', function(){ if(state.html) openModal(state.html); });
 
 function downloadHtml(){
-  const blob = new Blob([state.html], { type:'text/html' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = slugify(projName.value) + '.html';
-  a.click();
-  URL.revokeObjectURL(a.href);
-  toast('Site downloaded', 'dl');
+  var names = Object.keys(state.files || {}).filter(function(n){ return state.files[n]; });
+  if(!names.length) return;
+  names.forEach(function(n, i){
+    setTimeout(function(){
+      var blob = new Blob([state.files[n]], { type:'text/html' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = n;
+      a.click();
+      setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
+    }, i * 350);
+  });
+  toast(names.length > 1 ? (names.length + ' files downloaded') : 'Site downloaded', 'dl');
 }
 
 /* modal */
-const modal = $('#modal'), mFrame = $('#mFrame'), mUrl = $('#mUrl');
+var modal=$('#modal'), mFrame=$('#mFrame'), mUrl=$('#mUrl');
 function openModal(html){
   mFrame.srcdoc = html;
   mUrl.textContent = 'kiln.site/' + slugify(projName.value);
   modal.classList.add('open');
 }
- $('#mClose').addEventListener('click', () => modal.classList.remove('open'));
-modal.addEventListener('click', e => { if(e.target === modal) modal.classList.remove('open'); });
-document.addEventListener('keydown', e => {
+ $('#mClose').addEventListener('click', function(){ modal.classList.remove('open'); });
+modal.addEventListener('click', function(e){ if(e.target === modal) modal.classList.remove('open'); });
+document.addEventListener('keydown', function(e){
   if(e.key === 'Escape'){ modal.classList.remove('open'); closeDrawer(); }
 });
 
 /* init */
 syncConn();
 chatReady();
+updateComposerUI();
 </script>
 </body>
 </html>
